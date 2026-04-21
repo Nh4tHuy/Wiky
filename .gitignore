@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+vendor/
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+error.log
+debug.log
+
+# Temp files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Uploads (optional - uncomment if you want to ignore)
+# uploads/*
+# !uploads/.gitkeep
+
+# Cache
+cache/
+*.cache
+
+# Build
+dist/
+build/
+
+# Sensitive files
+config/config.php
+*.sql
+*.sql.gz

@@ -1,0 +1,8 @@
+# Robots.txt for PROFILE_NEWBIEK
+# Only specify what to allow - don't reveal hidden paths!
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: /sitemap.xml
