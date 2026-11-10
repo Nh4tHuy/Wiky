@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wiky – Trang chủ hệ sinh thái</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04050e;--line:#1f2a66;--blue:#2b5bff;--blue2:#7da0ff;--mut:#8f98c4;--green:#22c55e;--red:#ef4444;--glass:rgba(20,28,78,.38)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:#fff;line-height:1.5;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* nền */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.bg::before{content:"";position:absolute;inset:0;background:linear-gradient(#2b5bff22 1px,transparent 1px) 0 0/64px 64px,linear-gradient(90deg,#2b5bff22 1px,transparent 1px) 0 0/64px 64px;-webkit-mask-image:radial-gradient(ellipse at 50% 20%,#000,transparent 70%);mask-image:radial-gradient(ellipse at 50% 20%,#000,transparent 70%);animation:drift 24s linear infinite}
+@keyframes drift{to{background-position:0 64px,64px 0}}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;animation:float 14s ease-in-out infinite}
+.o1{width:520px;height:520px;background:#1f3fd1;top:-160px;left:50%;margin-left:-260px}
+.o2{width:380px;height:380px;background:#4b2bd6;top:55%;right:-120px;animation-delay:-5s;opacity:.3}
+.o3{width:340px;height:340px;background:#0e7bd6;top:30%;left:-120px;animation-delay:-9s;opacity:.28}
+@keyframes float{50%{transform:translate(40px,50px) scale(1.12)}}
+.prog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#2b5bff,#8fb0ff);z-index:99;box-shadow:0 0 12px #2b5bff}
+.cursor{position:fixed;width:340px;height:340px;margin:-170px 0 0 -170px;border-radius:50%;background:radial-gradient(circle,rgba(43,91,255,.16),transparent 65%);pointer-events:none;z-index:-1;transition:transform .12s}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+section{padding:90px 0}
+.pill{display:inline-flex;gap:6px;align-items:center;font-size:12px;padding:5px 14px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#cfd6f7;margin-bottom:16px;backdrop-filter:blur(8px)}
+h2{font-size:clamp(28px,4vw,42px);font-weight:600;text-align:center;letter-spacing:-.6px}
+.sub{color:var(--mut);text-align:center;max-width:620px;margin:12px auto 50px;font-size:15px}
+.center{text-align:center}
+/* GLASS */
+.glass{position:relative;background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.02) 45%,var(--glass));border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-radius:22px;box-shadow:0 10px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.12);transform-style:preserve-3d;transition:transform .25s ease-out,box-shadow .3s,border-color .3s;overflow:hidden}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(110,150,255,.28),transparent 45%)}
+.glass::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),#8fb0ff,transparent 60%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.glass:hover::before,.glass:hover::after{opacity:1}
+.glass:hover{box-shadow:0 24px 60px rgba(20,50,200,.35),inset 0 1px 0 rgba(255,255,255,.2)}
+.glass>*{position:relative;z-index:1}
+.rip{position:absolute;border-radius:50%;background:rgba(120,160,255,.35);transform:scale(0);animation:rip .7s ease-out forwards;pointer-events:none;z-index:0}
+@keyframes rip{to{transform:scale(4);opacity:0}}
+/* nút */
+.btn{position:relative;display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font:inherit;font-size:14px;font-weight:500;padding:11px 22px;border-radius:99px;background:linear-gradient(180deg,#4373ff,#2349d8);color:#fff;box-shadow:0 6px 20px rgba(43,91,255,.45),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .2s,box-shadow .3s;overflow:hidden}
+.btn::after{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-20deg);transition:left .6s}
+.btn:hover::after{left:130%}
+.btn:hover{box-shadow:0 10px 34px rgba(43,91,255,.65),inset 0 1px 0 rgba(255,255,255,.4)}
+.btn.ghost{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.22);box-shadow:none;backdrop-filter:blur(8px)}
+.btn.ghost:hover{background:rgba(255,255,255,.1)}
+/* nav */
+nav{position:sticky;top:14px;z-index:50;max-width:1000px;margin:14px auto 0;padding:9px 12px 9px 20px;display:flex;align-items:center;justify-content:space-between;border-radius:99px;background:rgba(10,14,40,.55);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600}
+.lm{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,#3a68ff,#8fb0ff);display:grid;place-items:center;box-shadow:0 4px 14px rgba(43,91,255,.6)}
+.links{display:flex;gap:6px;font-size:14px;color:var(--mut);position:relative}
+.links a{padding:6px 14px;border-radius:99px;transition:.25s}
+.links a:hover,.links a.act{color:#fff;background:rgba(255,255,255,.08)}
+.nav-r{display:flex;align-items:center;gap:14px;font-size:14px}
+/* hero */
+.hero{text-align:center;padding:84px 24px 40px}
+.promo{display:inline-flex;gap:10px;align-items:center;font-size:12px;padding:5px 14px 5px 5px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#d4dbfa}
+.promo b{background:var(--blue);padding:3px 10px;border-radius:99px;font-weight:500;display:flex;align-items:center;gap:5px}
+h1{font-size:clamp(38px,6.5vw,70px);font-weight:700;line-height:1.08;letter-spacing:-1.8px;margin:26px auto 20px;max-width:880px;background:linear-gradient(100deg,#fff 0,#cdd8ff 38%,#7da0ff 55%,#fff 80%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s ease-in-out infinite}
+@keyframes shine{50%{background-position:100% 0}}
+.lead{color:var(--mut);max-width:560px;margin:0 auto 32px;font-size:16px}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.search{margin:40px auto 0;max-width:560px;display:flex;align-items:center;gap:10px;border-radius:99px;padding:7px 7px 7px 20px}
+.search input{flex:1;background:none;border:0;outline:0;color:#fff;font:inherit;font-size:15px}
+.search input::placeholder{color:var(--mut)}
+.search:focus-within{border-color:var(--blue2);box-shadow:0 0 0 4px rgba(43,91,255,.25)}
+/* mockup hero */
+.stage{perspective:1400px;max-width:900px;margin:60px auto 0;padding:0 24px}
+.mock{padding:18px;border-radius:26px;transform:rotateX(14deg) rotateZ(-2deg);transition:transform .15s}
+.mock .bar{display:flex;gap:7px;margin-bottom:14px}.mock .bar i{width:10px;height:10px;border-radius:50%;background:#ffffff33}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.tile{padding:16px 10px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);text-align:center;font-size:12px;color:#cfd6f7;animation:bob 5s ease-in-out infinite;transition:.3s}
+.tile:hover{background:rgba(43,91,255,.3);transform:translateY(-6px) scale(1.05)}
+.tile .ib{margin:0 auto 8px}
+.tile:nth-child(2n){animation-delay:-1.5s}.tile:nth-child(3n){animation-delay:-3s}
+@keyframes bob{50%{transform:translateY(-5px)}}
+/* icon tile */
+.ib{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:21px;color:#fff;background:linear-gradient(145deg,#4d7bff,#2038b8);box-shadow:0 8px 22px rgba(43,91,255,.5),inset 0 1px 0 rgba(255,255,255,.45),inset 0 -6px 12px rgba(0,0,0,.2);transition:.35s}
+.glass:hover .ib{transform:translateZ(30px) rotate(-6deg) scale(1.1)}
+/* marquee */
+.mq{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.mt{display:flex;gap:56px;width:max-content;animation:mq 30s linear infinite}
+.mq:hover .mt{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(-50%)}}
+.lg{display:flex;align-items:center;gap:9px;font-weight:600;font-size:18px;white-space:nowrap;opacity:.9}
+.lg span{width:20px;height:20px;border-radius:50%;border:4px solid currentColor}
+.note{color:var(--mut);font-size:13px;text-align:center;margin-top:30px}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.card{padding:26px;display:block}
+.card .ib{margin-bottom:54px}
+.card h3{font-size:17px;font-weight:600;margin-bottom:6px}
+.card p{color:var(--mut);font-size:14px}
+.go{display:inline-flex;gap:6px;align-items:center;margin-top:16px;font-size:13px;color:var(--blue2)}
+.go svg{transition:.25s}.card:hover .go svg{transform:translate(4px,-3px)}
+.feat{grid-template-columns:repeat(3,1fr);align-items:end;max-width:960px;margin:0 auto}
+.feat .card:nth-child(2){margin-bottom:34px;padding-bottom:36px}
+/* steps */
+.steps{display:flex;gap:20px;align-items:stretch}
+.step{flex:1;padding:28px;min-height:250px;display:flex;flex-direction:column;cursor:pointer;transition:flex .55s cubic-bezier(.2,.8,.2,1),background .4s,transform .25s}
+.step small{color:var(--blue2);font-size:22px;font-weight:600}
+.step h3{font-size:22px;margin:8px 0 10px}.step p{color:var(--mut);font-size:14px;max-width:300px}
+.step .go{margin-top:auto;color:#fff}
+.step.on{flex:1.5;background:linear-gradient(150deg,#3a68ff,#1d3fd0);border-color:#7da0ff}
+.step.on small,.step.on p{color:#e6edff}
+.step:not(.on) .go{display:none}
+/* dash */
+.dash{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.panel{padding:22px}
+.hd{display:flex;justify-content:space-between;align-items:center;font-size:14px;margin-bottom:10px}.hd span{color:var(--mut);font-size:12px}
+svg.ch{width:100%;height:120px;display:block;overflow:visible}
+.ch path.ln{fill:none;stroke-width:2.2;stroke-dasharray:900;stroke-dashoffset:900;filter:drop-shadow(0 0 6px currentColor)}
+.in .ch path.ln{animation:draw 2.2s ease forwards}
+.ch .fl{opacity:0;transition:opacity 1.4s .8s}.in .ch .fl{opacity:1}
+@keyframes draw{to{stroke-dashoffset:0}}
+.ch .dot{opacity:0}.in .ch .dot{opacity:1;transition:opacity .3s 2s;animation:pulse 2s 2s infinite}
+@keyframes pulse{50%{r:8;opacity:.4}}
+.tick{display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,.08);margin-top:12px;padding-top:12px;font-size:13px}
+.tick div+div{border-left:1px solid rgba(255,255,255,.08);padding-left:16px}
+.up{color:var(--green)}.dn{color:var(--red)}
+.live{display:inline-flex;gap:6px;align-items:center;color:var(--green)}.live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.2}}
+/* testi */
+.testi{display:grid;grid-template-columns:1fr 1.15fr;gap:40px;align-items:center}
+.big{font-size:clamp(56px,8vw,88px);font-weight:700;color:var(--blue);line-height:1;text-shadow:0 0 40px rgba(43,91,255,.6)}
+.stars{display:flex;gap:4px;align-items:center;color:var(--blue2);margin:16px 0 6px;font-size:18px}.stars svg{fill:currentColor}
+.quote{padding:28px;display:flex;gap:22px;align-items:center;min-height:200px}
+.quote .av{width:84px;height:104px;border-radius:16px;flex:none;background:linear-gradient(160deg,#3a68ff,#101a5c);display:grid;place-items:center;font-size:32px;font-weight:600}
+.qb{transition:opacity .35s,transform .35s}.qb.out{opacity:0;transform:translateX(16px)}
+.qb p{font-size:16px;margin-bottom:14px}.qb b{display:block}.qb small{color:var(--mut)}
+.arrows{display:flex;gap:10px;margin-top:20px}
+.arrows button{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#fff;cursor:pointer;display:grid;place-items:center;transition:.25s;font-size:18px}
+.arrows button:hover{background:var(--blue);border-color:var(--blue);transform:scale(1.1)}
+/* plans */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:center;max-width:980px;margin:0 auto}
+.plan{padding:30px}
+.plan.pop{padding:42px 30px;border-color:rgba(125,160,255,.6);background:linear-gradient(160deg,rgba(60,100,255,.3),rgba(20,28,78,.5));box-shadow:0 0 70px rgba(43,91,255,.3)}
+.price{font-size:42px;font-weight:600;margin:6px 0}.price small{font-size:14px;color:var(--mut);font-weight:400}
+.plan ul{list-style:none;margin:20px 0 26px;display:grid;gap:11px;font-size:14px;color:#cfd6f7}
+.plan li{display:flex;gap:10px;align-items:center}.plan li svg{color:var(--green);stroke-width:2.4}
+.plan .btn{width:100%;justify-content:center}
+.badge{font-size:11px;padding:3px 10px;border-radius:99px;background:var(--blue);margin-left:8px}
+/* faq */
+.tabs{display:flex;gap:26px;justify-content:center;margin:-24px 0 34px;font-size:14px;position:relative}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;color:var(--mut);font:inherit;padding:6px 2px;cursor:pointer;transition:.25s}
+.tabs button.on{color:var(--blue2);border-color:var(--blue)}
+.faq{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:960px;margin:0 auto}
+.qs{display:grid;gap:12px;align-content:start}
+.q{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid transparent;color:var(--mut);cursor:pointer;transition:.3s}
+.q:hover{background:rgba(255,255,255,.08);transform:translateX(4px)}
+.q svg{transition:transform .35s}.q.on{color:#fff;border-color:rgba(125,160,255,.7);background:rgba(43,91,255,.16)}.q.on svg{transform:rotate(135deg)}
+.ans{padding:26px;min-height:240px;display:flex;flex-direction:column;justify-content:space-between}
+.ans p{transition:opacity .25s,transform .25s;font-size:15px}.ans p.out{opacity:0;transform:translateY(8px)}
+.ans .arrows{margin:0 0 0 auto}.ans .arrows button{width:34px;height:34px;font-size:15px}
+/* cta */
+.ctaBox{position:relative;overflow:hidden;text-align:center;padding:84px 24px;border-radius:30px;border:1px solid rgba(125,160,255,.3);background:linear-gradient(#2b5bff2e 1px,transparent 1px) 0 0/46px 46px,linear-gradient(90deg,#2b5bff2e 1px,transparent 1px) 0 0/46px 46px,radial-gradient(circle at 50% 40%,#1f3fb5,#0a0e2b 75%);animation:drift 24s linear infinite}
+.ctaBox>*{position:relative}.ctaBox h2{font-size:clamp(30px,5vw,50px)}.ctaBox p{color:#aab5e6;margin:12px 0 28px}
+footer{border-top:1px solid rgba(255,255,255,.08);background:rgba(8,11,32,.7);padding:56px 0 28px;margin-top:80px}
+.fg{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:32px}
+footer h4{font-size:14px;margin-bottom:14px}footer li{list-style:none;color:var(--mut);font-size:14px;margin-bottom:10px;transition:.2s;cursor:pointer}footer li:hover{color:#fff;transform:translateX(4px)}
+.soc{display:flex;gap:10px;margin-top:18px}.soc a{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);transition:.25s}.soc a:hover{background:var(--blue);transform:translateY(-3px)}
+.copy{text-align:center;color:var(--mut);font-size:13px;margin-top:40px;padding-top:24px;border-top:1px solid rgba(255,255,255,.08)}
+.rv{opacity:0;transform:translateY(36px);filter:blur(6px);transition:opacity .9s,transform .9s,filter .9s}.rv.in{opacity:1;transform:none;filter:none}
+@media(max-width:820px){.links{display:none}.steps{flex-direction:column}.dash,.plans,.testi,.faq,.fg,.feat{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(2,1fr)}.mock{transform:none}.feat .card:nth-child(2){margin-bottom:0}.quote{flex-direction:column;align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none;filter:none}.ch path.ln{stroke-dashoffset:0}.ch .fl,.ch .dot{opacity:1}}
+:focus-visible{outline:2px solid var(--blue2);outline-offset:3px}
+
+/* ===== CHIBI THÔNG BÁO ===== */
+#chibi{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:80;display:flex;flex-direction:column;align-items:flex-end;pointer-events:none}
+#chibi>*{pointer-events:auto}
+.say{max-width:250px;margin-bottom:12px;padding:12px 16px;font-size:13px;font-weight:500;color:#e8edff;border-radius:18px 18px 4px 18px;opacity:0;transform:translateY(10px) scale(.95);transform-origin:bottom right;transition:.35s cubic-bezier(.2,.9,.3,1.2);pointer-events:none!important}
+.say.show{opacity:1;transform:none}
+.cb{position:relative;width:76px;height:76px;cursor:pointer;border:0;background:none;animation:cfloat 4s ease-in-out infinite}
+@keyframes cfloat{50%{transform:translateY(-8px)}}
+.cb .glow{position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,rgba(43,91,255,.65),transparent 70%);filter:blur(10px);animation:cglow 2.6s ease-in-out infinite}
+@keyframes cglow{50%{opacity:.45;transform:scale(1.15)}}
+.cb .body{position:absolute;inset:0;overflow:hidden;border-radius:42% 58% 50% 50%/50% 42% 58% 50%;animation:morph 3.5s ease-in-out infinite;box-shadow:0 10px 30px rgba(43,91,255,.6),inset 0 2px 6px rgba(255,255,255,.5);transition:transform .3s}
+.cb:hover .body{transform:scale(1.12)}
+.cb .b0{position:absolute;inset:0;background:radial-gradient(circle at 35% 30%,#d6e2ff 0,#7da0ff 35%,#2b5bff 75%,#1a35b8 100%)}
+.cb .b1,.cb .b2{position:absolute;border-radius:50%;filter:blur(6px)}
+.cb .b1{inset:-20%;background:conic-gradient(transparent 0,rgba(255,255,255,.75) 15%,transparent 30%,rgba(125,160,255,.7) 50%,transparent 65%);animation:rot 4s linear infinite}
+.cb .b2{inset:-15%;background:conic-gradient(from 120deg,transparent 0,rgba(168,190,255,.6) 20%,transparent 40%);animation:rot 5s linear infinite reverse}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes morph{0%,100%{border-radius:42% 58% 50% 50%/50% 42% 58% 50%;transform:scale(.96)}50%{border-radius:58% 42% 52% 48%/48% 58% 42% 52%;transform:scale(1.03)}}
+.face{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;pointer-events:none}
+.eyes{display:flex;gap:11px;transition:transform .1s}
+.eyes i{width:9px;height:12px;border-radius:50%;background:#0a1240;animation:blink2 5s infinite;transform-origin:center}
+@keyframes blink2{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.mouth{width:11px;height:4px;border-radius:50%;background:#0a1240;transition:.3s}
+.mouth.talk{animation:talk .4s infinite ease-in-out}
+@keyframes talk{0%,100%{height:4px;width:10px;border-radius:50%}50%{height:9px;width:12px;border-radius:40% 40% 50% 50%}}
+.cb .dotx{position:absolute;top:-2px;right:-2px;z-index:3;width:16px;height:16px;border-radius:50%;background:#ef4444;border:3px solid #0a0e2b;display:none;animation:cglow 1.2s infinite}
+
+@media(max-width:820px){.say{max-width:200px}}
+</style>
+</head>
+<body>
+<!-- Bộ icon SVG (phong cách nét mảnh, bo tròn) -->
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+<symbol id="zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol>
+<symbol id="shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+<symbol id="notes" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
+<symbol id="tasks" viewBox="0 0 24 24"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
+<symbol id="learn" viewBox="0 0 24 24"><path d="m22 10-10-5L2 10l10 5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></symbol>
+<symbol id="chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+<symbol id="pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.7-9h1.8a4.5 4.5 0 1 1 0 9z"/></symbol>
+<symbol id="cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+<symbol id="grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+<symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+<symbol id="upr" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+<symbol id="check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></symbol>
+<symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="user" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></symbol>
+<symbol id="layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></symbol>
+<symbol id="play" viewBox="0 0 24 24"><path d="M6 4v16l14-8z"/></symbol>
+<symbol id="star" viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 1-5 5 1.2 7L12 18l-6.2 3.5L7 14.5l-5-5 7-1z"/></symbol>
+<symbol id="spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></symbol>
+<symbol id="globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></symbol>
+<symbol id="mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+<symbol id="tr" viewBox="0 0 24 24"><path d="m22 7-8.5 8.5-5-5L2 17M16 7h6v6"/></symbol>
+</defs></svg>
+
+<div class="bg"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+<div class="cursor" id="cur"></div><div class="prog" id="prog"></div>
+
+<nav>
+  <a href="#home" class="logo"><span class="lm"><svg class="i" style="width:16px"><use href="#layers"/></svg></span>Wiky</a>
+  <div class="links" id="links"><a href="#home" class="act">Trang chủ</a><a href="#apps">Ứng dụng</a><a href="#pricing">Gói dịch vụ</a><a href="#faq">Hỏi đáp</a></div>
+  <div class="nav-r"><a href="#">Đăng nhập</a><a href="#pricing" class="btn" data-mag>Đăng ký</a></div>
+</nav>
+
+<header class="hero" id="home">
+  <span class="promo"><b><svg class="i"><use href="#spark"/></svg>Mới</b>Wiky Studio vừa ra mắt – dùng thử miễn phí</span>
+  <h1>Một cổng vào cho cả hệ sinh thái Wiky</h1>
+  <p class="lead">Truy cập mọi ứng dụng con chỉ với một tài khoản. Tìm nhanh, mở ngay, dữ liệu đồng bộ giữa các ứng dụng.</p>
+  <div class="cta-row">
+    <a href="#apps" class="btn" data-mag>Khám phá ứng dụng <svg class="i"><use href="#upr"/></svg></a>
+    <a href="#how" class="btn ghost" data-mag>Cách hoạt động</a>
+  </div>
+  <label class="search glass"><svg class="i"><use href="#search"/></svg><input id="q" placeholder="Tìm ứng dụng: ghi chú, công việc, học tập…"><a class="btn" href="#apps">Tìm</a></label>
+  <div class="stage"><div class="mock glass" id="mock"><div class="bar"><i></i><i></i><i></i></div><div class="tiles" id="tiles"></div></div></div>
+</header>
+
+<section style="padding:50px 0">
+  <div class="wrap center rv">
+    <h2 style="font-size:24px;margin-bottom:34px">Đối tác và cộng đồng sử dụng Wiky</h2>
+    <div class="mq"><div class="mt" id="mt"></div></div>
+    <p class="note">Hơn 3.000 tổ chức và cộng đồng đang sử dụng.</p>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap rv">
+    <div class="center"><span class="pill">Giới thiệu</span></div>
+    <h2>Vì sao mọi người chọn Wiky</h2>
+    <p class="sub">Wiky gom các ứng dụng riêng lẻ vào một nơi, để bạn không phải nhớ nhiều địa chỉ hay đăng nhập nhiều lần.</p>
+    <div class="cards feat">
+      <div class="glass card" data-tilt><div class="ib"><svg class="i"><use href="#link"/></svg></div><h3>Một tài khoản, mọi ứng dụng</h3><p>Đăng nhập một lần để dùng tất cả ứng dụng con.</p></div>
+      <div class="glass card" data-tilt><div class="ib"><svg class="i"><use href="#zap"/></svg></div><h3>Truy cập nhanh</h3><p>Tìm kiếm tức thì, ghim ứng dụng yêu thích lên đầu.</p></div>
+      <div class="glass card" data-tilt><div class="ib"><svg class="i"><use href="#shield"/></svg></div><h3>An toàn và ổn định</h3><p>Mã hóa dữ liệu, sao lưu tự động, hoạt động 24/7.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="apps">
+  <div class="wrap rv">
+    <div class="center"><span class="pill">Hệ sinh thái</span></div>
+    <h2>Các ứng dụng trong Wiky</h2>
+    <p class="sub">Chọn ứng dụng bạn cần. Mỗi ứng dụng mở trong trang riêng nhưng dùng chung tài khoản.</p>
+    <div class="cards" id="appGrid"></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap rv">
+    <div class="center"><span class="pill">Bắt đầu</span></div>
+    <h2>Bắt đầu chỉ với 3 bước</h2>
+    <p class="sub">Từ đăng ký đến dùng thử ứng dụng đầu tiên mất chưa tới một phút.</p>
+    <div class="steps" id="steps">
+      <div class="glass step" data-tilt><small>01.</small><h3>Tạo tài khoản</h3><p>Đăng ký bằng email trong vài giây.</p><a class="go" href="#pricing">Đăng ký ngay <svg class="i"><use href="#arrow"/></svg></a></div>
+      <div class="glass step on" data-tilt><small>02.</small><h3>Chọn ứng dụng</h3><p>Duyệt danh sách và ghim các ứng dụng bạn hay dùng.</p><a class="go" href="#apps">Xem ứng dụng <svg class="i"><use href="#arrow"/></svg></a></div>
+      <div class="glass step" data-tilt><small>03.</small><h3>Bắt đầu sử dụng</h3><p>Mở ứng dụng, dữ liệu tự đồng bộ giữa các thiết bị.</p><a class="go" href="#apps">Mở ứng dụng <svg class="i"><use href="#arrow"/></svg></a></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap rv">
+    <div class="center"><span class="pill">Thống kê</span></div>
+    <h2>Hoạt động của hệ sinh thái</h2>
+    <p class="sub">Số liệu cập nhật về lượt truy cập, ứng dụng và nội dung trên Wiky.</p>
+    <div class="dash">
+      <div class="glass panel" data-tilt><div class="hd"><b>Lượt truy cập</b><span class="live">Trực tiếp</span></div>
+        <svg class="ch" viewBox="0 0 300 120" preserveAspectRatio="none" style="color:#22c55e"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22c55e" stop-opacity=".45"/><stop offset="1" stop-color="#22c55e" stop-opacity="0"/></linearGradient></defs><path class="fl" d="M0 90 L30 66 60 78 90 44 120 60 150 32 180 50 210 22 240 42 270 16 300 28 V120 H0Z" fill="url(#g1)"/><path class="ln" d="M0 90 L30 66 60 78 90 44 120 60 150 32 180 50 210 22 240 42 270 16 300 28" stroke="#22c55e"/></svg>
+        <div class="tick"><div>Wiky Notes <b class="up">+1,2%</b></div><div>Wiky Tasks <b class="up">+0,8%</b></div></div></div>
+      <div class="glass panel" data-tilt><div class="hd"><b>Người dùng mới</b><span>Tháng này</span></div>
+        <svg class="ch" viewBox="0 0 300 120" preserveAspectRatio="none" style="color:#5b83ff"><defs><linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b6bff" stop-opacity=".5"/><stop offset="1" stop-color="#3b6bff" stop-opacity="0"/></linearGradient></defs><path class="fl" d="M0 100 L40 84 80 92 120 60 160 66 200 38 240 46 300 12 V120 H0Z" fill="url(#g2)"/><path class="ln" d="M0 100 L40 84 80 92 120 60 160 66 200 38 240 46 300 12" stroke="#5b83ff"/></svg>
+        <div class="tick"><div>Đăng ký <b class="up">+2,3%</b></div><div>Hoạt động <b class="up">+1,1%</b></div></div></div>
+      <div class="glass panel" data-tilt><div class="hd"><b>Nội dung đã tạo</b><span>Tháng này</span></div>
+        <svg class="ch" viewBox="0 0 300 120" preserveAspectRatio="none" style="color:#ef4444"><defs><linearGradient id="g3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ef4444" stop-opacity=".4"/><stop offset="1" stop-color="#ef4444" stop-opacity="0"/></linearGradient></defs><path class="fl" d="M0 22 L40 40 80 30 120 62 160 52 200 84 240 70 300 100 V120 H0Z" fill="url(#g3)"/><path class="ln" d="M0 22 L40 40 80 30 120 62 160 52 200 84 240 70 300 100" stroke="#ef4444"/></svg>
+        <div class="tick"><div>Bài viết <b class="dn">-0,4%</b></div><div>Tệp <b class="up">+0,9%</b></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap testi rv">
+    <div>
+      <div style="display:flex;gap:18px;align-items:center"><div class="big"><span data-count="95">0</span>%</div><div style="max-width:150px;font-size:15px">Phản hồi tích cực từ người dùng Wiky.</div></div>
+      <div class="stars"><svg class="i"><use href="#star"/></svg><svg class="i"><use href="#star"/></svg><svg class="i"><use href="#star"/></svg><svg class="i"><use href="#star"/></svg><svg class="i"><use href="#star"/></svg><span style="color:#fff;font-size:15px;margin-left:6px">4,8</span></div>
+      <div class="arrows"><button id="prev" aria-label="Trước"><svg class="i"><use href="#left"/></svg></button><button id="next" aria-label="Sau"><svg class="i"><use href="#arrow"/></svg></button></div>
+    </div>
+    <div class="glass quote" data-tilt><div class="av" id="av"></div><div class="qb" id="qb"></div></div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap rv">
+    <div class="center"><span class="pill">Gói dịch vụ</span></div>
+    <h2>Chọn gói phù hợp với bạn</h2>
+    <p class="sub">Giá linh hoạt cho cá nhân, nhóm và tổ chức.</p>
+    <div class="plans">
+      <div class="glass plan" data-tilt><b>Cơ bản</b><div class="price">0đ<small> /tháng</small></div><small style="color:var(--mut)">Dành cho cá nhân</small>
+        <ul><li><svg class="i"><use href="#check"/></svg>3 ứng dụng cốt lõi</li><li><svg class="i"><use href="#check"/></svg>1 GB lưu trữ</li><li><svg class="i"><use href="#check"/></svg>Cộng đồng hỗ trợ</li></ul><button class="btn ghost">Chọn gói này</button></div>
+      <div class="glass plan pop" data-tilt><b>Phổ biến</b><span class="badge">Đề xuất</span><div class="price">99.000đ<small> /tháng</small></div><small style="color:#cfd6f7">Cho người dùng thường xuyên</small>
+        <ul><li><svg class="i"><use href="#check"/></svg>Toàn bộ ứng dụng</li><li><svg class="i"><use href="#check"/></svg>50 GB lưu trữ</li><li><svg class="i"><use href="#check"/></svg>Đồng bộ đa thiết bị</li><li><svg class="i"><use href="#check"/></svg>Hỗ trợ ưu tiên</li></ul><button class="btn">Chọn gói này</button></div>
+      <div class="glass plan" data-tilt><b>Tổ chức</b><div class="price">299.000đ<small> /tháng</small></div><small style="color:var(--mut)">Dành cho nhóm</small>
+        <ul><li><svg class="i"><use href="#check"/></svg>Không giới hạn thành viên</li><li><svg class="i"><use href="#check"/></svg>500 GB lưu trữ</li><li><svg class="i"><use href="#check"/></svg>Truy cập API</li><li><svg class="i"><use href="#check"/></svg>Tên miền riêng</li></ul><button class="btn ghost">Chọn gói này</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap rv">
+    <div class="center"><span class="pill">Hỏi đáp</span></div>
+    <h2>Câu hỏi thường gặp</h2>
+    <p class="sub"></p>
+    <div class="tabs" id="tabs"><button class="on" data-t="0">Chung</button><button data-t="1">Tính năng</button><button data-t="2">Gói dịch vụ</button><button data-t="3">Cộng đồng</button></div>
+    <div class="faq"><div class="qs" id="qs"></div>
+      <div class="glass ans"><p id="ans"></p><div class="arrows"><button id="fp" aria-label="Trước"><svg class="i"><use href="#left"/></svg></button><button id="fn" aria-label="Sau"><svg class="i"><use href="#arrow"/></svg></button></div></div></div>
+  </div>
+</section>
+
+<section style="padding-bottom:0">
+  <div class="wrap rv"><div class="ctaBox">
+    <h2>Sẵn sàng khám phá Wiky?</h2>
+    <p>Tham gia nền tảng được thiết kế cho mọi nhu cầu.</p>
+    <div class="cta-row"><a class="btn" href="#pricing" data-mag>Tạo tài khoản miễn phí</a><a class="btn ghost" href="#apps" data-mag>Tìm hiểu thêm</a></div>
+  </div></div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div><div class="logo"><span class="lm"><svg class="i" style="width:16px"><use href="#layers"/></svg></span>Wiky</div><p style="color:var(--mut);font-size:14px;margin-top:14px;max-width:260px">Cổng truy cập chung cho hệ sinh thái các ứng dụng Wiky.</p>
+        <div class="soc"><a href="#" aria-label="Website"><svg class="i"><use href="#globe"/></svg></a><a href="#" aria-label="Email"><svg class="i"><use href="#mail"/></svg></a><a href="#" aria-label="Cộng đồng"><svg class="i"><use href="#chat"/></svg></a><a href="#" aria-label="Video"><svg class="i"><use href="#play"/></svg></a></div></div>
+      <div><h4>Ứng dụng</h4><ul><li>Wiky Notes</li><li>Wiky Tasks</li><li>Wiky Learn</li><li>Wiky Studio</li></ul></div>
+      <div><h4>Tài nguyên</h4><ul><li>Trung tâm trợ giúp</li><li>Tin tức</li><li>Hướng dẫn</li><li>Hỏi đáp</li></ul></div>
+      <div><h4>Công ty</h4><ul><li>Giới thiệu</li><li>Tuyển dụng</li><li>Liên hệ</li><li>Điều khoản</li></ul></div>
+    </div>
+    <div class="copy">© 2026 Wiky. Bảo lưu mọi quyền.</div>
+  </div>
+</footer>
+
+
+<!-- CHIBI THÔNG BÁO -->
+<div id="chibi">
+  <div class="glass say" id="say"><span id="sayt">Xin chào! Tôi là Chibi Wiky.</span></div>
+  <button class="cb" id="cb" aria-label="Chibi thông báo"><span class="glow"></span>
+    <span class="body"><span class="b0"></span><span class="b1"></span><span class="b2"></span></span>
+    <span class="face"><span class="eyes" id="eyes"><i></i><i></i></span><span class="mouth" id="mouth"></span></span></button>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const ic=n=>`<svg class="i"><use href="#${n}"/></svg>`;
+// ==== Ứng dụng con: sửa tại đây (i = tên icon trong bộ sprite) ====
+const APPS=[
+ {i:"notes",n:"Wiky Notes",d:"Ghi chú và kho tri thức cá nhân.",u:"#"},
+ {i:"tasks",n:"Wiky Tasks",d:"Quản lý công việc và nhắc việc.",u:"#"},
+ {i:"learn",n:"Wiky Learn",d:"Khóa học và lộ trình tự học.",u:"#"},
+ {i:"chat",n:"Wiky Chat",d:"Trò chuyện nhóm và chia sẻ nhanh.",u:"#"},
+ {i:"pen",n:"Wiky Studio",d:"Thiết kế và soạn thảo nội dung.",u:"#"},
+ {i:"cloud",n:"Wiky Drive",d:"Lưu trữ và chia sẻ tệp.",u:"#"},
+ {i:"cal",n:"Wiky Calendar",d:"Lịch hẹn và sự kiện chung.",u:"#"},
+ {i:"grid",n:"Wiky Tools",d:"Bộ công cụ tiện ích mỗi ngày.",u:"#"}
+];
+const grid=$('#appGrid');
+function render(f=''){
+ const r=APPS.filter(a=>(a.n+a.d).toLowerCase().includes(f.toLowerCase()));
+ grid.innerHTML=r.map(a=>`<a class="glass card" data-tilt href="${a.u}" target="_blank" rel="noopener"><div class="ib">${ic(a.i)}</div><h3>${a.n}</h3><p>${a.d}</p><span class="go">Mở ứng dụng ${ic('upr')}</span></a>`).join('')||'<p class="sub" style="grid-column:1/-1">Không tìm thấy ứng dụng phù hợp. Hãy thử từ khóa khác.</p>';
+ bind();
+}
+$('#tiles').innerHTML=APPS.map(a=>`<div class="tile"><div class="ib">${ic(a.i)}</div>${a.n.replace('Wiky ','')}</div>`).join('');
+$('#q').addEventListener('input',e=>{render(e.target.value);if(e.target.value)$('#apps').scrollIntoView({behavior:'smooth'})});
+// Logo đối tác (lặp 2 lần cho marquee)
+const L=[["Nova Labs","#38bdf8"],["Lumen","#a78bfa"],["Orbit","#60a5fa"],["Pixelway","#3b82f6"],["Sunrise","#fb923c"],["Voltix","#f87171"],["Mindful","#c084fc"],["Gamma","#818cf8"],["Kite","#a855f7"]];
+$('#mt').innerHTML=[...L,...L].map(l=>`<div class="lg" style="color:${l[1]}"><span></span>${l[0]}</div>`).join('');
+
+// ==== Glass: tilt 3D + đèn rọi theo chuột + gợn sóng khi bấm ====
+function bind(){
+ $$('[data-tilt]').forEach(el=>{
+  if(el._b)return;el._b=1;
+  el.addEventListener('pointermove',e=>{
+   const r=el.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+   el.style.setProperty('--mx',x+'px');el.style.setProperty('--my',y+'px');
+   if(matchMedia('(pointer:fine)').matches&&!el.classList.contains('step')||el.classList.contains('step')&&el.classList.contains('on'))
+    el.style.transform=`perspective(900px) rotateX(${((y/r.height)-.5)*-9}deg) rotateY(${((x/r.width)-.5)*9}deg) translateY(-4px)`;
+  });
+  el.addEventListener('pointerleave',()=>el.style.transform='');
+  el.addEventListener('pointerdown',e=>{
+   const r=el.getBoundingClientRect(),s=Math.max(r.width,r.height)/4,d=document.createElement('span');
+   d.className='rip';d.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;
+   el.appendChild(d);setTimeout(()=>d.remove(),700);
+  });
+ });
+}
+render();
+// Nút "từ tính"
+$$('[data-mag]').forEach(b=>{b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.18}px,${(e.clientY-r.top-r.height/2)*.3}px)`});b.addEventListener('pointerleave',()=>b.style.transform='')});
+// Mockup hero nghiêng theo chuột
+const mk=$('#mock');addEventListener('pointermove',e=>{const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;mk.style.transform=`rotateX(${14-y*8}deg) rotateZ(${-2+x*3}deg) rotateY(${x*8}deg)`;$('#cur').style.transform=`translate(${e.clientX}px,${e.clientY}px)`});
+// Tiến độ cuộn + menu đang chọn
+const secs=$$('#home,#apps,#pricing,#faq'),lk=$$('#links a');
+addEventListener('scroll',()=>{const h=document.documentElement;$('#prog').style.width=scrollY/(h.scrollHeight-innerHeight)*100+'%';let c=0;secs.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.4)c=i});lk.forEach((a,i)=>a.classList.toggle('act',i==c))},{passive:true});
+// Bước
+$$('#steps .step').forEach(s=>s.addEventListener('click',()=>{$$('#steps .step').forEach(x=>x.classList.remove('on'));s.classList.add('on')}));
+// Reveal + đếm số
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);e.target.querySelectorAll('[data-count]').forEach(c=>{const t=+c.dataset.count;let v=0;const k=setInterval(()=>{v+=2;c.textContent=Math.min(v,t);if(v>=t)clearInterval(k)},25)})}}),{threshold:.15});
+$$('.rv').forEach(el=>io.observe(el));
+$$('.ch').forEach(s=>{const p=s.querySelector('.ln');const d=p.getAttribute('d').trim().split(/[ L]+/).slice(-2);s.insertAdjacentHTML('beforeend',`<circle class="dot" cx="${d[0].replace('M','')}" cy="${d[1]}" r="4" fill="currentColor"/>`)});
+// Đánh giá
+const T=[
+ {t:"Trước đây tôi phải nhớ cả chục địa chỉ khác nhau. Giờ chỉ cần vào Wiky là mở được mọi thứ.",n:"Minh Anh",r:"Biên tập viên"},
+ {t:"Dữ liệu đồng bộ giữa các ứng dụng giúp nhóm chúng tôi tiết kiệm rất nhiều thời gian mỗi tuần.",n:"Quốc Bảo",r:"Quản lý dự án"},
+ {t:"Giao diện gọn, tìm ứng dụng cực nhanh. Học sinh của tôi dùng ngay không cần hướng dẫn.",n:"Thu Hà",r:"Giáo viên"}
+];
+let ti=0;const qb=$('#qb');
+function showT(){qb.classList.add('out');setTimeout(()=>{const x=T[ti];qb.innerHTML=`<p>${x.t}</p><b>${x.n}</b><small>${x.r}</small>`;$('#av').textContent=x.n.split(' ').pop()[0];qb.classList.remove('out')},300)}
+showT();
+$('#next').onclick=()=>{ti=(ti+1)%T.length;showT()};$('#prev').onclick=()=>{ti=(ti+T.length-1)%T.length;showT()};
+setInterval(()=>{ti=(ti+1)%T.length;showT()},7000);
+// FAQ
+const F=[
+ [["Wiky là gì?","Wiky là trang chủ chung, giúp bạn truy cập các ứng dụng con trong hệ sinh thái bằng một tài khoản duy nhất."],["Dữ liệu của tôi có an toàn không?","Dữ liệu được mã hóa khi truyền và khi lưu trữ, đồng thời sao lưu tự động."],["Tôi cần kỹ năng gì để dùng?","Không cần. Bạn chỉ cần đăng ký và chọn ứng dụng muốn dùng."],["Dùng được trên điện thoại không?","Có. Mọi ứng dụng đều hoạt động tốt trên điện thoại, máy tính bảng và máy tính."]],
+ [["Có những ứng dụng nào?","Hiện có ghi chú, công việc, học tập, trò chuyện, thiết kế, lưu trữ, lịch và bộ công cụ. Danh sách sẽ tiếp tục mở rộng."],["Các ứng dụng có đồng bộ không?","Có. Nội dung bạn tạo ở một ứng dụng có thể được chèn vào ứng dụng khác."],["Có thể ghim ứng dụng yêu thích không?","Có. Ghim ứng dụng để chúng luôn nằm đầu trang chủ."]],
+ [["Gói miễn phí gồm gì?","Gồm 3 ứng dụng cốt lõi và 1 GB lưu trữ, không giới hạn thời gian."],["Có thể đổi gói bất cứ lúc nào không?","Có. Bạn nâng hoặc hạ gói trong phần tài khoản, phí được tính theo phần còn lại."],["Thanh toán bằng cách nào?","Hỗ trợ thẻ ngân hàng, ví điện tử và chuyển khoản."]],
+ [["Làm sao đóng góp ứng dụng mới?","Gửi đề xuất qua trang liên hệ. Đội ngũ sẽ phản hồi trong vòng 3 ngày làm việc."],["Có nhóm cộng đồng không?","Có. Bạn có thể tham gia nhóm trao đổi để chia sẻ mẹo và góp ý tính năng."],["Báo lỗi ở đâu?","Dùng nút Trợ giúp trong từng ứng dụng hoặc gửi email cho đội hỗ trợ."]]
+];
+let tab=0,qi=0;const qs=$('#qs'),ans=$('#ans');
+function drawF(){
+ qs.innerHTML=F[tab].map((x,i)=>`<div class="q ${i==qi?'on':''}" data-i="${i}" tabindex="0">${x[0]}${ic('plus')}</div>`).join('');
+ ans.classList.add('out');setTimeout(()=>{ans.textContent=F[tab][qi][1];ans.classList.remove('out')},180);
+}
+const go=i=>{qi=i;drawF()};
+qs.addEventListener('click',e=>{const q=e.target.closest('.q');if(q)go(+q.dataset.i)});
+qs.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const q=e.target.closest('.q');if(q){e.preventDefault();go(+q.dataset.i)}}});
+$('#fp').onclick=()=>go((qi+F[tab].length-1)%F[tab].length);$('#fn').onclick=()=>go((qi+1)%F[tab].length);
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');tab=+b.dataset.t;qi=0;drawF()});
+drawF();
+
+// ===== CHIBI THÔNG BÁO =====
+(()=>{
+ const cb=$('#cb'),say=$('#say'),sayt=$('#sayt'),mouth=$('#mouth');
+ let sayTimer,mouthTimer,idle;
+ const QUOTES=["Bạn cần ứng dụng nào? Gõ tên vào ô tìm kiếm là thấy ngay!","Một tài khoản dùng được tất cả ứng dụng Wiky nhé.","Bấm vào tôi để nghe thêm mẹo nhỏ nhé!","Ghim ứng dụng yêu thích để mở nhanh hơn.","Dữ liệu giữa các ứng dụng tự đồng bộ, bạn không cần làm gì thêm."];
+ const SEC={apps:"Đây là các ứng dụng con. Bấm vào thẻ để mở nhé!",pricing:"Gói miễn phí đã đủ để bắt đầu rồi đó.",faq:"Có thắc mắc? Cứ hỏi tôi hoặc xem phần này.",how:"Chỉ 3 bước là dùng được ngay."};
+ function speak(t,ms=6000){
+  sayt.textContent=t;say.classList.add('show');mouth.classList.add('talk');
+  clearTimeout(sayTimer);clearTimeout(mouthTimer);
+  mouthTimer=setTimeout(()=>mouth.classList.remove('talk'),2000);
+  sayTimer=setTimeout(()=>say.classList.remove('show'),ms);
+ }
+ const rnd=()=>speak(QUOTES[Math.floor(Math.random()*QUOTES.length)]);
+ function resetIdle(){clearTimeout(idle);idle=setTimeout(rnd,14000)}
+ ['pointermove','scroll','keydown','pointerdown'].forEach(ev=>addEventListener(ev,resetIdle,{passive:true}));
+ resetIdle();setTimeout(()=>speak("Xin chào! Tôi là Chibi Wiky, trợ lý của bạn."),1800);
+ // mắt nhìn theo chuột
+ addEventListener('pointermove',e=>{const r=$('#eyes').getBoundingClientRect(),a=Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2)),d=Math.min(3.5,Math.hypot(e.clientX-r.left,e.clientY-r.top)/30);$('#eyes').style.transform=`translate(${Math.cos(a)*d}px,${Math.sin(a)*d}px)`},{passive:true});
+ // nói theo phần đang xem
+ const seen=new Set(),so=new IntersectionObserver(es=>es.forEach(e=>{const id=e.target.id;if(e.isIntersecting&&SEC[id]&&!seen.has(id)){seen.add(id);speak(SEC[id])}}),{threshold:.45});
+ ['apps','pricing','faq','how'].forEach(id=>so.observe($('#'+id)));
+ // hover thẻ ứng dụng
+ let last='';grid.addEventListener('pointerover',e=>{const c=e.target.closest('.card');if(!c)return;const n=c.querySelector('h3').textContent;if(n!==last){last=n;speak(`${n}: ${c.querySelector('p').textContent}`,3500)}});
+ cb.addEventListener('click',rnd);
+})();
+</script>
+</body>
+</html>
