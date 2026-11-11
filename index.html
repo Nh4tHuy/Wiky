@@ -229,6 +229,9 @@ footer h4{font-size:14px;margin-bottom:14px}footer li{list-style:none;color:var(
 [data-theme=light] .tick,[data-theme=light] .tick div+div,[data-theme=light] .copy{border-color:rgba(43,91,255,.14)}
 [data-theme=light] .tg .sun{display:none}[data-theme=light] .tg .moon{display:block}
 [data-theme=light] .say{color:var(--fg)}
+
+[data-theme=light] .ctaBox{color:var(--fg);border-color:rgba(43,91,255,.28);background:linear-gradient(rgba(43,91,255,.13) 1px,transparent 1px) 0 0/46px 46px,linear-gradient(90deg,rgba(43,91,255,.13) 1px,transparent 1px) 0 0/46px 46px,radial-gradient(circle at 50% 40%,#ffffff,#d7e3ff 78%);box-shadow:0 20px 60px rgba(43,91,255,.18)}
+[data-theme=light] .ctaBox p{color:var(--mut)}
 </style>
 </head>
 <body>
@@ -346,14 +349,13 @@ footer h4{font-size:14px;margin-bottom:14px}footer li{list-style:none;color:var(
     <div class="dash">
       <div class="glass panel" data-tilt id="cfPanel"><div class="hd"><b>Lượt truy cập</b><span class="live" id="cfState">Đang tải…</span></div>
         <svg class="ch" id="cfSvg" viewBox="0 0 300 120" preserveAspectRatio="none" style="color:#22c55e"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22c55e" stop-opacity=".45"/><stop offset="1" stop-color="#22c55e" stop-opacity="0"/></linearGradient></defs><path class="fl" id="cfFl" d="M0 90 L30 66 60 78 90 44 120 60 150 32 180 50 210 22 240 42 270 16 300 28 V120 H0Z" fill="url(#g1)"/><path class="ln" id="cfLn" d="M0 90 L30 66 60 78 90 44 120 60 150 32 180 50 210 22 240 42 270 16 300 28" stroke="#22c55e"/></svg>
-        <div class="tick"><div>Hôm nay <b id="cfToday">–</b> <b id="cfChg"></b></div><div>Người dùng <b id="cfUniq">–</b></div></div>
-        <div class="cfsrc" id="cfSrc">Tính cả lượt xem các trang con · 7 ngày gần nhất</div></div>
-      <div class="glass panel" data-tilt><div class="hd"><b>Người dùng mới</b><span>Tháng này</span></div>
-        <svg class="ch" viewBox="0 0 300 120" preserveAspectRatio="none" style="color:#5b83ff"><defs><linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b6bff" stop-opacity=".5"/><stop offset="1" stop-color="#3b6bff" stop-opacity="0"/></linearGradient></defs><path class="fl" d="M0 100 L40 84 80 92 120 60 160 66 200 38 240 46 300 12 V120 H0Z" fill="url(#g2)"/><path class="ln" d="M0 100 L40 84 80 92 120 60 160 66 200 38 240 46 300 12" stroke="#5b83ff"/></svg>
-        <div class="tick"><div>Đăng ký <b class="up">+2,3%</b></div><div>Hoạt động <b class="up">+1,1%</b></div></div></div>
-      <div class="glass panel" data-tilt><div class="hd"><b>Nội dung đã tạo</b><span>Tháng này</span></div>
-        <svg class="ch" viewBox="0 0 300 120" preserveAspectRatio="none" style="color:#ef4444"><defs><linearGradient id="g3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ef4444" stop-opacity=".4"/><stop offset="1" stop-color="#ef4444" stop-opacity="0"/></linearGradient></defs><path class="fl" d="M0 22 L40 40 80 30 120 62 160 52 200 84 240 70 300 100 V120 H0Z" fill="url(#g3)"/><path class="ln" d="M0 22 L40 40 80 30 120 62 160 52 200 84 240 70 300 100" stroke="#ef4444"/></svg>
-        <div class="tick"><div>Bài viết <b class="dn">-0,4%</b></div><div>Tệp <b class="up">+0,9%</b></div></div></div>
+        <div class="tick"><div>Hôm nay: <b id="cfToday">–</b> lượt</div><div>7 ngày qua: <b id="cfWeek">–</b> <b id="cfChg"></b> lượt</div></div></div>
+      <div class="glass panel" data-tilt><div class="hd"><b>Người dùng mới</b><span>trong 7 ngày</span></div>
+        <svg class="ch" id="nuSvg" viewBox="0 0 300 120" preserveAspectRatio="none" style="color:#5b83ff"><defs><linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b6bff" stop-opacity=".5"/><stop offset="1" stop-color="#3b6bff" stop-opacity="0"/></linearGradient></defs><path class="fl" id="nuFl" d="M0 100 L40 84 80 92 120 60 160 66 200 38 240 46 300 12 V120 H0Z" fill="url(#g2)"/><path class="ln" id="nuLn" d="M0 100 L40 84 80 92 120 60 160 66 200 38 240 46 300 12" stroke="#5b83ff"/></svg>
+        <div class="tick"><div>Hôm nay: <b id="nuNew">–</b> user</div><div>Tổng: <b id="nuTotal">–</b> user</div></div></div>
+      <div class="glass panel" data-tilt><div class="hd"><b>Ứng dụng hoạt động</b><span>Tháng này</span></div>
+        <svg class="ch" viewBox="0 0 300 120" preserveAspectRatio="none" style="color:#a06bff"><defs><linearGradient id="g3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a06bff" stop-opacity=".5"/><stop offset="1" stop-color="#a06bff" stop-opacity="0"/></linearGradient></defs><path class="fl" d="M0 104 L40 98 80 94 120 80 160 72 200 52 240 38 300 12 V120 H0Z" fill="url(#g3)"/><path class="ln" d="M0 104 L40 98 80 94 120 80 160 72 200 52 240 38 300 12" stroke="#a06bff"/></svg>
+        <div class="tick"><div><b>12</b> ứng dụng</div><div><b class="up">+2</b> ứng dụng tháng này</div></div></div>
     </div>
   </div>
 </section>
@@ -429,7 +431,7 @@ footer h4{font-size:14px;margin-bottom:14px}footer li{list-style:none;color:var(
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 // Dán URL Google Apps Script (/exec) vào đây để hiện lượt truy cập thật
-const CF_ANALYTICS_URL="https://script.google.com/macros/s/AKfycbzzyXCL_v84MSxQejIKkZ6I66ISZ-ih9-SgwW0Cs2CL6nN5u6IplB9jjMPAYucqiZA9/exec";
+const CF_ANALYTICS_URL="https://script.google.com/macros/s/AKfycbxxeZxkYi7CTV1tkkes2Z7E1d16L0pCjzSju8sEMh792UBGe_C0LQUCscoZ3xYgq9si/exec";
 const ic=n=>`<svg class="i"><use href="#${n}"/></svg>`;
 // ==== Ứng dụng con: sửa tại đây (i = tên icon trong bộ sprite) ====
 const APPS=[
@@ -488,17 +490,24 @@ $$('.rv').forEach(el=>io.observe(el));
 $$('.ch').forEach(s=>{const p=s.querySelector('.ln');const d=p.getAttribute('d').trim().split(/[ L]+/).slice(-2);s.insertAdjacentHTML('beforeend',`<circle class="dot" cx="${d[0].replace('M','')}" cy="${d[1]}" r="4" fill="currentColor"/>`)});
 // ===== Cloudflare: lượt truy cập =====
 const fmt=n=>Number(n).toLocaleString('vi-VN');
-const ZERO=Array.from({length:7},()=>({views:0,uniques:0}));
-function cfDraw(days,live,why){
- const v=days.map(d=>d.views),mn=Math.min(...v),mx=Math.max(...v),r=(mx-mn)||1,n=v.length;
+const ZERO=Array.from({length:14},()=>({views:0,uniques:0}));
+function cfDraw(all,live,why){
+ const days=all.slice(-7),v=days.map(d=>d.views),mn=Math.min(...v),mx=Math.max(...v),r=(mx-mn)||1,n=v.length;
  const pts=v.map((y,i)=>[(i*300/(n-1)).toFixed(1),(108-(y-mn)/r*88).toFixed(1)]);
- const d='M'+pts.map(p=>p.join(' ')).join(' L');
+ const d='M'+pts.map(q=>q.join(' ')).join(' L');
  $('#cfLn').setAttribute('d',d);$('#cfFl').setAttribute('d',d+' V120 H0Z');
  const l=pts[n-1],dt=$('#cfSvg .dot');if(dt){dt.setAttribute('cx',l[0]);dt.setAttribute('cy',l[1])}
- const t=days[n-1],p=days[n-2],ch=p&&p.views?(t.views-p.views)/p.views*100:0;
- $('#cfToday').textContent=fmt(t.views);
- const c=$('#cfChg');c.textContent=(ch>=0?'+':'')+ch.toFixed(1).replace('.',',')+'%';c.className=ch>=0?'up':'dn';
- $('#cfUniq').textContent=fmt(t.uniques||0);
+ // % = tổng 7 ngày gần nhất so với 7 ngày liền trước (ổn định hơn so sánh nửa ngày hôm nay với cả ngày hôm qua)
+ const sum=a=>a.reduce((x,e)=>x+(e.views||0),0),cur=sum(days);
+ $('#cfToday').textContent=fmt(days[n-1].views);$('#cfWeek').textContent=fmt(cur);
+ const c=$('#cfChg');c.className='';c.textContent='';
+ if(all.length>=14){
+  const prev=sum(all.slice(-14,-7));
+  if(prev>0){const ch=(cur-prev)/prev*100,a=Math.abs(ch);c.textContent=(ch>0?'+':ch<0?'-':'')+(a>=100?a.toFixed(0):a.toFixed(1)).replace('.',',')+'%';c.className=ch>=0?'up':'dn'}
+  else if(cur>0){c.textContent=''}
+  else c.textContent='0%';
+  c.title='So với 7 ngày trước đó';
+ }
  const st=$('#cfState');st.textContent=live?'Trực tiếp':(why||'Chưa kết nối');st.classList.toggle('sample',!live);
  const ln=$('#cfLn');ln.style.animation='none';void ln.getBoundingClientRect();ln.style.animation='';
 }
@@ -513,33 +522,42 @@ function cfVid(){
  return v;
 }
 const cfBase=()=>CF_ANALYTICS_URL+(CF_ANALYTICS_URL.includes('?')?'&':'?');
-// Ghi 1 lượt xem cho mỗi lần tải trang (tải lại trang = +1 lượt, số người dùng giữ nguyên)
-const cfHit=()=>new Promise(r=>{const im=new Image(),t=setTimeout(r,8000);im.onload=im.onerror=()=>{clearTimeout(t);r()};
- im.src=cfBase()+'hit=1&v='+encodeURIComponent(cfVid())+'&page='+encodeURIComponent('Trang chủ Wiky')+'&t='+Date.now()});
-async function cfFetch(){const r=await fetch(cfBase()+'t='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return await r.json()}
-// JSONP dự phòng: tải bằng thẻ script để không bị chặn CORS
-function cfJsonp(ms=15000){return new Promise((res,rej)=>{
+// first=true: yêu cầu này đồng thời ghi 1 lượt xem (mỗi lần tải trang = +1; tải lại trang vẫn +1)
+const cfQ=first=>cfBase()+(first?'hit=1&v='+encodeURIComponent(cfVid())+'&page='+encodeURIComponent('Trang chủ Wiky')+'&':'')+'t='+Date.now();
+async function cfFetch(first){const r=await fetch(cfQ(first),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return await r.json()}
+// JSONP: tải bằng thẻ script để không bị chặn CORS
+function cfJsonp(first,ms=15000){return new Promise((res,rej)=>{
  const cb='wkcb'+Date.now()+Math.floor(Math.random()*1e4),sc=document.createElement('script');let t;
  const done=(x,m)=>{clearTimeout(t);delete window[cb];sc.remove();x?res(x):rej(new Error(m))};
  window[cb]=d=>done(d);sc.onerror=()=>done(null,'không tải được script');t=setTimeout(()=>done(null,'hết thời gian chờ'),ms);
- sc.src=cfBase()+'t='+Date.now()+'&callback='+cb;document.head.appendChild(sc);
+ sc.src=cfQ(first)+'&callback='+cb;document.head.appendChild(sc);
 })}
+function nuDraw(days,total){
+ const v=days.slice(-7).map(d=>d.newUsers||0),n=v.length,mn=Math.min(...v),mx=Math.max(...v),r=(mx-mn)||1;
+ const pts=v.map((y,i)=>[(i*300/(n-1)).toFixed(1),(108-(y-mn)/r*88).toFixed(1)]);
+ const d='M'+pts.map(q=>q.join(' ')).join(' L');
+ $('#nuLn').setAttribute('d',d);$('#nuFl').setAttribute('d',d+' V120 H0Z');
+ const l=pts[n-1],dt=$('#nuSvg .dot');if(dt){dt.setAttribute('cx',l[0]);dt.setAttribute('cy',l[1])}
+ $('#nuNew').textContent=fmt(v[n-1]);$('#nuTotal').textContent=fmt(total||0);
+ const ln=$('#nuLn');ln.style.animation='none';void ln.getBoundingClientRect();ln.style.animation='';
+}
 async function cfLoad(first){
- let days=null,why='Chưa cấu hình',err='';
+ let days=null,why='Chưa cấu hình',err='',total=0;
  if(CF_ANALYTICS_URL){
   why='Chưa kết nối';
-  if(first)await cfHit();
   let j=null;
-  try{j=await cfFetch()}catch(e){
-   err='fetch: '+e.message;
-   try{j=await cfJsonp()}catch(e2){err+=' | jsonp: '+e2.message}
+  try{j=await cfJsonp(first)}catch(e){
+   err='jsonp: '+e.message;
+   try{j=await cfFetch(first)}catch(e2){err+=' | fetch: '+e2.message}
   }
-  if(j&&j.days&&j.days.length>1)days=j.days;else if(j)err='dữ liệu trả về không đúng định dạng';
-  if(/Unexpected token '?</.test(err))err+=' (Script đang yêu cầu đăng nhập: đặt quyền truy cập là "Bất kỳ ai")';
+  if(j&&j.error)err='Script báo lỗi: '+j.error;
+  else if(j&&j.days&&j.days.length>1){days=j.days;total=j.total||days.reduce((a,d)=>a+(d.newUsers||0),0)}
+  else if(j)err='dữ liệu trả về không đúng định dạng';
+  else if(/Unexpected token '?</.test(err))err+=' (Script đang yêu cầu đăng nhập: đặt quyền truy cập là "Bất kỳ ai")';
   if(!days)console.warn('[Wiky] Không lấy được thống kê:',err);
  }
- cfDraw(days||ZERO,!!days,why);
- $('#cfSrc').textContent=days||!err?'Tính cả lượt xem các trang con · 7 ngày gần nhất':'Lỗi: '+err;
+ cfDraw(days||ZERO,!!days,why);nuDraw(days||ZERO,total);
+ $('#cfState').title=days?'':'Lỗi: '+err;
 }
 cfLoad(true);if(CF_ANALYTICS_URL)setInterval(()=>cfLoad(false),300000);
 // Đánh giá
