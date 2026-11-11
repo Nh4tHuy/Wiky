@@ -687,6 +687,10 @@ const lgM=()=>$('#lgmd').classList.toggle('sh',!!$('#lgA').value.trim());
 $('#lgA').addEventListener('input',()=>{const w=$('#lgmd').classList.contains('sh');lgM();if(!w&&$('#lgmd').classList.contains('sh'))chibiSay('Chọn model bạn muốn dùng ở bên dưới nhé!',3500)});
 $('#lgEye').onclick=()=>{const a=$('#lgA');a.type=a.type==='password'?'text':'password'};
 function setUBtn(){const u=getU();$('#lgOpenT').textContent=u&&u.mssv?u.mssv:'Đăng nhập';$('#lgOut').style.display=u?'inline':'none'}
+window.addEventListener('storage',e=>{
+ if(e.key===LS)setUBtn();
+ if(e.key==='wiky-theme')document.documentElement.dataset.theme=e.newValue==='light'?'light':e.newValue==='dark'?'dark':matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+});
 function openLogin(msg){
  const u=getU()||{};$('#lgU').value=u.mssv||'';$('#lgL').value=u.license||'';$('#lgA').value=u.apiKey||'';if(u.model)$('#lgM').value=u.model;lgM();
  $('#say').classList.remove('show');
