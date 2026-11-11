@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Tập Trắc Nghiệm Mô Hình Toán Học - Wiky</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {},
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+                        'glass-lg': '0 12px 40px 0 rgba(31, 38, 135, 0.12)',
+                        'pastel-glow': '0 0 20px rgba(56, 189, 248, 0.4)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            /* Đổi sang background xanh biển pastel */
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 35%, #f4f4f5 70%, #e6f7ff 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism styling */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 10px 30px -5px rgba(30, 58, 138, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.75);
+        }
+
+        .glass-pill {
+            background: rgba(240, 249, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(186, 230, 253, 0.7);
+        }
+
+        .option-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(56, 189, 248, 0.14);
+        }
+
+        /* Answer States - Updated to Blue */
+        .option-correct {
+            background: rgba(224, 242, 254, 0.95) !important; /* sky-100 */
+            border-color: #3b82f6 !important; /* blue-500 */
+            color: #1e3a8a !important; /* blue-900 */
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.25) !important;
+        }
+
+        .option-incorrect {
+            background: rgba(254, 226, 226, 0.95) !important;
+            border-color: #ef4444 !important;
+            color: #7f1d1d !important;
+        }
+
+        .option-disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Custom Scrollbar - Blue theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(240, 249, 255, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #bae6fd;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #7dd3fc;
+        }
+
+        /* Floating background ambient elements - Blue theme */
+        .ambient-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(70px);
+            z-index: -1;
+            opacity: 0.55;
+            pointer-events: none;
+            animation: float 18s ease-in-out infinite alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(30px, -40px) scale(1.1); }
+            100% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        /* Marquee notification animation */
+        @keyframes marquee {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .animate-marquee {
+            display: inline-flex;
+            white-space: nowrap;
+            animation: marquee 25s linear 1 forwards;
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-800 antialiased selection:bg-sky-200 selection:text-blue-900 flex flex-col min-h-screen">
+
+    <!-- Ambient background blobs -->
+    <div class="ambient-blob w-96 h-96 bg-sky-200 top-10 left-10"></div>
+    <div class="ambient-blob w-80 h-80 bg-blue-200 bottom-10 right-10" style="animation-delay: -5s;"></div>
+    <div class="ambient-blob w-72 h-72 bg-cyan-100 top-1/2 left-1/3" style="animation-delay: -10s;"></div>
+
+    <!-- Notification Banner (Marquee after 30s) - Fixed width to content size -->
+    <div id="marqueeContainer" class="fixed top-16 left-0 w-full z-50 pointer-events-none hidden overflow-hidden">
+        <div class="animate-marquee bg-blue-600/95 text-white font-bold py-2 px-5 rounded-full shadow-lg backdrop-blur-md flex items-center gap-2 border border-blue-400 text-xs sm:text-sm w-max">
+            <i data-lucide="star" class="w-4 h-4 text-yellow-300 animate-spin"></i>
+            <span>歲寒知松柏，患難見真情 ---- 志同道合 ---- 情同手足 ---- 同甘共苦</span>
+        </div>
+    </div>
+
+    <!-- Sticky Navigation Header -->
+    <header class="sticky top-0 z-40 glass-header px-4 lg:px-8 py-3 shadow-sm">
+        <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
+            <!-- Brand / Title -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-sky-500 flex items-center justify-center text-white shadow-md shadow-sky-200 shrink-0">
+                    <i data-lucide="book-open-check" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg lg:text-xl font-bold bg-gradient-to-r from-blue-800 via-sky-800 to-blue-900 bg-clip-text text-transparent leading-tight">
+                    WIKY
+                    </h1>
+                    <p class="text-xs text-blue-700 font-medium hidden sm:block">Ôn tập Mô Hình Toán Học</p>
+                </div>
+            </div>
+
+            <!-- Header Quick Stats & Controls (Ẩn đi lúc chưa bắt đầu) -->
+            <div id="headerControls" class="hidden items-center gap-2 sm:gap-3">
+                <!-- Score Counter -->
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl glass-pill text-xs font-semibold text-blue-800 shadow-sm">
+                    <i data-lucide="award" class="w-4 h-4 text-blue-600"></i>
+                    <span><strong id="headerScore" class="text-blue-700 text-sm">0</strong>/<span id="headerTotal">0</span></span>
+                </div>
+
+                <!-- Timer Counter -->
+                <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass-pill text-xs font-semibold text-blue-800 shadow-sm" title="Thời gian làm bài">
+                    <i data-lucide="timer" class="w-4 h-4 text-blue-600 animate-pulse"></i>
+                    <span id="headerTimer" class="font-mono text-sm text-blue-700 font-bold">00:00</span>
+                </div>
+
+                <!-- Grid & Reset Buttons -->
+                <button id="btnOpenGrid" class="p-2 rounded-xl glass-pill text-blue-700 hover:bg-blue-50 transition-colors" title="Bảng câu hỏi">
+                    <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                </button>
+                <button id="btnResetAll" onclick="openResetModal()" class="p-2 rounded-xl glass-pill text-red-700 hover:bg-red-50 transition-colors" title="Làm lại từ đầu">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-5xl w-full mx-auto px-3 sm:px-6 py-5 flex flex-col gap-5">
+        
+        <!-- Màn hình bắt đầu -->
+        <div id="startScreen" class="glass-card rounded-3xl p-8 max-w-xl mx-auto w-full text-center flex flex-col items-center justify-center gap-6 mt-10 sm:mt-20 shadow-xl border border-white/80 relative overflow-hidden">
+            <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-blue-500 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-sky-200/50 mb-2">
+                <i data-lucide="graduation-cap" class="w-12 h-12"></i>
+            </div>
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mb-2">Sẵn sàng ôn tập?</h2>
+                <p class="text-sm text-slate-500 font-medium max-w-sm mx-auto">Hệ thống sẽ <strong class="text-blue-600">tính giờ ngay lập tức</strong> và <strong class="text-blue-600">xáo trộn ngẫu nhiên</strong> toàn bộ câu hỏi để bạn ôn luyện.</p>
+            </div>
+            
+            <button onclick="handleStartQuizClick()" class="w-full sm:w-auto px-10 py-4 mt-2 rounded-2xl bg-blue-600 font-bold text-lg text-white hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 hover:-translate-y-1 hover:shadow-blue-300 flex items-center justify-center gap-3">
+                Bắt Đầu
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Main Quiz Content -->
+        <div id="mainContent" class="hidden flex-col gap-5">
+            <!-- Global Dashboard & Filter Bar -->
+            <div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col gap-4">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-sky-100/80 pb-3">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-800">Bộ câu hỏi ôn tập Mô hình toán học</h2>
+                        <p class="text-xs text-slate-500 font-medium">Hệ thống 6 bộ đề trắc nghiệm kèm lời giải chi tiết cho các câu toán học tính toán.</p>
+                    </div>
+                </div>
+
+                <!-- Filter Buttons Bar -->
+                <div class="flex items-center justify-between flex-wrap gap-2 text-xs font-semibold">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                        <button onclick="setFilter('all')" id="filter-all" class="px-3 py-1.5 rounded-xl bg-blue-600 text-white shadow-sm transition-all">
+                            Tất cả
+                        </button>
+                        <button onclick="setFilter('unanswered')" id="filter-unanswered" class="px-3 py-1.5 rounded-xl bg-white/80 border border-slate-200 text-slate-700 hover:bg-sky-50 transition-all">
+                            Chưa làm
+                        </button>
+                        <button onclick="setFilter('incorrect')" id="filter-incorrect" class="px-3 py-1.5 rounded-xl bg-white/80 border border-slate-200 text-slate-700 hover:bg-red-50 text-red-700 transition-all">
+                            Câu sai
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Continuous List Container -->
+            <div id="questionsContainer" class="flex flex-col gap-5">
+                <!-- Questions rendered here as one continuous list -->
+            </div>
+        </div>
+    </main>
+
+    <!-- LICENSE MODAL -->
+    <div id="licenseModal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-md w-full rounded-3xl p-6 sm:p-8 flex flex-col items-center text-center shadow-2xl border border-white/80 relative">
+            <div class="w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center mb-4 ring-4 ring-blue-50">
+                <i data-lucide="shield-check" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800 mb-1">Mở Quyền Hệ Thống</h3>
+            <p class="text-xs text-slate-500 font-medium mb-5">Nhập MSSV (Free) hoặc mua 50k (Sài cho nhiều máy).<br/> Lưu ý: Mõi Key chỉ được cấp phép cho 1 máy duy nhất!</p>
+            
+            <div class="w-full space-y-3.5 text-left mb-6">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">MSSV / License</label>
+                    <input type="password" id="licenseInput" placeholder="Nhập MSSV tại đây..." class="w-full px-4 py-3 bg-white/90 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all">
+                </div>
+
+                <div id="licenseErrorMsg" class="hidden text-xs text-red-600 bg-red-50 border border-red-200 rounded-xl p-2.5 flex items-center gap-1.5 font-medium">
+                    <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+                    <span id="licenseErrorText">Mã License không chính xác!</span>
+                </div>
+
+              <!--  <button onclick="activateTrialKey()" type="button" class="w-full py-2.5 px-3 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="clock" class="w-4 h-4 text-amber-600"></i>
+                    <span>Dùng Thử Miễn Phí</span>
+                </button>
+-->
+            </div>
+
+            <div class="flex items-center gap-3 w-full">
+                <button onclick="closeLicenseModal()" class="flex-1 py-3 px-4 rounded-xl bg-white border border-slate-200 font-semibold text-xs text-slate-700 hover:bg-slate-50 transition-colors">
+                    Đóng
+                </button>
+                <button onclick="submitLicenseKey()" id="btnSubmitLicense" class="flex-1 py-3 px-4 rounded-xl bg-blue-600 font-bold text-xs text-white hover:bg-blue-700 transition-colors shadow-md shadow-blue-200 flex items-center justify-center gap-1.5">
+                    <i data-lucide="key" class="w-4 h-4"></i>
+                    <span>Kích Hoạt</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Navigation Action Buttons (Scroll top/bottom) -->
+    <div class="fixed bottom-5 right-5 z-40 flex flex-col gap-2">
+        <button id="btnScrollTop" onclick="window.scrollTo({top:0, behavior:'smooth'})" class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition-all opacity-80 hover:opacity-100 hidden" title="Về đầu trang">
+            <i data-lucide="arrow-up" class="w-5 h-5"></i>
+        </button>
+        <button id="btnScrollBottom" onclick="window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'})" class="p-3 rounded-2xl bg-sky-600 text-white shadow-lg hover:bg-sky-700 transition-all opacity-80 hover:opacity-100 hidden" title="Xuống cuối trang">
+            <i data-lucide="arrow-down" class="w-5 h-5"></i>
+        </button>
+    </div>
+
+    <!-- Modal: Question Grid Selector -->
+    <div id="gridModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-3xl w-full max-h-[85vh] rounded-2xl p-5 flex flex-col shadow-2xl">
+            <div class="flex items-center justify-between pb-3 border-b border-sky-100">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="layout-grid" class="w-5 h-5 text-blue-700"></i>
+                    <h3 class="font-bold text-slate-800 text-base">Bảng Chuyển Nhanh Câu Hỏi</h3>
+                </div>
+                <button id="btnCloseGrid" class="text-slate-400 hover:text-slate-600 p-1 bg-slate-100 rounded-full hover:bg-slate-200">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Grid Legend -->
+            <div class="flex items-center justify-center gap-4 py-3 text-xs border-b border-sky-100 flex-wrap">
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-white border border-slate-300"></span> Chưa làm</span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-blue-500"></span> Đúng</span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-red-500"></span> Sai</span>
+            </div>
+
+            <!-- Grid Buttons Container -->
+            <div id="questionGridContainer" class="flex-1 overflow-y-auto py-4 grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2">
+                <!-- Dynamically generated grid buttons -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Completion Celebration Popup -->
+    <div id="completionModal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-md w-full rounded-3xl p-6 sm:p-8 flex flex-col items-center text-center shadow-2xl border border-white/80 relative overflow-hidden">
+            <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-blue-500 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-sky-200/50 mb-4 animate-bounce">
+                <i data-lucide="trophy" class="w-10 h-10"></i>
+            </div>
+            <h2 class="text-2xl font-extrabold text-slate-800 mb-1">Chúc Mừng Bạn!</h2>
+            <p class="text-xs text-slate-500 font-medium mb-6">Bạn đã hoàn thành toàn toàn bộ bài ôn tập!</p>
+            
+            <div class="w-full bg-sky-50/80 rounded-2xl p-4 border border-sky-100 flex justify-around mb-6 shadow-inner">
+                <div class="text-center">
+                    <span class="text-xs text-slate-500 font-medium block mb-1">Kết quả</span>
+                    <span id="modalScore" class="text-3xl font-black text-blue-600">0/0</span>
+                </div>
+                <div class="w-px bg-sky-200"></div>
+                <div class="text-center">
+                    <span class="text-xs text-slate-500 font-medium block mb-1">Thời gian</span>
+                    <span id="modalTime" class="text-xl mt-1 block font-black text-sky-600">00:00</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 w-full">
+                <button onclick="reviewQuiz()" class="flex-1 py-3 px-2 rounded-xl bg-white border border-slate-200 font-semibold text-sm text-slate-700 hover:bg-slate-50 transition-colors shadow-sm">
+                    Xem Lại
+                </button>
+                <button onclick="retryQuiz()" class="flex-1 py-3 px-2 rounded-xl bg-blue-600 font-bold text-sm text-white hover:bg-blue-700 transition-colors shadow-md shadow-blue-200">
+                    Làm Lại
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Custom Reset Confirmation Popup -->
+    <div id="resetConfirmModal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-sm w-full rounded-3xl p-6 flex flex-col items-center text-center shadow-2xl border border-white/80">
+            <div class="w-14 h-14 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mb-4">
+                <i data-lucide="rotate-ccw" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">Làm Lại Từ Đầu?</h3>
+            <p class="text-xs text-slate-500 font-medium mb-6">Bạn sẽ bắt đầu một phiên làm bài mới, câu hỏi sẽ được xáo trộn lại.</p>
+            <div class="flex items-center gap-3 w-full">
+                <button onclick="closeResetModal()" class="flex-1 py-2.5 px-4 rounded-xl bg-white border border-slate-200 font-semibold text-xs text-slate-700 hover:bg-slate-50 transition-colors">
+                    Hủy Bỏ
+                </button>
+                <button onclick="retryQuiz()" class="flex-1 py-2.5 px-4 rounded-xl bg-red-600 font-bold text-xs text-white hover:bg-red-700 transition-colors shadow-md shadow-red-200">
+                    Xác Nhận
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer copyright -->
+    <footer class="py-5 text-center text-xs text-slate-500 mt-auto glass-header">
+        Huy Lỏ Code Web
+    </footer>
+
+    <script>
+        /* CONSTANTS & GAS API CONFIG */
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbziJVfAMuaI1usiVvyB5vTdPkCdJcoDP2P1aSAHt0dftFL022iXKhpEzUuWxn2Dqkpk/exec";
+        let isLicenseVerified = false;
+
+        /* RAW EXHAUSTIVE DATASET: Môn Mô Hình Hóa Toán Học (Đã gộp cả 3 tập tài liệu) */
+       const RAW_DATASET = [
+            // Đề 1
+            {
+                q: "Mục đích cốt lõi nào sau đây KHÔNG phải là mục đích của việc xây dựng mô hình toán học?",
+                a: "Thay thế hoàn toàn mọi thí nghiệm và thực địa mà không cần kiểm chứng.",
+                d: ["Giải thích hiện tượng thế giới thực.", "Dự đoán tiến triển của hệ thống trong tương lai.", "Kiểm tra các ý tưởng và giả thiết về thế giới thực."]
+            },
+            {
+                q: "Trong quy trình nghiên cứu mô hình toán học, bước phân loại biến số (biến độc lập, biến phụ thuộc, tham số) thuộc bước nào?",
+                a: "Bước 2: Xây dựng các giả thiết.",
+                d: ["Bước 1: Nhận dạng mô hình.", "Bước 3: Giải và giải thích mô hình.", "Bước 4: Kiểm tra mô hình."]
+            },
+            {
+                q: "Mô hình nào sau đây là mô hình theo thời gian rời rạc?",
+                a: "Công thức tính tiền gửi ngân hàng theo lãi kép hàng tháng Pn=(1+r)Pn-1.",
+                d: ["Phương trình rơi tự do vt=gt.", "Hệ phương trình vi phân mô tả lan truyền dịch bệnh SIQR.", "Phương trình đạo hàm riêng mô tả sự truyền nhiệt."]
+            },
+            {
+                q: "Trong nguyên lý sự thay đổi của mô hình toán học, 'Lượng thay đổi' được tính bằng công thức nào?",
+                a: "Giá trị tương lai - Giá trị hiện tại",
+                d: ["Giá trị hiện tại - Giá trị tương lai", "Giá trị tương lai + Giá trị hiện tại", "Giá trị tương lai / Giá trị hiện tại"]
+            },
+            {
+                q: "Kỹ thuật nào sau đây được dùng để ĐƠN GIẢN HÓA một mô hình toán học quá phức tạp?",
+                a: "Cho một vài biến là hằng số.",
+                d: ["Mở rộng phạm vi nghiên cứu.", "Xét thêm các biến phụ.", "Xét các quan hệ là phi tuyến."]
+            },
+            {
+                q: "Để chuyển từ mô hình đơn giản sang MỞ RỘNG mô hình, nhà nghiên cứu nên thực hiện thao tác nào?",
+                a: "Giảm bớt các giả thiết hạn chế để mô hình sát thực tế hơn.",
+                d: ["Hạn chế phạm vi nghiên cứu.", "Lờ đi các biến.", "Giả thiết mối liên hệ tuyến tính."]
+            },
+            {
+                q: "Phương trình sai phân tuyến tính đơn giản biểu diễn sự tiến triển của đại lượng an theo thời gian rời rạc có dạng nào?",
+                a: "an+1 = α.an + β",
+                d: ["an+1 = α.an^2 + β", "da/dt = α.a + β", "an+1 = α/an + β"]
+            },
+            {
+                q: "Khi trạng thái của mô hình phụ thuộc vào nhiều biến độc lập (như không gian x,y và thời gian t), ta sử dụng loại mô hình nào?",
+                a: "Phương trình đạo hàm riêng",
+                d: ["Phương trình đại số tuyến tính.", "Phương trình vi phân thường.", "Mô hình tỷ lệ thuận."]
+            },
+            {
+                q: "Phương pháp tìm đường thẳng hồi quy y=ax+b phản ánh quan hệ giữa các biến trong tập dữ liệu thực nghiệm dựa trên nguyên lý nào?",
+                a: "Phương pháp bình phương bé nhất",
+                d: ["Phương pháp phân rã mũ.", "Qui tắc tam suất.", "Định luật Newton."]
+            },
+            {
+                q: "Định luật Hooke biểu diễn mối quan hệ giữa lực hồi phục F và độ giãn e của lò xo là mô hình thuộc dạng nào?",
+                a: "Mô hình tỷ lệ thuận (F=ke)",
+                d: ["Mô hình tỷ lệ nghịch (F=k/e)", "Mô hình phi tuyến bậc hai", "Mô hình hàm số mũ"]
+            },
+            {
+                q: "Hai đại lượng a và b (a>b>0) tuân theo 'Tỷ lệ vàng' φ nếu thỏa mãn đẳng thức nào?",
+                a: "(a+b)/a = a/b = φ",
+                d: ["a/b = b/(a+b) = φ", "a.b = a+b = φ", "(a-b)/a = a/b = φ"]
+            },
+            {
+                q: "Giá trị xấp xỉ của Tỷ lệ vàng φ trong toán học là bao nhiêu?",
+                a: "1.61803",
+                d: ["3.14159", "2.71828", "0.61803"]
+            },
+            {
+                q: "Công thức tính chỉ số khối cơ thể (BMI) của một người có chiều cao H (mét) và cân nặng W (kg) là:",
+                a: "BMI = W / H^2",
+                d: ["BMI = H / W^2", "BMI = W * H^2", "BMI = W^2 / H"]
+            },
+            {
+                q: "Theo phân loại chỉ số BMI, một người có chỉ số BMI từ 18.5 đến 25.0 được xếp vào tình trạng cơ thể nào?",
+                a: "Bình thường",
+                d: ["Gầy", "Thừa cân", "Béo phì"]
+            },
+            {
+                q: "Thang độ Logarit (như Richter, Decibel, pH) thường được ứng dụng trong thực tế nhằm mục đích gì?",
+                a: "Co/nén tập giá trị của một đại lượng biến thiên trong khoảng cực lớn về khoảng nhỏ dễ quan sát",
+                d: ["Tuyến tính hóa các đại lượng rời rạc thành đại lượng liên tục", "Tăng độ chính xác của sai số tuyệt đối", "Khai căn các số nguyên âm"]
+            },
+            {
+                q: "Động đất có độ lớn từ 7.0 độ Richter trở lên được xếp vào cấp độ nào?",
+                a: "Rất mạnh đến Thảm họa diện rộng, gây biến dạng mặt đất và có thể có sóng thần.",
+                d: ["Nhẹ, hầu như không nguy hiểm.", "Trung bình, chỉ làm nứt tường.", "Mạnh, gây sụp đổ nhà cửa trong bán kính 100km."]
+            },
+            {
+                q: "Độ pH dùng để đo độ axit của dung dịch. Công thức xác định pH theo nồng độ ion Hydro H+ là:",
+                a: "pH = -log[H+]",
+                d: ["pH = log[H+]", "pH = 10^-log[H+]", "pH = e^-[H+]"]
+            },
+            {
+                q: "Một dung dịch nước cất tinh khiết ở điều kiện tiêu chuẩn có độ pH bằng bao nhiêu?",
+                a: "7",
+                d: ["0", "5", "14"]
+            },
+            {
+                q: "Mô hình phân rã phóng xạ của một chất có khối lượng ban đầu m0 và chu kỳ nửa phân rã h được cho bởi công thức m(t)=m0*e^(-rt). Tham số r được tính theo h bằng:",
+                a: "r = ln(2) / h",
+                d: ["r = h / ln(2)", "r = h * ln(2)", "r = 1 / (2h)"]
+            },
+            {
+                q: "Theo định luật làm lạnh của Newton, nhiệt độ T(t) của một vật sau thời gian t đặt trong môi trường có nhiệt độ Ts tuân theo công thức nào (D0 là độ chênh lệch nhiệt độ ban đầu)?",
+                a: "T(t) = Ts + D0*e^(-kt)",
+                d: ["T(t) = Ts + D0*e^(kt)", "T(t) = Ts - D0*e^(-kt)", "T(t) = D0 + Ts*e^(-kt)"]
+            },
+            {
+                q: "Trong mô hình sản xuất Cobb-Douglas Q = A.K^α . L^(1-α) (0<α<1), đại lượng K và L lần lượt đại diện cho:",
+                a: "Vốn và Lao động",
+                d: ["Khối lượng và Tốc độ", "Thu nhập và Chi phí", "Giá bán và Số lượng sản phẩm"]
+            },
+            {
+                q: "Trong mô hình thu nhập quốc dân Y = A.K^α . L^β . E^δ, mối liên hệ giữa nhịp điệu tăng trưởng gY với nhịp tăng trưởng của các yếu tố gK, gL, gE là:",
+                a: "gY = α.gK + β.gL + δ.gE",
+                d: ["gY = gK + gL + gE", "gY = α.gK * β.gL * δ.gE", "gY = (α.gK + β.gL) / δ.gE"]
+            },
+            {
+                q: "(Tính toán) Cường độ động đất tại Nhật Bản đo được 9.0 độ Richter, trong khi trận động đất tại Ấn Độ đo được 7.8 độ Richter. Cường độ sóng chấn động của trận động đất ở Nhật Bản gấp khoảng bao nhiêu lần ở Ấn Độ?",
+                a: "16 lần",
+                d: ["1.2 lần", "10 lần", "120 lần"],
+                exp: "Tỷ lệ cường độ I_Nhật / I_Ấn = 10^(M1 - M2) = 10^(9.0 - 7.8) = 10^1.2 ≈ 15.85 ≈ 16 lần."
+            },
+            {
+                q: "(Tính toán) Thu nhập quốc dân của một nước mô hình hóa bởi Y = 0.5.K^0.4 . L^0.3 . E^0.1. Nếu trong năm tới, Vốn K tăng 5%, Lao động L tăng 4%, và Xuất khẩu E tăng 10% thì nhịp điệu tăng trưởng thu nhập quốc dân gY là bao nhiêu?",
+                a: "4.2%",
+                d: ["19.0%", "2.7%", "5.5%"],
+                exp: "gY = 0.4×5% + 0.3×4% + 0.1×10% = 2.0% + 1.2% + 1.0% = 4.2%."
+            },
+
+            // Đề 2
+            {
+                q: "Mô hình toán học là gì?",
+                a: "Là cấu trúc toán học dùng để biểu diễn, nghiên cứu hiện tượng thực tế và đưa ra dự đoán",
+                d: ["Là một đồ thị vẽ lại chính xác 100% hình dáng ngoài thực tế của vật thể", "Là một thuật toán máy tính không chứa các phương trình đại số hay vi phân", "Là tập hợp các quy tắc định tính không có số liệu thực nghiệm"]
+            },
+            {
+                q: "Bước thứ 4 trong Quy trình 6 bước nghiên cứu mô hình toán học là bước nào?",
+                a: "Kiểm tra mô hình",
+                d: ["Nhận dạng mô hình.", "Giải và giải thích mô hình.", "Duy trì, bảo quản mô hình."]
+            },
+            {
+                q: "Phát biểu nào sau đây thể hiện đúng vai trò của Bước 6 'Duy trì, bảo quản mô hình'?",
+                a: "Cập nhật các tham số và hiệu chỉnh cấu trúc khi môi trường thực tế thay đổi.",
+                d: ["Giải các phương trình toán học để tìm tập nghiệm.", "So sánh kết quả toán học với số liệu thực tế.", "Loại bỏ toàn bộ các biến số phụ thuộc."]
+            },
+            {
+                q: "Trong mô hình lan truyền dịch bệnh SIQR, ký hiệu Q dùng để chỉ nhóm đối tượng nào?",
+                a: "Cá thể bệnh được cách ly",
+                d: ["Cá thể có khả năng nhiễm bệnh", "Cá thể đang bị nhiễm bệnh", "Cá thể đã bình phục/loại khỏi hệ thống"]
+            },
+            {
+                q: "Trường hợp nào sau đây sử dụng kỹ thuật 'MỞ RỘNG MÔ HÌNH'?",
+                a: "Chuyển từ giả thiết quan hệ tuyến tính sang xem xét các quan hệ phi tuyến.",
+                d: ["Bỏ qua các biến ít ảnh hưởng.", "Cố định biến thành hằng số.", "Hạn chế phạm vi không gian nghiên cứu."]
+            },
+            {
+                q: "Đối với các hiện tượng thực tế không thể biểu diễn bằng công thức analytical (phân tích) hoặc quá phức tạp (như dòng đối lưu chất lỏng, dự báo thời tiết), người ta thường áp dụng phương pháp nào?",
+                a: "Mô hình với các mô phỏng trên máy tính",
+                d: ["Mô hình sai phân rời rạc.", "Thang độ logarit.", "Quy tắc tam suất."]
+            },
+            {
+                q: "Mô hình nào mô tả vận tốc vt rơi tự do theo gia tốc g và thời gian t?",
+                a: "vt = gt",
+                d: ["vt = 1/2 gt^2", "vt = g/t", "vt = e^(gt)"]
+            },
+            {
+                q: "Định luật Boyle biểu diễn quan hệ giữa thể tích V và áp suất p của một lượng khí ở nhiệt độ không đổi là mô hình thuộc dạng:",
+                a: "Tỷ lệ nghịch (V = k/p)",
+                d: ["Tỷ lệ thuận", "Hàm số mũ", "Phương trình sai phân bậc hai"]
+            },
+            {
+                q: "Chu kỳ quay T của một hành tinh tỷ lệ với khoảng cách trung bình R từ nó đến Mặt Trời theo Định luật III Kepler qua công thức nào?",
+                a: "T = c . R^(3/2)",
+                d: ["T = c . R", "T = c . R^2", "T = c . R^(1/2)"]
+            },
+            {
+                q: "Khoảng cách dừng khẩn cấp d của một chiếc xe hơi khi đạp thắng phụ thuộc vào vận tốc v theo công thức d = k1.v + k2.v^2. Thành phần k1.v thể hiện đại lượng nào?",
+                a: "Khoảng cách xe di chuyển trong thời gian phản ứng của tài xế",
+                d: ["Khoảng cách trượt khi bánh xe đã khóa chặt", "Gia tốc trọng trường của xe", "Chiều dài thân xe"]
+            },
+            {
+                q: "Hình chữ nhật vàng là hình chữ nhật có tỉ số giữa chiều dài a và chiều rộng b thỏa mãn tỷ lệ vàng φ. Phương trình đại số nào sau đây nhận φ làm nghiệm?",
+                a: "φ^2 - φ - 1 = 0",
+                d: ["φ^2 + φ + 1 = 0", "φ^2 - 2φ + 1 = 0", "φ^2 + φ - 2 = 0"]
+            },
+            {
+                q: "Đặc điểm quan trọng nhất của hàm nấc đơn vị Heaviside H(t) trong kỹ thuật là gì?",
+                a: "Dùng để mô tả hiện tượng tín hiệu/dòng điện bị ngắt hoặc bật đột ngột tại thời điểm t=0",
+                d: ["Dùng để mô phỏng sự tăng trưởng vi khuẩn liên tục", "Dùng để nén biên độ âm thanh quá lớn", "Mô tả chuyển động rơi tự do"]
+            },
+            {
+                q: "Độ âm lượng β tính bằng Decibel (dB) được xác định theo công thức cường độ âm I và ngưỡng nghe I0=10^-12 W/m^2 là:",
+                a: "β = 10 log(I / I0)",
+                d: ["β = log(I / I0)", "β = 100 log(I / I0)", "β = e^(I / I0)"]
+            },
+            {
+                q: "Tai người trưởng thành tiếp xúc thường xuyên với tiếng ồn trên ngưỡng nào sẽ có nguy cơ bị cao huyết áp tăng gần 90%?",
+                a: "64 dB",
+                d: ["40 dB", "50 dB", "120 dB"]
+            },
+            {
+                q: "Một dung dịch có nồng độ ion [H+]=10^-4 mol/lit. Dung dịch này có tính chất gì?",
+                a: "Tính Axit (pH=4<7)",
+                d: ["Tính Kiềm (pH=10>7)", "Trung tính (pH=7)", "Không xác định được pH"]
+            },
+            {
+                q: "Mô hình tăng trưởng mũ liên tục của dân số hoặc vi khuẩn thường có dạng phương trình nào?",
+                a: "P(t) = P0 . e^(kt)",
+                d: ["P(t) = P0 + kt", "P(t) = P0 . ln(kt)", "P(t) = P0 . k^t"]
+            },
+            {
+                q: "Trận động đất San Francisco năm 1906 có độ lớn 8.3 độ Richter. Một trận động đất khác có cường độ sóng địa chấn gấp 4 lần trận động đất San Francisco sẽ có độ lớn khoảng bao nhiêu độ Richter?",
+                a: "8.9 độ Richter",
+                d: ["33.2 độ Richter", "8.34 độ Richter", "12.3 độ Richter"]
+            },
+            {
+                q: "Người ta quan sát thấy cân nặng phù hợp (W tính bằng kg) theo chiều cao (h tính bằng cm) của một người tuân theo mô hình hàm số bậc nhất nào?",
+                a: "W = 0.9 * h - 100",
+                d: ["W = 0.9 * h + 100", "W = 1.1 * h - 100", "W = 0.5 * h"]
+            },
+            {
+                q: "Trong hàm sản lượng Cobb-Douglas Q(K,L) = A.K^α . L^(1-α), hệ số α thể hiện điều gì?",
+                a: "Tỷ lệ phần thu nhập rơi vào nguồn vốn K",
+                d: ["Tỷ lệ phần thu nhập rơi vào lao động L", "Tốc độ tăng trưởng hàng năm của sản phẩm", "Hệ số co giãn theo giá bán"]
+            },
+            {
+                q: "Độ Richter đo độ lớn động đất dựa trên công thức M = log(I/S). Nếu biên độ sóng địa chấn I tăng gấp 100 lần thì độ lớn M sẽ tăng thêm bao nhiêu đơn vị?",
+                a: "Tăng 2 đơn vị",
+                d: ["Tăng 1 đơn vị", "Tăng 10 đơn vị", "Tăng 100 đơn vị"]
+            },
+            {
+                q: "Quy tắc tam suất thuận áp dụng cho bài toán nào sau đây?",
+                a: "Số giỏ cam và tổng số quả cam đựng được",
+                d: ["Số lượng công nhân và thời gian hoàn thành cùng một công việc", "Áp suất và thể tích khí trong bình kín", "Tốc độ di chuyển và thời gian đi hết quãng đường cố định"]
+            },
+            {
+                q: "Đặc điểm chính của mô hình phương trình vi phân thường (ODE) là:",
+                a: "Mô tả sự biến thiên liên tục của đại lượng theo một biến độc lập",
+                d: ["Mô tả đại lượng biến thiên theo các bước thời gian gián đoạn", "Phụ thuộc vào ít nhất 3 biến không gian độc lập", "Không chứa tham số"]
+            },
+            {
+                q: "(Tính toán) Một chất phóng xạ Polonium-210 có khối lượng ban đầu 300 mg và chu kỳ bán rã là 140 ngày. Khối lượng Polonium còn lại sau 280 ngày là bao nhiêu?",
+                a: "75 mg",
+                d: ["150 mg", "37.5 mg", "0 mg"],
+                exp: "Thời gian t=280 ngày đúng bằng 2 chu kỳ bán rã (2×140). Khối lượng còn lại m = 300 × (1/2)^2 = 300 / 4 = 75 mg."
+            },
+            {
+                q: "(Tính toán) Chi phí sản xuất C(x,y) (ngàn đồng) của x sản phẩm loại A và y sản phẩm loại B là một hàm tuyến tính C(x,y) = ax + by + c. Cho biết C(10,20)=120, C(30,15)=210, C(40,50)=330. Chi phí cố định c (khi chưa sản xuất sản phẩm nào, x=0,y=0) là bao nhiêu?",
+                a: "30",
+                d: ["5", "2", "50"],
+                exp: "Lập hệ phương trình:\n10a + 20b + c = 120\n30a + 15b + c = 210\n40a + 50b + c = 330\nGiải hệ ta được a=5, b=2, c=30. Vậy chi phí cố định c = 30 ngàn đồng."
+            },
+
+            // Đề 3
+            {
+                q: "Mô hình toán học về hệ động lực là mô hình mô tả một hệ thống có đặc điểm gì?",
+                a: "Thay đổi giá trị hoặc trạng thái liên tục hoặc rời rạc theo thời gian",
+                d: ["Luôn đứng yên và không phụ thuộc vào thời gian", "Chỉ tồn tại dưới dạng biểu đồ hình học tĩnh", "Chỉ chứa duy nhất các hằng số vật lý"]
+            },
+            {
+                q: "Trong quy trình mô hình hóa toán học, bước nào đóng vai trò dịch ngược các kết quả nghiệm toán học sang ngôn ngữ và ý nghĩa thực tế?",
+                a: "Bước 3: Giải và giải thích mô hình",
+                d: ["Bước 1: Nhận dạng bài toán.", "Bước 2: Xây dựng các giả thiết.", "Bước 6: Duy trì, bảo quản mô hình."]
+            },
+            {
+                q: "Trong bước xây dựng giả thiết của mô hình toán học, việc giảm bớt các nghiệm không thực tế hoặc hạn chế phạm vi nghiên cứu nhằm mục đích chính là gì?",
+                a: "Đơn giản hóa bài toán để việc nghiên cứu và tìm nghiệm toán học thuận lợi hơn",
+                d: ["Làm mô hình phức tạp hơn", "Loại bỏ hoàn toàn biến độc lập", "Tăng số lượng phương trình đạo hàm riêng"]
+            },
+            {
+                q: "Khi so sánh kết quả dự báo của mô hình với số liệu thực nghiệm thực tế ở Bước 4 (Kiểm tra mô hình), nếu sai số quá lớn thì nhà nghiên cứu cần làm gì?",
+                a: "Quay lại Bước 2 để điều chỉnh hoặc bổ sung các giả thiết và biến số.",
+                d: ["Kết thúc nghiên cứu và chấp nhận sai số.", "Chuyển ngay sang Bước 5 để áp dụng thực tế.", "Thay đổi toàn bộ số liệu đo đạc thực tế cho khớp với toán học."]
+            },
+            {
+                q: "Trong mô hình lan truyền dịch bệnh SIQR, cá thể thuộc nhóm R (Removed) đại diện cho những cá thể nào?",
+                a: "Cá thể đã khỏi bệnh (có miễn dịch) hoặc bị loại khỏi hệ thống truyền bệnh",
+                d: ["Cá thể vừa nhiễm bệnh chưa được cách ly", "Cá thể có nguy cơ nhiễm bệnh cao nhất", "Cá thể đang trong thời gian ủ bệnh"]
+            },
+            {
+                q: "Phương trình đạo hàm riêng mô tả sự truyền nhiệt hay sóng dừng 2 chiều ∂^2f/∂t^2 = ∂^2f/∂x^2 + ∂^2f/∂y^2 thể hiện trạng thái hệ thống phụ thuộc vào những biến nào?",
+                a: "Phụ thuộc đồng thời vào biến thời gian t và các biến không gian x,y",
+                d: ["Chỉ phụ thuộc vào biến thời gian t", "Chỉ phụ thuộc vào tọa độ không gian x,y", "Không phụ thuộc vào biến độc lập nào"]
+            },
+            {
+                q: "Định luật II Newton (F=ma) biểu diễn mối quan hệ giữa lực F tác dụng vào một vật và gia tốc a của vật đó là mô hình thuộc dạng:",
+                a: "Mô hình tỷ lệ thuận với hệ số tỷ lệ là khối lượng m",
+                d: ["Mô hình tỷ lệ nghịch với hệ số tỷ lệ là m", "Mô hình lũy thừa bậc hai", "Mô hình phân rã mũ"]
+            },
+            {
+                q: "Theo Định luật Ohm (V=iR), dòng điện i cảm sinh qua trở kháng R biến thiên như thế nào đối với điện thế V?",
+                a: "i tỷ lệ thuận với điện thế V (với hệ số tỷ lệ là 1/R)",
+                d: ["i tỷ lệ nghịch với điện thế V", "i biến thiên theo hàm số mũ của V", "i không phụ thuộc vào điện thế V"]
+            },
+            {
+                q: "Quy tắc tam suất nghịch thường được áp dụng cho dạng bài toán nào sau đây?",
+                a: "Bài toán tính thời gian hoàn thành cùng một khối lượng công việc khi thay đổi số lượng thợ",
+                d: ["Bài toán tính lượng tiền thưởng theo năng suất bán hàng", "Bài toán tính chu vi đường tròn theo bán kính", "Bài toán tính giá vé đi xe taxi theo số km"]
+            },
+            {
+                q: "Trong kiến trúc và mỹ thuật, Tỷ lệ vàng φ xuất hiện ở công trình hay tác phẩm nổi tiếng nào sau đây?",
+                a: "Đền Parthenon (Hy Lạp) và Bức họa Mona Lisa",
+                d: ["Tháp Eiffel (Pháp)", "Tháp nghiêng Pisa (Ý)", "Vạn Lý Trường Thành (Trung Quốc)"]
+            },
+            {
+                q: "Chu vi l của đường tròn tỷ lệ thuận với đường kính d của nó. Hệ số tỷ lệ trong mô hình này là đại lượng nào?",
+                a: "Số vô tỷ π ≈ 3.14159",
+                d: ["Hằng số Euler e", "Tỷ lệ vàng φ ≈ 1.618", "Hằng số hấp dẫn g"]
+            },
+            {
+                q: "Khi nhiệt độ không khí giảm xuống thấp và có gió mạnh, các nhà dự báo thời tiết thường đưa ra 'nhiệt độ gió lạnh' (chỉ số Wind Chill). Đại lượng này phản ánh điều gì?",
+                a: "Nhiệt độ mà cơ thể con người thực sự cảm nhận được dưới tác động kết hợp của nhiệt độ không khí và tốc độ gió",
+                d: ["Nhiệt độ thực tế đo bằng nhiệt kế trong phòng kín", "Nhiệt độ của dòng đối lưu chất lỏng", "Cường độ bức xạ Mặt Trời"]
+            },
+            {
+                q: "Công thức tính độ chấn động động đất theo thang Richter M = log(I/S) sử dụng cơ số lôgarit nào?",
+                a: "Cơ số 10 (log10)",
+                d: ["Cơ số tự nhiên e (ln)", "Cơ số 2 (log2)", "Cơ số 5"]
+            },
+            {
+                q: "Tai người chịu tác động của tiếng ồn ở mức bao nhiêu Decibel (dB) sẽ cảm thấy rất khó chịu và bắt đầu gây ảnh hưởng xấu tới sức khỏe nếu tiếp xúc lâu dài?",
+                a: "80-85 dB trở lên (tiếng máy cắt cỏ, máy hút bụi, công trường)",
+                d: ["10-20 dB (tiếng gió thổi qua lá cây)", "40 dB (tiếng nói chuyện bình thường)", "Chỉ khi vượt quá 160 dB"]
+            },
+            {
+                q: "Nước chưng cất tinh khiết có pH=7. Nếu một dung dịch có pH=3.5 thì dung dịch đó có tính chất gì?",
+                a: "Tính Axit",
+                d: ["Tính Kiềm (bazo)", "Tính trung tính", "Không xác định được"]
+            },
+            {
+                q: "Khi nồng độ ion Hydro [H+] trong dung dịch tăng lên 100 lần, thì chỉ số pH của dung dịch đó sẽ thay đổi như thế nào?",
+                a: "Giảm đi 2 đơn vị",
+                d: ["Tăng thêm 2 đơn vị", "Tăng thêm 100 đơn vị", "Giảm đi 100 đơn vị"]
+            },
+            {
+                q: "Trong mô hình tăng trưởng khuẩn P(t) = P0 . a^t, nếu a>1 thì số lượng vi khuẩn thay đổi như thế nào theo thời gian t?",
+                a: "Tăng theo tốc độ mũ",
+                d: ["Giảm dần về 0", "Giữ nguyên không đổi", "Biến thiên tuần hoàn theo hình sin"]
+            },
+            {
+                q: "Một chất phóng xạ có khối lượng giảm dần theo thời gian. Sau mỗi chu kỳ bán rã h, khối lượng của chất đó còn lại bao nhiêu so với ngay trước chu kỳ đó?",
+                a: "50% (còn lại một nửa)",
+                d: ["0% (phân rã hoàn toàn)", "25%", "75%"]
+            },
+            {
+                q: "Trong hàm số hai biến z = f(x,y), tập hợp tất cả các cặp số thực (x,y) làm cho giá trị f(x,y) xác định được gọi là:",
+                a: "Miền xác định của hàm số",
+                d: ["Miền giá trị của hàm số", "Tập nghiệm phương trình vi phân", "Hệ số co giãn"]
+            },
+            {
+                q: "Chỉ số BMI dùng để đánh giá mức độ gầy hay béo của cơ thể. Theo bảng chuẩn, một người có chỉ số BMI bằng 31.5 xếp vào nhóm nào?",
+                a: "Béo phì",
+                d: ["Gầy", "Bình thường", "Thừa cân"]
+            },
+            {
+                q: "Hàm sản xuất Cobb-Douglas Q = A.K^α . L^(1-α) thể hiện đặc tính nào về quy mô sản xuất (khi cả K và L cùng tăng k lần)?",
+                a: "Năng suất không đổi theo quy mô (sản lượng Q cũng tăng đúng k lần)",
+                d: ["Năng suất tăng dần theo quy mô", "Năng suất giảm dần theo quy mô", "Không thể xác định được"]
+            },
+            {
+                q: "Trong mô hình thu nhập quốc dân Y = A.K^α . L^β . E^δ, hệ số co giãn của Y theo lao động L (ϵY/L) có giá trị bằng:",
+                a: "β",
+                d: ["α", "δ", "α+β+δ"]
+            },
+            {
+                q: "(Tính toán) Có 12 người thợ cùng làm thì hoàn thành một công trình trong 2 giờ. Nếu chỉ có 4 người thợ (với năng suất làm việc như nhau) thì làm xong công trình đó trong bao lâu?",
+                a: "6 giờ",
+                d: ["4 giờ", "8 giờ", "3 giờ"],
+                exp: "Đây là bài toán tỷ lệ nghịch (số thợ × thời gian = khối lượng công việc cố định). Thời gian cần thiết x = (12 × 2) / 4 = 6 giờ."
+            },
+            {
+                q: "(Tính toán) Giá cước đi xe taxi được tính như sau: 2 km đầu tiên giá 20.000đ; từ km thứ 3 đến km thứ 5 giá 8.000đ/km; từ km thứ 6 trở đi giá 5.000đ/km. Một hành khách đi quãng đường 9 km sẽ phải trả tổng cộng bao nhiêu tiền?",
+                a: "64.000đ",
+                d: ["44.000đ", "59.000đ", "72.000đ"],
+                exp: "2 km đầu: 20.000đ\n3 km tiếp theo (từ km 3 đến 5): 3 × 8.000 = 24.000đ\n4 km còn lại (từ km 6 đến 9): 4 × 5.000 = 20.000đ\nTổng tiền = 20.000 + 24.000 + 20.000 = 64.000đ."
+            },
+
+// Đề 4
+        {
+            q: "Lĩnh vực nào sau đây KHÔNG thuộc các ứng dụng phổ biến của mô hình toán học trong thực tế?",
+            a: "Sáng tác thơ văn cảm xúc ngẫu hứng không tuân theo quy luật",
+            d: ["Vật lý (dòng đối lưu, mạch điện)", "Y học và Sinh học (lan truyền dịch bệnh, sự cạnh tranh loài)", "Kinh tế và Xã hội (quản lý tài nguyên, dân số, thị trường lao động)"]
+        },
+        {
+            q: "Trình tự đúng của 6 bước trong quy trình nghiên cứu Mô hình toán học là gì?",
+            a: "Bước 1: Nhận dạng mô hình → Bước 2: Xây dựng các giả thiết → Bước 3: Giải và giải thích mô hình → Bước 4: Kiểm tra mô hình → Bước 5: Áp dụng mô hình → Bước 6: Duy trì, bảo quản mô hình",
+            d: ["Bước 1: Thu thập dữ liệu → Bước 2: Giải mô hình → Bước 3: Kiểm tra → Bước 4: Áp dụng → Bước 5: Nhận dạng → Bước 6: Bảo quản", "Bước 1: Xây dựng giả thiết → Bước 2: Nhận dạng bài toán → Bước 3: Kiểm tra → Bước 4: Giải mô hình → Bước 5: Bảo quản → Bước 6: Áp dụng", "Bước 1: Nhận dạng mô hình → Bước 2: Giải mô hình → Bước 3: Áp dụng mô hình → Bước 4: Kiểm tra mô hình → Bước 5: Xây dựng giả thiết → Bước 6: Duy trì"]
+        },
+        {
+            q: "Trong kỹ thuật Đơn giản hóa mô hình, thao tác \"Lờ đi các biến\" được áp dụng khi nào?",
+            a: "Khi các biến đó có sự ảnh hưởng rất nhỏ hoặc chỉ quanh vùng giá trị không đáng kể",
+            d: ["Khi các biến đó có ảnh hưởng cực kỳ quyết định đến hệ thống", "Khi muốn mở rộng phạm vi nghiên cứu bài toán", "Khi chuyển từ mô hình tuyến tính sang mô hình phi tuyến"]
+        },
+        {
+            q: "Trong mô hình lan truyền virus trên mạng máy tính hoặc trong cộng đồng (SIQR), biến số Skt thường được hiểu là gì?",
+            a: "Số lượng cá thể có khả năng (nguy cơ) nhiễm virus tại nhóm k",
+            d: ["Số lượng cá thể đã bị lây nhiễm virus", "Số lượng máy tính đã cài phần mềm diệt virus", "Tốc độ truyền dữ liệu mạng"]
+        },
+        {
+            q: "Điểm khác biệt cốt lõi giữa Mô hình thời gian rời rạc và Mô hình thời gian liên tục là gì?",
+            a: "Mô hình rời rạc tính toán biến đổi theo từng nấc thời gian gián đoạn (n=1,2,3...), còn mô hình liên tục tính toán sự biến thiên liên tục theo thời gian t thông qua đạo hàm",
+            d: ["Mô hình rời rạc dùng phương trình vi phân, mô hình liên tục dùng phương trình sai phân", "Mô hình rời rạc chỉ áp dụng cho vật lý, mô hình liên tục chỉ áp dụng cho kinh tế", "Mô hình rời rạc không thể lập trình được trên máy tính"]
+        },
+        {
+            q: "Phương trình biểu diễn sự gia tăng tiền tiết kiệm gửi ngân hàng tính lãi kép gộp hàng tháng Pn=(1+r)Pn-1 thuộc loại phương trình nào?",
+            a: "Phương trình sai phân tuyến tính rời rạc",
+            d: ["Phương trình vi phân thường", "Phương trình đạo hàm riêng", "Phương trình tích phân toàn phần"]
+        },
+        {
+            q: "Trong các tỷ lệ nổi tiếng của tự nhiên và kỹ thuật, Thuyết tương đối của Einstein E=mc^2 thể hiện điều gì?",
+            a: "Năng lượng E tỷ lệ thuận với khối lượng M, với hằng số tỷ lệ là bình phương tốc độ ánh sáng c^2",
+            d: ["Năng lượng E tỷ lệ nghịch với khối lượng M", "Khối lượng M tỷ lệ thuận với căn bậc hai của tốc độ ánh sáng c", "Năng lượng E không thay đổi theo khối lượng M"]
+        },
+        {
+            q: "Trọng lượng W của cá hồi tỷ lệ với thể tích của nó. Nếu biểu diễn W theo chiều dài l và vòng bụng lớn nhất d thì công thức mô hình phù hợp là:",
+            a: "W = (k/4π) * l * d^2",
+            d: ["W = k * l + d", "W = k * l^2 * d", "W = (k/4π) * l * d"]
+        },
+        {
+            q: "Quy tắc tam suất thuận biểu diễn mối quan hệ a → b và c → x. Giá trị của x được tính bằng:",
+            a: "x = (b * c) / a",
+            d: ["x = (b * a) / c", "x = (a * c) / b", "x = a * b * c"]
+        },
+        {
+            q: "Hai đại lượng a > b > 0 đạt Tỷ lệ vàng φ. Tỷ số b/a (phần nhỏ chia cho phần lớn) có giá trị xấp xỉ bằng:",
+            a: "0.618",
+            d: ["1.618", "2.618", "3.14159"]
+        },
+        {
+            q: "Các hàm số nào sau đây được gọi chung là tập hợp các \"Hàm số sơ cấp cơ bản\"?",
+            a: "Hàm lũy thừa, Hàm số mũ, Hàm logarit, Các hàm lượng giác và lượng giác ngược",
+            d: ["Hàm Heaviside, Hàm BMI, Hàm Cobb-Douglas", "Đường thẳng hồi quy, Phương trình vi phân, Sai phân", "Thang độ Richter, Thang độ Decibel, Độ pH"]
+        },
+        {
+            q: "Hàm lượng thuốc Ampiciline còn lại trong máu bệnh nhân sau t giờ kể từ khi uống liều 250 mg (biết mỗi giờ có 40% thuốc bị đào thải) tuân theo mô hình hàm số nào?",
+            a: "Q(t) = 250 * 0.6^t",
+            d: ["Q(t) = 250 * 0.4^t", "Q(t) = 250 - 40t", "Q(t) = 250 * e^(-0.4t)"]
+        },
+        {
+            q: "Cường độ âm thanh tại ngưỡng tai người có thể bắt đầu nghe được (I0) được quy ước chuẩn trong thang độ Decibel là bao nhiêu?",
+            a: "10^-12 W/m^2",
+            d: ["10^-4 W/m^2", "1 W/m^2", "0 W/m^2"]
+        },
+        {
+            q: "Trong thang độ Richter, một trận động đất có độ lớn 6.0 độ Richter có cường độ sóng chấn động lớn gấp bao nhiêu lần so với trận động đất có độ lớn 5.0 độ Richter?",
+            a: "Gấp 10 lần",
+            d: ["Gấp 2 lần", "Gấp 100 lần", "Gấp 1000 lần"]
+        },
+        {
+            q: "Nước chưng cất tinh khiết có pH=7. Khi thêm axit vào làm nồng độ ion H+ tăng lên thì chỉ số pH của dung dịch sẽ:",
+            a: "Giảm xuống dưới 7",
+            d: ["Tăng lên trên 7", "Luôn giữ nguyên bằng 7", "Tiến về +∞"]
+        },
+        {
+            q: "Mô hình phân rã phóng xạ của một chất được cho bởi m(t) = m0 * e^(-rt). Đại lượng m0 thể hiện:",
+            a: "Khối lượng ban đầu của chất phóng xạ tại thời điểm t=0",
+            d: ["Khối lượng chất còn lại sau 1 năm", "Chu kỳ nửa phân rã", "Tốc độ làm nguội môi trường"]
+        },
+        {
+            q: "Mô hình làm nguội của Newton đối với một tách cà phê nóng đặt trong phòng lạnh cho biết:",
+            a: "Tốc độ giảm nhiệt độ tỷ lệ thuận với độ chênh lệch nhiệt độ giữa tách cà phê và môi trường xung quanh",
+            d: ["Nhiệt độ tách cà phê giảm tuyến tính theo thời gian", "Nhiệt độ tách cà phê sẽ giảm về 0°C bất kể nhiệt độ phòng", "Nhiệt độ phòng sẽ nóng lên bằng nhiệt độ ban đầu của cà phê"]
+        },
+        {
+            q: "Miền xác định của hàm nhiều biến S(x,y) = xy + 64(1/x + 1/y) biểu diễn diện tích toàn phần hình hộp chữ nhật không nắp là:",
+            a: "Tập hợp các điểm x,y thỏa mãn x > 0 và y > 0",
+            d: ["Tất cả các số thực x,y ∈ R^2", "Tập hợp các điểm x,y thỏa mãn x + y = 32", "Tập hợp các điểm x=y=0"]
+        },
+        {
+            q: "Chỉ số BMI của một người cao 1.70 m và nặng 65 kg rơi vào khoảng 22.49. Tình trạng cơ thể của người này là:",
+            a: "Bình thường",
+            d: ["Gầy", "Thừa cân", "Béo phì"]
+        },
+        {
+            q: "Trong hàm sản xuất Cobb-Douglas Q = A * K^α * L^(1-α), phần đóng góp của Lao động (1-α) và Vốn (α) có tổng bằng bao nhiêu?",
+            a: "1",
+            d: ["0", "A", "Không xác định"]
+        },
+        {
+            q: "Phát biểu nào sau đây đúng về \"Nhịp điệu tăng trưởng\" (growth rate gX) của một đại lượng X(t)?",
+            a: "gX = (1/X) * (dX/dt) = (d/dt) ln(X)",
+            d: ["gX = dX/dt", "gX = X * (dX/dt)", "gX = X / (dX/dt)"]
+        },
+        {
+            q: "Kỹ thuật \"Giả thiết mối liên hệ tuyến tính (y=ax+b)\" được xếp vào nhóm kỹ thuật nào trong xây dựng mô hình?",
+            a: "Đơn giản hóa mô hình",
+            d: ["Mở rộng mô hình", "Duy trì và bảo quản mô hình", "Kiểm tra sai số thực tế"]
+        },
+        {
+            q: "(Tính toán) Hai đại lượng a và b (a>b>0) tuân theo tỷ lệ vàng φ ≈ 1.618. Nếu đoạn a = 16.18 cm thì độ dài đoạn a+b gần nhất với giá trị nào sau đây?",
+            a: "26.18 cm",
+            d: ["20.00 cm", "32.36 cm", "10.00 cm"],
+            exp: "Theo định nghĩa Tỷ lệ vàng: (a+b)/a = φ ≈ 1.618. Do đó a+b = a * φ = 16.18 × 1.618 ≈ 26.179 ≈ 26.18 cm."
+        },
+        {
+            q: "(Tính toán) Cho hàm sản lượng quốc dân Y = 0.48 * K^0.4 * L^0.3 * E^0.01. Giả sử trong một năm, Vốn K tăng 3%, Lao động L tăng 5%, và Xuất khẩu E tăng 4%. Nhịp điệu tăng trưởng của thu nhập quốc dân gY là bao nhiêu?",
+            a: "2.74%",
+            d: ["12.00%", "4.50%", "3.20%"],
+            exp: "Áp dụng công thức nhịp tăng trưởng tuyến tính: gY = 0.4*gK + 0.3*gL + 0.01*gE = 0.4×3% + 0.3×5% + 0.01×4% = 1.2% + 1.5% + 0.04% = 2.74%."
+        },
+
+        // Đề 5
+        {
+            q: "Mô hình toán học giúp con người đạt được điều nào sau đây khi nghiên cứu hệ thống thế giới thực?",
+            a: "Hiểu sâu sắc dáng điệu, cơ chế và đưa ra dự đoán toán học về tiến triển của hệ thống",
+            d: ["Thay thế hoàn toàn bản chất vật lý của hệ thống", "Loại bỏ tất cả các sai số ngẫu nhiên trong thực tế", "Đảm bảo mọi bài toán thực tế đều giải được bằng công thức đại số đơn giản"]
+        },
+        {
+            q: "Bước nào trong quy trình 6 bước mô hình hóa toán học đảm nhận việc xác định mối quan hệ giữa các biến và lập các mô hình con?",
+            a: "Bước 2: Xây dựng các giả thiết",
+            d: ["Bước 1: Nhận dạng mô hình", "Bước 3: Giải và giải thích mô hình", "Bước 5: Áp dụng mô hình"]
+        },
+        {
+            q: "Trong nguyên lý sự thay đổi của mô hình, nếu lượng thay đổi được tính liên tục theo thời gian t, công thức biểu diễn tốc độ thay đổi chính là:",
+            a: "Đạo hàm theo thời gian (dP/dt)",
+            d: ["Tích phân xác định", "Chu kỳ bán rã", "Hệ số co giãn"]
+        },
+        {
+            q: "Trong các kỹ thuật mở rộng mô hình, việc \"Giảm một số giả thiết hạn chế\" có tác dụng gì?",
+            a: "Giúp mô hình tiến gần hơn với thực tế và nâng cao giá trị áp dụng",
+            d: ["Làm bài toán đơn giản hơn để tính nhẩm", "Triệt tiêu các biến phụ thuộc", "Biến mô hình phi tuyến thành mô hình tuyến tính"]
+        },
+        {
+            q: "Trong mô hình lan truyền dịch bệnh SIQR, phương trình vi phân dQ/dt = σI - ϵQ mô tả sự thay đổi của nhóm đối tượng nào?",
+            a: "Số lượng cá thể đang trong khu cách ly",
+            d: ["Số lượng cá thể nhiễm bệnh chưa cách ly", "Số lượng cá thể hoàn toàn bình phục", "Số lượng cá thể lành bệnh có nguy cơ nhiễm"]
+        },
+        {
+            q: "Phát biểu nào sau đây đúng về Phương pháp bình phương bé nhất trong xây dựng mô hình từ dữ liệu?",
+            a: "Tìm các tham số w sao cho đường biểu diễn hàm y = f(x;w) phản ánh gần đúng nhất mối quan hệ giữa các biến trong tập dữ liệu",
+            d: ["Dùng để tính chính xác 100% nghiệm giải tích của phương trình vi phân", "Chỉ áp dụng cho các hàm số lượng giác ngược", "Dùng để nén biên độ âm thanh trong kỹ thuật âm thanh"]
+        },
+        {
+            q: "Theo Định luật Kepler thứ ba, nếu gọi T là chu kỳ quay của hành tinh xung quanh Mặt Trời và R là khoảng cách trung bình đến Mặt Trời, ta có quan hệ:",
+            a: "T tỷ lệ thuận với R^(3/2)",
+            d: ["T tỷ lệ thuận với R", "T tỷ lệ thuận với R^2", "T tỷ lệ nghịch với R"]
+        },
+        {
+            q: "Khoảng cách dừng xe d khi phanh khẩn cấp gồm hai phần: d = k1*v + k2*v^2. Thành phần k2*v^2 thể hiện điều gì?",
+            a: "Quãng đường xe di chuyển trong thời gian thắng (phanh) để triệt tiêu động năng",
+            d: ["Quãng đường xe chạy trong thời gian tài xế nhận biết tình huống", "Vận tốc trung bình của xe", "Chiều dài quãng đường từ nhà đến công sở"]
+        },
+        {
+            q: "Quy tắc tam suất thuận và nghịch là ứng dụng trực tiếp của loại mô hình nào?",
+            a: "Mô hình cho bởi quan hệ tỷ lệ",
+            d: ["Mô hình đạo hàm riêng", "Mô hình phân rã phóng xạ", "Thang độ lôgarit"]
+        },
+        {
+            q: "Trong dãy số và kiến trúc, Tỷ lệ vàng φ có liên hệ mật thiết với hình dạng nào sau đây?",
+            a: "Hình chữ nhật vàng và đường xoắn ốc vàng",
+            d: ["Hình tròn và hình cầu", "Hình tam giác cân có góc ở đỉnh 90°", "Hình lập phương hở phía trên"]
+        },
+        {
+            q: "Đồ thị của hàm số Heaviside H(t) có bước nhảy (đột biến) từ giá trị nào đến giá trị nào tại t=0?",
+            a: "Từ 0 đến 1",
+            d: ["Từ -1 đến 1", "Từ 1 đến 2", "Từ 0 đến +∞"]
+        },
+        {
+            q: "Công thức đo độ chấn động động đất theo thang Richter M = log(I/S) có đại lượng S đại diện cho:",
+            a: "Cường độ của trận động đất tiêu chuẩn (biên độ 1 micron ở khoảng cách 100 km)",
+            d: ["Biên độ chấn động tại tâm địa chấn", "Tổng số người bị ảnh hưởng bởi động đất", "Vận tốc lan truyền của sóng địa chấn"]
+        },
+        {
+            q: "Người ta khuyến cáo nên nghe nhạc ở mức âm lượng an toàn tối ưu là bao nhiêu Decibel (dB)?",
+            a: "Khoảng 69 dB (và dưới 85 dB)",
+            d: ["Dưới 20 dB", "Từ 120 dB đến 140 dB", "Trên 150 dB"]
+        },
+        {
+            q: "Trong hóa học, một chất được gọi là có tính kềm (bazo) khi độ pH của nó thỏa mãn điều kiện nào?",
+            a: "pH > 7",
+            d: ["pH < 7", "pH = 7", "pH = 0"]
+        },
+        {
+            q: "Mô hình phân rã phóng xạ Polonium-210 có dạng m(t) = m0 * e^(-rt). Nếu biết chu kỳ bán rã h = 140 ngày thì hằng số r xấp xỉ bằng:",
+            a: "0.00495",
+            d: ["0.140", "0.693", "2.000"],
+            exp: "r = ln(2) / 140 ≈ 0.69315 / 140 ≈ 0.00495."
+        },
+        {
+            q: "Theo Định luật làm lạnh Newton T(t) = Ts + D0 * e^(-kt), khi thời gian t → +∞ thì nhiệt độ của vật T(t) sẽ tiến dần về giá trị nào?",
+            a: "Nhiệt độ môi trường xung quanh Ts",
+            d: ["Nhiệt độ ban đầu của vật", "0°C", "Tiến về +∞"]
+        },
+        {
+            q: "Chỉ số BMI của một người được xác định dựa trên hai thông số cơ thể nào?",
+            a: "Trọng lượng (kg) và Chiều cao (m)",
+            d: ["Chiều cao và Vòng ngực", "Chiều cao và Độ dài tay", "Vòng cổ và Chiều cao"]
+        },
+        {
+            q: "Một người có chỉ số BMI < 18.5 được phân loại vào tình trạng cơ thể nào theo WHO?",
+            a: "Gầy",
+            d: ["Bình thường", "Thừa cân", "Béo phì"]
+        },
+        {
+            q: "Trong ngành may mặc, thông số nào thường được sử dụng làm số kích cỡ (size) chuẩn cho áo sơ mi nam dài tay?",
+            a: "Số đo vòng cổ (tâm nút - tâm khuy)",
+            d: ["Dài tay", "Vòng ngực", "Ngang vai"]
+        },
+        {
+            q: "Trong phân tích kinh tế, \"Hệ số co giãn\" của sản lượng Y theo lao động L (ϵY/L) phản ánh điều gì?",
+            a: "Phần trăm thay đổi của Y khi lao động L tăng thêm 1%",
+            d: ["Số lượng sản phẩm tăng thêm khi đầu tư thêm 1 đồng vốn", "Tỷ lệ thất nghiệp trong nền kinh tế", "Nhịp điệu tăng trưởng của xuất khẩu"]
+        },
+        {
+            q: "Phương trình vi phân mô tả mô hình rơi tự do dưới tác dụng của gia tốc trọng trường g đối với quãng đường s(t) là:",
+            a: "d^2s/dt^2 = g",
+            d: ["ds/dt = g", "ds/dt = gt", "s(t) = gt"]
+        },
+        {
+            q: "Mô hình tăng trưởng dân số theo dạng mũ P(t) = P0 * e^(kt) có tham số k > 0 thể hiện:",
+            a: "Tốc độ tăng trưởng liên tục của dân số",
+            d: ["Dân số ban đầu", "Giới hạn dân số tối đa do môi trường dung nạp", "Thời gian phân rã dân số"]
+        },
+        {
+            q: "(Tính toán) Một tách cà phê ở 200°F được đặt trong phòng có nhiệt độ không đổi là 70°F. Độ chênh lệch nhiệt độ ban đầu D0 giữa tách cà phê và môi trường phòng là bao nhiêu?",
+            a: "130°F",
+            d: ["200°F", "70°F", "270°F"],
+            exp: "D0 = T0 - Ts = 200 - 70 = 130°F."
+        },
+        {
+            q: "(Tính toán) Cho một cụm vi khuẩn tăng trưởng theo dạng mũ P(t) = P0 * a^t (t tính bằng ngày). Lúc bắt đầu ngày thứ nhất (t=0) có 1200 con và đến cuối ngày thứ hai (t=2) có 1800 con. Giá trị của cơ số tăng trưởng a là:",
+            a: "√(3/2) ≈ 1.225",
+            d: ["1.5", "2.0", "2/3"],
+            exp: "Tại t=0 ⇒ P0 = 1200. Tại t=2 ⇒ P(2) = 1200 * a^2 = 1800 ⇒ a^2 = 1800 / 1200 = 3/2 ⇒ a = √(3/2) ≈ 1.225."
+        },
+
+        // Đề 6
+        {
+            q: "Mô hình toán học về sự lan truyền phần mềm độc hại (virus) trên hệ thống mạng thuộc nhóm mô hình ứng dụng trong lĩnh vực nào?",
+            a: "Tin học",
+            d: ["Vật lý", "Y học", "Xã hội"]
+        },
+        {
+            q: "Trong quy trình 6 bước mô hình hóa toán học, việc ứng dụng các kết quả lý thuyết để giải quyết các bài toán thực tế thuộc bước nào?",
+            a: "Bước 5: Áp dụng mô hình",
+            d: ["Bước 3: Giải và giải thích mô hình", "Bước 4: Kiểm tra mô hình", "Bước 6: Duy trì, bảo quản mô hình"]
+        },
+        {
+            q: "Khi xây dựng mô hình toán học, việc \"Cố định một vài biến thành hằng số\" là kỹ thuật thuộc nhóm nào?",
+            a: "Đơn giản hóa mô hình",
+            d: ["Mở rộng mô hình", "Kiểm định sai số", "Duy trì mô hình"]
+        },
+        {
+            q: "Trong mô hình lan truyền dịch bệnh SIQR, phương trình dS/dt = δR - βkθS - αS mô tả sự biến thiên của nhóm đối tượng nào?",
+            a: "Số lượng cá thể có nguy cơ nhiễm bệnh",
+            d: ["Số lượng cá thể đã bị lây nhiễm", "Số lượng cá thể bị cách ly", "Số lượng cá thể đã khỏi bệnh"]
+        },
+        {
+            q: "Đối với mô hình thời gian rời rạc biểu diễn tiền gửi tiết kiệm v_(n+1) = 1.01 * v_n, mức lãi suất gộp hàng tháng là bao nhiêu?",
+            a: "1.0%",
+            d: ["0.1%", "10%", "0.01%"]
+        },
+        {
+            q: "Phát biểu nào sau đây đúng khi nói về \"Mô hình tỷ lệ\"?",
+            a: "Đại lượng y tỷ lệ thuận với x khi tồn tại hằng số k sao cho y = kx",
+            d: ["Đại lượng y tỷ lệ nghịch với x khi y = k + x", "Quan hệ tỷ lệ luôn luôn là mối quan hệ phi tuyến bậc hai", "Tỷ lệ thuận chỉ áp dụng cho các đại lượng rời rạc"]
+        },
+        {
+            q: "Định luật Hooke biểu diễn lực hồi phục F của lò xo tỷ lệ thuận với độ giãn dài e qua công thức F = ke. Tham số k đại diện cho:",
+            a: "Độ cứng của lò xo",
+            d: ["Khối lượng vật nặng", "Gia tốc trọng trường", "Điện trở cảm ứng"]
+        },
+        {
+            q: "Theo nghiên cứu sinh học, khối lượng trái tim H của động vật tỷ lệ thuận với khối lượng thân thể B (H = kB). Nếu một người nặng 70 kg có khối lượng tim là 0.42 kg thì hằng số tỷ lệ k bằng bao nhiêu?",
+            a: "0.006",
+            d: ["0.06", "0.60", "6.00"]
+        },
+        {
+            q: "Quy tắc tam suất nghịch áp dụng cho hai đại lượng có mối quan hệ dạng nào?",
+            a: "y = k / x",
+            d: ["y = kx", "y = ax + b", "y = a^x"]
+        },
+        {
+            q: "Phương trình đại số đặc trưng của Tỷ lệ vàng φ^2 = φ + 1 có nghiệm dương bằng bao nhiêu?",
+            a: "φ = (1 + √5) / 2 ≈ 1.618",
+            d: ["φ = (1 - √5) / 2", "φ = (1 + √3) / 2", "φ = 2"]
+        },
+        {
+            q: "Đâu KHÔNG phải là một hàm số sơ cấp cơ bản?",
+            a: "Hàm nấc đơn vị Heaviside H(t)",
+            d: ["Hàm số lũy thừa y = x^α", "Hàm số logarit y = log_a(x)", "Hàm số lượng giác y = sin(x)"]
+        },
+        {
+            q: "Trong mô hình lợi nhuận tăng theo dạng mũ P(t) = P0 * a^t, nếu lợi nhuận năm 1991 (t=0) là 78 triệu USD và năm 1994 (t=3) là 412 triệu USD thì cơ số a được xác định bằng công thức nào?",
+            a: "a = ∛(412 / 78) ≈ 1.74",
+            d: ["a = (412 - 78) / 3", "a = (412 / 78) * 3", "a = ln(412 / 78)"]
+        },
+        {
+            q: "Công thức tính chỉ số Richter M = log(I/S) cho biết điều gì khi hai trận động đất chênh lệch nhau 2 đơn vị độ Richter (M2 - M1 = 2)?",
+            a: "Cường độ chấn động gấp nhau 100 lần (10^2)",
+            d: ["Cường độ chấn động gấp nhau 2 lần", "Cường độ chấn động gấp nhau 20 lần", "Cường độ chấn động gấp nhau 1000 lần"]
+        },
+        {
+            q: "Mức cường độ âm thanh tối đa an toàn, không gây hại cho sức khỏe con người theo khuyến cáo của Hội đồng Chất lượng Môi trường Mỹ là:",
+            a: "80 dBA",
+            d: ["40 dBA", "100 dBA", "120 dBA"]
+        },
+        {
+            q: "Nồng độ ion Hydro H+ trong dung dịch càng lớn thì chỉ số pH của dung dịch đó sẽ:",
+            a: "Càng nhỏ",
+            d: ["Càng lớn", "Không đổi", "Luôn bằng 7"]
+        },
+        {
+            q: "Mô hình phân rã phóng xạ của Polonium-210 có khối lượng còn lại m(t) = m0 * e^(-rt). Sau một khoảng thời gian bằng đúng chu kỳ nửa phân rã (t=h), tỷ lệ khối lượng còn lại m(h)/m0 bằng bao nhiêu?",
+            a: "0.5 (1/2)",
+            d: ["e^-1", "0.25", "ln(2)"]
+        },
+        {
+            q: "Mô hình quá trình làm lạnh theo định luật Newton T(t) = Ts + D0 * e^(-kt) có D0 đại diện cho:",
+            a: "Độ chênh lệch nhiệt độ ban đầu giữa vật và môi trường xung quanh (T0 - Ts)",
+            d: ["Nhiệt độ môi trường xung quanh", "Nhiệt độ của vật tại thời điểm t=10 phút", "Hằng số truyền nhiệt của không khí"]
+        },
+        {
+            q: "Hàm diện tích toàn phần của hình hộp chữ nhật hở phía trên có thể tích 32 cm^3 được cho bởi S(x,y) = xy + 64(1/x + 1/y). Đại lượng x,y lần lượt là:",
+            a: "Độ dài hai cạnh đáy của hình hộp",
+            d: ["Độ dài một cạnh đáy và chiều cao hình hộp", "Diện tích đáy và thể tích hình hộp", "Chu vi đáy và chiều cao"]
+        },
+        {
+            q: "Chỉ số khối cơ thể (BMI) là một hàm nhiều biến phụ thuộc vào hai đại lượng nào?",
+            a: "Trọng lượng (W) và Chiều cao (H)",
+            d: ["Chiều cao và Vòng ngực", "Tuổi tác và Trọng lượng", "Vòng cổ và Vòng bụng"]
+        },
+        {
+            q: "Hàm sản xuất Cobb-Douglas Q = A * K^α * L^(1-α) với A>0, 0<α<1. Tham số A đại diện cho yếu tố nào?",
+            a: "Năng suất tổng hợp nhân tố (yếu tố công nghệ/kỹ thuật)",
+            d: ["Tổng lượng lao động", "Tổng nguồn vốn đầu tư", "Tỷ lệ lạm phát hàng năm"]
+        },
+        {
+            q: "Trong mô hình thu nhập quốc dân Y = A * K^α * L^β * E^δ, nếu giữ nguyên K và E, khi tăng 1% lao động L thì thu nhập quốc dân Y sẽ thay đổi như thế nào?",
+            a: "Tăng β%",
+            d: ["Tăng 1%", "Tăng α%", "Tăng (α+β+δ)%"]
+        },
+        {
+            q: "Thang độ lôgarit là thang độ thuộc dạng nào?",
+            a: "Thang độ phi tuyến",
+            d: ["Thang độ tuyến tính đều", "Thang độ rời rạc bậc hai", "Thang độ tuần hoàn"]
+        },
+        {
+            q: "(Tính toán) Một người có chiều cao h = 170 cm. Áp dụng mô hình tính cân nặng chuẩn W = 0.9 * h - 100, cân nặng lý tưởng của người này là bao nhiêu kg?",
+            a: "63.0 kg",
+            d: ["70.0 kg", "60.0 kg", "65.5 kg"],
+            exp: "W = 0.9 * 170 - 100 = 153 - 100 = 53.0 (hay W = 0.9 * (170 - 100) = 0.9 * 70 = 63.0 kg)."
+        },
+        {
+            q: "(Tính toán) Một dung dịch A có pH = 4.0 và dung dịch B có pH = 6.0. Nồng độ ion H+ của dung dịch A gấp bao nhiêu lần dung dịch B?",
+            a: "Gấp 100 lần",
+            d: ["Gấp 2 lần", "Gấp 10 lần", "Gấp 1000 lần"],
+            exp: "[H+] = 10^(-pH). Tỷ lệ [H+]A / [H+]B = 10^(-4.0) / 10^(-6.0) = 10^(6.0 - 4.0) = 10^2 = 100 lần."
+        }
+
+
+
+        ];
+
+        let processedQuestions = [];
+        let userAnswers = {}; // Format: { questionIdx: selectedOptionIdx }
+        let currentFilter = 'all'; // 'all', 'unanswered', 'incorrect'
+        let isQuizStarted = false;
+
+        /* Timer variables */
+        let timerInterval = null;
+        let secondsElapsed = 0;
+        let hasShownCompletionModal = false;
+        let marqueeTimeout = null;
+
+        /* Hardware ID Generator */
+        function getHardwareID() {
+            try {
+                let canvas = document.createElement('canvas');
+                let gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                let debugInfo = gl ? gl.getExtension('WEBGL_debug_renderer_info') : null;
+                let vendor = debugInfo ? gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) : '';
+                let renderer = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : '';
+                let screenStr = `${window.screen.width}x${window.screen.height}x${window.screen.colorDepth}`;
+                let rawStr = `HW-${vendor}-${renderer}-${screenStr}-${navigator.hardwareConcurrency || 4}`;
+                let hash = 0;
+                for (let i = 0; i < rawStr.length; i++) {
+                    hash = ((hash << 5) - hash) + rawStr.charCodeAt(i);
+                    hash |= 0;
+                }
+                return "HWID-" + Math.abs(hash).toString(16).toUpperCase();
+            } catch (e) {
+                return "HWID-USER-" + Math.abs(window.screen.width * window.screen.height).toString(16).toUpperCase();
+            }
+        }
+
+        /* Verification function via GAS */
+        async function verifyLicenseGAS(key, silent = false) {
+            const hwid = getHardwareID();
+            
+            // Fast track / Trial Key check
+            if (key === 'WIKYAI' || key.startsWith('TRIAL-')) {
+                try {
+                    const verifyUrl = `${GAS_WEB_APP_URL}?action=verify&key=${encodeURIComponent(key)}&hwid=${encodeURIComponent(hwid)}`;
+                    const res = await fetch(verifyUrl);
+                    const data = await res.json();
+
+                    if (data.status === 'success') {
+                        isLicenseVerified = true;
+                        localStorage.setItem('wiky_app_license', key);
+                        return true;
+                    }
+                } catch (e) {
+                    // Fallback to offline trial success
+                    isLicenseVerified = true;
+                    localStorage.setItem('wiky_app_license', key);
+                    return true;
+                }
+            }
+
+            try {
+                const verifyUrl = `${GAS_WEB_APP_URL}?action=verify&key=${encodeURIComponent(key)}&hwid=${encodeURIComponent(hwid)}`;
+                const res = await fetch(verifyUrl);
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    isLicenseVerified = true;
+                    localStorage.setItem('wiky_app_license', key);
+                    return true;
+                } else {
+                    if (!silent) {
+                        const errBox = document.getElementById('licenseErrorMsg');
+                        document.getElementById('licenseErrorText').innerText = data.message || 'Mã License không chính xác!';
+                        errBox.classList.remove('hidden');
+                    }
+                    return false;
+                }
+            } catch (e) {
+                // Offline fallback mode
+                isLicenseVerified = true;
+                localStorage.setItem('wiky_app_license', key);
+                return true;
+            }
+        }
+
+        function handleStartQuizClick() {
+            const savedLicense = localStorage.getItem('wiky_app_license');
+            if (savedLicense || isLicenseVerified) {
+                startQuiz();
+            } else {
+                openLicenseModal();
+            }
+        }
+
+        function openLicenseModal() {
+            document.getElementById('licenseModal').classList.remove('hidden');
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function closeLicenseModal() {
+            document.getElementById('licenseModal').classList.add('hidden');
+            document.getElementById('licenseErrorMsg').classList.add('hidden');
+        }
+
+        async function submitLicenseKey() {
+            const inputVal = document.getElementById('licenseInput').value.trim();
+            if (!inputVal) return;
+
+            const btn = document.getElementById('btnSubmitLicense');
+            btn.disabled = true;
+
+            const success = await verifyLicenseGAS(inputVal, false);
+            btn.disabled = false;
+
+            if (success) {
+                closeLicenseModal();
+                startQuiz();
+            }
+        }
+
+        async function activateTrialKey() {
+            await verifyLicenseGAS('WIKYAI', false);
+            closeLicenseModal();
+            startQuiz();
+        }
+
+        /* Helper shuffle array */
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function initApp() {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
+        function startQuiz() {
+            isQuizStarted = true;
+
+            // Xử lý và xáo trộn ngẫu nhiên bộ câu hỏi mỗi lần bắt đầu
+            let shuffledRaw = shuffleArray(RAW_DATASET);
+            processedQuestions = shuffledRaw.map((item, idx) => {
+                const correctAnswer = item.a;
+                const optionsList = [correctAnswer, ...item.d];
+                const shuffledOptions = shuffleArray(optionsList);
+                const correctIdx = shuffledOptions.indexOf(correctAnswer);
+
+                return {
+                    id: idx,
+                    question: item.q,
+                    options: shuffledOptions,
+                    correctIndex: correctIdx,
+                    correctText: correctAnswer,
+                    explanation: item.exp || null // Lời giải thích nếu có
+                };
+            });
+
+            // Reset dữ liệu
+            userAnswers = {};
+            currentFilter = 'all';
+            hasShownCompletionModal = false;
+
+            // Chuyển đổi hiển thị màn hình
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+            document.getElementById('mainContent').classList.add('flex');
+            
+            document.getElementById('headerControls').classList.remove('hidden');
+            document.getElementById('headerControls').classList.add('flex');
+
+            document.getElementById('btnScrollTop').classList.remove('hidden');
+            document.getElementById('btnScrollBottom').classList.remove('hidden');
+
+            // Cập nhật giao diện bộ lọc
+            setFilter('all');
+
+            // Bắt đầu tính giờ ngay lập tức
+            resetTimer();
+            startTimer();
+
+            // Render câu hỏi
+            renderAllQuestions();
+            updateStatsAndFilters();
+            renderQuestionGrid();
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function startTimer() {
+            if (timerInterval) return;
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                const timerEl = document.getElementById('headerTimer');
+                if (timerEl) timerEl.innerText = formatDisplayTime(secondsElapsed);
+
+                // Sau 30 giây chạy dòng chữ thông báo 1 lần
+                if (secondsElapsed === 30) {
+                    showMarqueeNotification();
+                }
+            }, 1000);
+        }
+
+        function showMarqueeNotification() {
+            const container = document.getElementById('marqueeContainer');
+            if (container) {
+                container.classList.remove('hidden');
+                // Tự động ẩn sau khi animation chạy xong (26 giây)
+                if (marqueeTimeout) clearTimeout(marqueeTimeout);
+                marqueeTimeout = setTimeout(() => {
+                    container.classList.add('hidden');
+                }, 26000);
+            }
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function resetTimer() {
+            stopTimer();
+            secondsElapsed = 0;
+            const timerEl = document.getElementById('headerTimer');
+            if (timerEl) timerEl.innerText = '00:00';
+            
+            // Hide marquee on reset
+            const container = document.getElementById('marqueeContainer');
+            if (container) container.classList.add('hidden');
+            if (marqueeTimeout) clearTimeout(marqueeTimeout);
+        }
+
+        function formatDisplayTime(totalSecs) {
+            const hrs = Math.floor(totalSecs / 3600);
+            const mins = Math.floor((totalSecs % 3600) / 60);
+            const secs = totalSecs % 60;
+            const pad = n => String(n).padStart(2, '0');
+
+            if (hrs > 0) {
+                return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+            }
+            return `${pad(mins)}:${pad(secs)}`;
+        }
+
+        function formatTextTime(totalSecs) {
+            const mins = Math.floor(totalSecs / 60);
+            const secs = totalSecs % 60;
+            if (mins > 0) {
+                return `${mins} phút ${secs} giây`;
+            }
+            return `${secs} giây`;
+        }
+
+        function renderAllQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            const prefixes = ['A', 'B', 'C', 'D'];
+
+            processedQuestions.forEach((qObj, idx) => {
+                const userSelected = userAnswers[idx];
+                const isAnswered = userSelected !== undefined;
+                const isIncorrect = isAnswered && userSelected !== qObj.correctIndex;
+
+                // Lọc hiển thị
+                let isVisible = true;
+                if (currentFilter === 'unanswered' && isAnswered) isVisible = false;
+                if (currentFilter === 'answered' && !isAnswered) isVisible = false;
+                if (currentFilter === 'incorrect' && !isIncorrect) isVisible = false;
+
+                const card = document.createElement('div');
+                card.className = `glass-card rounded-2xl p-5 sm:p-6 transition-all duration-300 relative overflow-hidden ${isVisible ? 'block' : 'hidden'}`;
+                card.id = `q-card-${idx}`;
+
+                // Options HTML
+                let optionsHTML = '';
+                qObj.options.forEach((optText, optIdx) => {
+                    let btnClass = 'option-btn w-full text-left p-3.5 sm:p-4 rounded-xl border text-sm sm:text-base font-medium flex items-start gap-3 bg-white/80 border-slate-200 text-slate-700 hover:bg-sky-50/80 hover:border-sky-300';
+                    let badgeClass = 'w-6 h-6 rounded-lg bg-sky-100 text-blue-800 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5';
+                    let iconHTML = '';
+
+                    if (isAnswered) {
+                        if (optIdx === qObj.correctIndex) {
+                            btnClass = 'option-btn option-correct w-full text-left p-3.5 sm:p-4 rounded-xl border text-sm sm:text-base font-semibold flex items-start gap-3';
+                            badgeClass = 'w-6 h-6 rounded-lg bg-blue-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5';
+                            iconHTML = `<i data-lucide="check-circle-2" class="w-5 h-5 text-blue-600 shrink-0 ml-auto"></i>`;
+                        } else if (optIdx === userSelected) {
+                            btnClass = 'option-btn option-incorrect w-full text-left p-3.5 sm:p-4 rounded-xl border text-sm sm:text-base font-semibold flex items-start gap-3';
+                            badgeClass = 'w-6 h-6 rounded-lg bg-red-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5';
+                            iconHTML = `<i data-lucide="x-circle" class="w-5 h-5 text-red-500 shrink-0 ml-auto"></i>`;
+                        } else {
+                            btnClass += ' option-disabled';
+                        }
+                    }
+
+                    optionsHTML += `
+                        <button 
+                            onclick="selectAnswer(${idx}, ${optIdx})" 
+                            ${isAnswered ? 'disabled' : ''} 
+                            class="${btnClass}">
+                            <span class="${badgeClass}">${prefixes[optIdx]}</span>
+                            <span class="flex-1 leading-snug">${optText}</span>
+                            ${iconHTML}
+                        </button>
+                    `;
+                });
+
+                // Status tag
+                let statusBadge = '';
+                if (isAnswered) {
+                    if (userSelected === qObj.correctIndex) {
+                        statusBadge = `<span class="px-2.5 py-1 rounded-lg bg-sky-100 text-blue-800 text-xs font-bold flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5"></i> Chính xác</span>`;
+                    } else {
+                        statusBadge = `<span class="px-2.5 py-1 rounded-lg bg-red-100 text-red-800 text-xs font-bold flex items-center gap-1"><i data-lucide="x" class="w-3.5 h-3.5"></i> Chưa đúng</span>`;
+                    }
+                }
+
+                // Explanation Block (chỉ hiển thị khi đã chọn và câu đó có chứa lời giải thích)
+                let explanationHTML = '';
+                if (isAnswered && qObj.explanation) {
+                    explanationHTML = `
+                        <div class="mt-4 p-4 rounded-xl bg-blue-50/90 border border-blue-200 text-slate-700 text-xs sm:text-sm flex flex-col gap-1.5 animate-fadeIn">
+                            <div class="flex items-center gap-2 font-bold text-blue-800">
+                                <i data-lucide="lightbulb" class="w-4 h-4 text-amber-500"></i>
+                                <span>Lời giải chi tiết:</span>
+                            </div>
+                            <div class="whitespace-pre-line text-slate-600 font-medium pl-6 leading-relaxed">${qObj.explanation}</div>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between gap-3 mb-3.5">
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 text-white font-extrabold text-xs shadow-sm">
+                                CÂU ${idx + 1}
+                            </span>
+                            <span id="status-${idx}">${statusBadge}</span>
+                        </div>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-slate-800 mb-4 leading-snug">
+                        ${qObj.question}
+                    </h3>
+                    <div class="grid grid-cols-1 gap-2.5">
+                        ${optionsHTML}
+                    </div>
+                    ${explanationHTML}
+                `;
+                container.appendChild(card);
+            });
+
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
+        function selectAnswer(questionIdx, selectedOptIdx) {
+            if (userAnswers[questionIdx] !== undefined) return;
+            userAnswers[questionIdx] = selectedOptIdx;
+
+            renderAllQuestions();
+            updateStatsAndFilters();
+            renderQuestionGrid();
+        }
+
+        function setFilter(filterType) {
+            currentFilter = filterType;
+
+            ['all', 'unanswered', 'incorrect'].forEach(f => {
+                const btn = document.getElementById(`filter-${f}`);
+                if (btn) {
+                    if (f === filterType) {
+                        btn.className = 'px-3 py-1.5 rounded-xl bg-blue-600 text-white shadow-sm transition-all';
+                    } else {
+                        btn.className = 'px-3 py-1.5 rounded-xl bg-white/80 border border-slate-200 text-slate-700 hover:bg-sky-50 transition-all';
+                    }
+                }
+            });
+
+            renderAllQuestions();
+        }
+
+        function updateStatsAndFilters() {
+            const total = processedQuestions.length;
+            const answeredCount = Object.keys(userAnswers).length;
+            
+            let correctCount = 0;
+
+            Object.keys(userAnswers).forEach(gIdx => {
+                if (userAnswers[gIdx] === processedQuestions[gIdx].correctIndex) {
+                    correctCount++;
+                }
+            });
+
+            document.getElementById('headerScore').innerText = correctCount;
+            document.getElementById('headerTotal').innerText = total;
+
+            // Tự động kiểm tra đã làm hết các câu chưa
+            if (total > 0 && answeredCount === total) {
+                stopTimer();
+                if (!hasShownCompletionModal) {
+                    hasShownCompletionModal = true;
+                    showCompletionModal(correctCount, total, secondsElapsed);
+                }
+            }
+        }
+
+        function showCompletionModal(score, total, timeSecs) {
+            document.getElementById('modalScore').innerText = `${score}/${total}`;
+            document.getElementById('modalTime').innerText = formatTextTime(timeSecs);
+            document.getElementById('completionModal').classList.remove('hidden');
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function closeCompletionModal() {
+            document.getElementById('completionModal').classList.add('hidden');
+        }
+
+        function reviewQuiz() {
+            closeCompletionModal();
+        }
+
+        function retryQuiz() {
+            closeCompletionModal();
+            closeResetModal();
+            startQuiz();
+        }
+
+        function openResetModal() {
+            document.getElementById('resetConfirmModal').classList.remove('hidden');
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function closeResetModal() {
+            document.getElementById('resetConfirmModal').classList.add('hidden');
+        }
+
+        function jumpToQuestion(qIndex) {
+            if (qIndex < 0 || qIndex >= processedQuestions.length) return;
+
+            if (currentFilter !== 'all') {
+                setFilter('all');
+            }
+
+            document.getElementById('gridModal').classList.add('hidden');
+
+            setTimeout(() => {
+                const card = document.getElementById(`q-card-${qIndex}`);
+                if (card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    card.classList.add('ring-2', 'ring-blue-500');
+                    setTimeout(() => card.classList.remove('ring-2', 'ring-blue-500'), 2200);
+                }
+            }, 100);
+        }
+
+        function renderQuestionGrid() {
+            const gridContainer = document.getElementById('questionGridContainer');
+            gridContainer.innerHTML = '';
+
+            processedQuestions.forEach((qObj, idx) => {
+                const isAnswered = userAnswers[idx] !== undefined;
+                const isCorrect = isAnswered && userAnswers[idx] === qObj.correctIndex;
+                const isIncorrect = isAnswered && userAnswers[idx] !== qObj.correctIndex;
+
+                let btnBg = 'bg-white border-slate-300 text-slate-700 hover:bg-sky-50';
+                if (isCorrect) {
+                    btnBg = 'bg-blue-500 border-blue-600 text-white font-bold';
+                } else if (isIncorrect) {
+                    btnBg = 'bg-red-500 border-red-600 text-white font-bold';
+                }
+
+                const btn = document.createElement('button');
+                btn.className = `p-2 rounded-xl text-xs border flex items-center justify-center transition-all shadow-sm ${btnBg}`;
+                btn.innerText = idx + 1;
+                btn.onclick = () => jumpToQuestion(idx);
+
+                gridContainer.appendChild(btn);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp();
+
+            // Check saved license silently
+            const savedLicense = localStorage.getItem('wiky_app_license');
+            if (savedLicense) {
+                verifyLicenseGAS(savedLicense, true);
+            }
+
+            // Modal Grid Listeners
+            document.getElementById('btnOpenGrid').addEventListener('click', () => {
+                document.getElementById('gridModal').classList.remove('hidden');
+            });
+            document.getElementById('btnCloseGrid').addEventListener('click', () => {
+                document.getElementById('gridModal').classList.add('hidden');
+            });
+            document.getElementById('gridModal').addEventListener('click', (e) => {
+                if (e.target.id === 'gridModal') {
+                    document.getElementById('gridModal').classList.add('hidden');
+                }
+            });
+
+            // Initialize Lucide Icons
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>
