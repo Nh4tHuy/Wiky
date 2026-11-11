@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài Nguyên & Bài Giảng Lớp 2</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Quicksand & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="preconnect" href="https://script.google.com" crossorigin>
+    <link rel="dns-prefetch" href="https://script.google.com">
+    <meta name="robots" content="noindex, nofollow"/>
+
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['"Quicksand"', '"Plus Jakarta Sans"', 'sans-serif'] 
+                    },
+                    colors: {
+                        pastel: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            200: '#bae0fd',
+                            300: '#7cc8fc',
+                            400: '#38acf8',
+                            500: '#0284c7', // Xanh giáo dục tươi sáng
+                            600: '#0369a1',
+                            700: '#075985',
+                            800: '#0c4a6e',
+                            900: '#082f49',
+                        },
+                        sunshine: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                        }
+                    },
+                    boxShadow: {
+                        'glass-sm': '0 4px 20px -2px rgba(2, 132, 199, 0.08), 0 2px 6px -1px rgba(2, 132, 199, 0.04)',
+                        'glass-md': '0 10px 30px -4px rgba(2, 132, 199, 0.12), 0 4px 12px -2px rgba(2, 132, 199, 0.06)',
+                        'glass-lg': '0 20px 45px -6px rgba(2, 132, 199, 0.2)',
+                        'glow': '0 0 20px rgba(2, 132, 199, 0.35)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+        }
+        .dark .glass-panel {
+            background: rgba(12, 28, 48, 0.8);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(56, 172, 248, 0.2);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .dark .glass-card {
+            background: rgba(15, 33, 58, 0.72);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 172, 248, 0.18);
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(2, 132, 199, 0.45);
+            box-shadow: 0 14px 30px -6px rgba(2, 132, 199, 0.18);
+        }
+        .dark .glass-card:hover {
+            border-color: rgba(124, 200, 252, 0.4);
+            box-shadow: 0 14px 30px -6px rgba(2, 132, 199, 0.28);
+        }
+
+        .glass-table-row {
+            transition: background-color 0.18s ease;
+        }
+        .glass-table-row:hover {
+            background-color: rgba(2, 132, 199, 0.06);
+        }
+        .dark .glass-table-row:hover {
+            background-color: rgba(56, 172, 248, 0.14);
+        }
+
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-animate {
+            animation: cardFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+            will-change: transform, opacity;
+        }
+
+        @keyframes shimmerPulse {
+            0%, 100% { opacity: 0.45; }
+            50% { opacity: 0.9; }
+        }
+        .skeleton-shimmer {
+            animation: shimmerPulse 1.4s ease-in-out infinite;
+        }
+
+        .glass-pill {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+        }
+        .dark .glass-pill {
+            background: rgba(18, 41, 71, 0.7);
+            border: 1px solid rgba(56, 172, 248, 0.22);
+        }
+
+        /* Ambient floating shapes */
+        .floating-shapes {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            margin: 0; padding: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .floating-shapes li {
+            position: absolute; display: block; list-style: none;
+            width: 20px; height: 20px;
+            background: rgba(255, 255, 255, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.08);
+            animation: floatUp 24s linear infinite;
+            bottom: -150px; border-radius: 12px; backdrop-filter: blur(3px);
+            will-change: transform, opacity;
+        }
+        .dark .floating-shapes li {
+            background: rgba(56, 172, 248, 0.08);
+            border: 1px solid rgba(56, 172, 248, 0.2);
+        }
+        .floating-shapes li:nth-child(1) { left: 8%; width: 48px; height: 48px; animation-duration: 22s; border-radius: 50%; }
+        .floating-shapes li:nth-child(2) { left: 22%; width: 34px; height: 34px; animation-delay: 2s; animation-duration: 26s; }
+        .floating-shapes li:nth-child(3) { left: 45%; width: 56px; height: 56px; animation-delay: 4s; border-radius: 18px; }
+        .floating-shapes li:nth-child(4) { left: 68%; width: 30px; height: 30px; animation-duration: 18s; border-radius: 50%; }
+        .floating-shapes li:nth-child(5) { left: 82%; width: 42px; height: 42px; animation-delay: 3s; }
+        .floating-shapes li:nth-child(6) { left: 93%; width: 50px; height: 50px; animation-delay: 6s; border-radius: 50%; }
+
+        @keyframes floatUp {
+            0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0.8; }
+            100% { transform: translate3d(0, -1150px, 0) rotate(420deg); opacity: 0; }
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+            50% { transform: translate3d(25px, -30px, 0) scale(1.06); }
+        }
+        .orb-ambient {
+            position: absolute; border-radius: 50%; filter: blur(65px); pointer-events: none;
+            animation: floatOrb 20s ease-in-out infinite alternate;
+        }
+
+        mark.search-highlight {
+            background-color: #fef08a;
+            color: #854d0e;
+            font-weight: 800;
+            padding: 1px 4px;
+            border-radius: 4px;
+        }
+        .dark mark.search-highlight {
+            background-color: #854d0e;
+            color: #fef08a;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(2, 132, 199, 0.3); border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(2, 132, 199, 0.55); }
+        .dark ::-webkit-scrollbar-thumb { background: rgba(56, 172, 248, 0.3); }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .spin { animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        #toastContainer {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+            z-index: 100; pointer-events: none; display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .toast-msg {
+            background: rgba(15, 23, 42, 0.94); color: white; padding: 10px 20px; border-radius: 99px;
+            font-size: 13px; font-weight: 700; box-shadow: 0 10px 25px -3px rgba(0,0,0,0.25);
+            animation: toastIn 0.25s forwards, toastOut 0.25s 2.7s forwards;
+            display: flex; align-items: center; gap: 8px; backdrop-filter: blur(8px);
+        }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
+    </style>
+</head>
+<body class="antialiased min-h-screen bg-gradient-to-br from-[#f0f9ff] via-[#e6f4fe] to-[#ddf0fd] dark:from-[#051324] dark:via-[#091e38] dark:to-[#08182d] text-slate-800 dark:text-slate-100 flex flex-col font-sans relative overflow-x-hidden selection:bg-pastel-200 selection:text-pastel-900">
+
+    <!-- Ambient glowing orbs & particles -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+        <div class="orb-ambient w-96 h-96 -top-24 -left-20 bg-sky-300/35 dark:bg-sky-900/25"></div>
+        <div class="orb-ambient w-[420px] h-[420px] top-1/3 -right-28 bg-amber-200/35 dark:bg-amber-950/20" style="animation-delay: -7s;"></div>
+        <div class="orb-ambient w-[460px] h-[460px] -bottom-32 left-1/4 bg-teal-200/30 dark:bg-cyan-950/25" style="animation-delay: -12s;"></div>
+    </div>
+
+    <!-- Floating shapes rising gently -->
+    <ul class="floating-shapes" aria-hidden="true">
+        <li></li><li></li><li></li><li></li><li></li><li></li>
+    </ul>
+
+    <!-- Toast container -->
+    <div id="toastContainer"></div>
+
+    <div class="relative z-10 flex flex-col flex-1 h-full w-full">
+        <!-- Top Navigation -->
+        <nav class="glass-panel sticky top-0 z-40 h-20 px-4 sm:px-8 lg:px-12 flex items-center justify-between shadow-glass-sm transition-all">
+            <!-- Brand & Identity Lớp 2 -->
+            <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 to-pastel-400 flex items-center justify-center text-white font-extrabold text-2xl shadow-md shadow-sky-500/25 border border-white/70">
+                    <i class="ph-fill ph-student"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-extrabold text-lg sm:text-xl text-slate-900 dark:text-white leading-tight tracking-tight">Tài liệu số</h1>
+                        <a href="/" title="Quay về Cổng tài liệu"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-sky-100 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-700/50 hover:bg-sky-200 transition-colors">Drive</span></a>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Kho Tài Nguyên & Bài Giảng điện tử lớp 2</p>
+                </div>
+            </div>
+
+            <!-- Right Controls -->
+            <div class="flex items-center gap-2.5">
+                <!-- Chuyển đổi 2 chế độ hiển thị: Bảng / Lưới -->
+                <div class="flex items-center glass-pill p-1 rounded-2xl shadow-glass-sm border border-white/70 dark:border-pastel-400/20">
+                    <button id="viewBtnTable" onclick="switchViewMode('table')" title="Hiển thị dạng Bảng chi tiết" 
+                            class="h-9 px-3 rounded-xl flex items-center gap-1.5 text-xs sm:text-sm font-bold bg-pastel-500 text-white shadow-sm transition-all">
+                        <i class="ph-bold ph-list-dashes text-base"></i>
+                        <span class="hidden md:inline">Bảng</span>
+                    </button>
+                    <button id="viewBtnGrid" onclick="switchViewMode('grid')" title="Hiển thị dạng Lưới ô vuông" 
+                            class="h-9 px-3 rounded-xl flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-600 dark:text-pastel-200 hover:text-pastel-600 dark:hover:text-white transition-all">
+                        <i class="ph-bold ph-squares-four text-base"></i>
+                        <span class="hidden md:inline">Lưới</span>
+                    </button>
+                </div>
+
+                <!-- Info Button (Mở Thông Báo Admin & Hướng Dẫn) -->
+                <button onclick="openWelcomeModal(true)" title="Hướng dẫn sử dụng & Thông tin" class="w-11 h-11 rounded-2xl glass-panel flex items-center justify-center text-slate-600 dark:text-pastel-200 hover:text-pastel-600 dark:hover:text-white transition-all shadow-glass-sm hover:scale-105 active:scale-95">
+                    <i class="ph-bold ph-book-open-user text-xl text-pastel-500"></i>
+                </button>
+
+                <!-- Status Badge (Hiển thị trạng thái Online / Cache nạp tức thì) -->
+                <div class="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-full glass-pill text-xs font-semibold text-pastel-800 dark:text-pastel-200 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span id="cacheSyncIndicator">Online</span>
+                </div>
+
+                <!-- Theme Toggle Button -->
+                <button id="themeToggle" title="Chuyển chế độ sáng/tối" class="w-11 h-11 rounded-2xl glass-panel flex items-center justify-center text-slate-600 dark:text-pastel-200 hover:text-pastel-600 dark:hover:text-white transition-all shadow-glass-sm hover:scale-105 active:scale-95">
+                    <i class="ph-duotone ph-moon text-2xl dark:hidden text-slate-700"></i>
+                    <i class="ph-duotone ph-sun text-2xl hidden dark:block text-amber-300"></i>
+                </button>
+            </div>
+        </nav>
+
+        <main class="flex-1 flex flex-col max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
+            <!-- Hero Banner Header -->
+            <div class="mb-8 p-6 sm:p-8 rounded-3xl glass-panel shadow-glass-md flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-pastel-400/20 blur-2xl pointer-events-none"></div>
+
+                <div class="relative z-10 max-w-2xl">
+                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-snug">
+                        TÀI LIỆU SỐ <span class="text-pastel-500">4.0</span>
+                    </h2>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base mt-2 leading-relaxed font-medium">
+                        Tra cứu tài liệu slide bài giảng môn Tiếng Việt và Toán Lớp 2.
+                    </p>
+                </div>
+
+                <div class="relative z-10 flex flex-row md:flex-col items-start md:items-end justify-between gap-2.5 border-t md:border-t-0 md:border-l border-white/60 dark:border-white/10 pt-4 md:pt-0 md:pl-6 shrink-0">
+                    <div class="text-left md:text-right">
+                        <p class="text-[11px] font-bold uppercase tracking-widest text-pastel-600 dark:text-pastel-400">Đồng bộ Google Drive</p>
+                        <p id="driveSyncStatusText" class="text-sm font-bold text-slate-800 dark:text-white flex items-center md:justify-end gap-1.5 mt-0.5">
+                            <i class="ph-fill ph-check-circle text-emerald-500"></i> Dữ liệu mới nhất
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="loadData(true)" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl glass-pill hover:bg-pastel-100/60 dark:hover:bg-pastel-900/60 text-xs font-semibold text-pastel-700 dark:text-pastel-300 transition-colors shadow-sm active:scale-95">
+                            <i class="ph-bold ph-arrows-clockwise text-sm" id="refreshIcon"></i> Cập nhật
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breadcrumb Navigation -->
+            <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 mb-6 glass-panel px-4 py-3 rounded-2xl shadow-glass-sm overflow-x-auto hide-scrollbar" id="breadcrumb">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Toolbar: Category Filter Tabs & Search Bar -->
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-7">
+                
+                <!-- Category Tabs Phù Hợp Với Lớp 2 -->
+                <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar pb-1 lg:pb-0 w-full lg:w-auto" id="filterTabsContainer">
+                    <button data-type="all" class="filter-tab active shrink-0 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all bg-pastel-500 text-white shadow-glass-sm shadow-pastel-500/25 border border-pastel-300/40">
+                        Tất cả
+                    </button>
+                    <button data-type="folder" class="filter-tab shrink-0 px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all glass-pill text-slate-600 dark:text-slate-300 hover:text-pastel-600 dark:hover:text-white hover:bg-white/80 dark:hover:bg-slate-800/80">
+                        <i class="ph-fill ph-folder mr-1 text-amber-500 text-base align-middle"></i> Thư mục
+                    </button>
+                    <button data-type="word" class="filter-tab shrink-0 px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all glass-pill text-slate-600 dark:text-slate-300 hover:text-pastel-600 dark:hover:text-white hover:bg-white/80 dark:hover:bg-slate-800/80">
+                        <i class="ph-fill ph-file-doc mr-1 text-blue-500 text-base align-middle"></i> Word
+                    </button>
+                    <button data-type="ppt" class="filter-tab shrink-0 px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all glass-pill text-slate-600 dark:text-slate-300 hover:text-pastel-600 dark:hover:text-white hover:bg-white/80 dark:hover:bg-slate-800/80">
+                        <i class="ph-fill ph-file-ppt mr-1 text-orange-500 text-base align-middle"></i> Powerpoint
+                    </button>
+                    <button data-type="pdf" class="filter-tab shrink-0 px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all glass-pill text-slate-600 dark:text-slate-300 hover:text-pastel-600 dark:hover:text-white hover:bg-white/80 dark:hover:bg-slate-800/80">
+                        <i class="ph-fill ph-file-pdf mr-1 text-rose-500 text-base align-middle"></i> PDF
+                    </button>
+                    <button data-type="image" class="filter-tab shrink-0 px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all glass-pill text-slate-600 dark:text-slate-300 hover:text-pastel-600 dark:hover:text-white hover:bg-white/80 dark:hover:bg-slate-800/80">
+                        <i class="ph-fill ph-image mr-1 text-purple-500 text-base align-middle"></i> Ảnh
+                    </button>
+                </div>
+
+                <!-- Thanh Tìm Kiếm CÓ NÚT TÌM KIẾM RIÊNG (Chỉ tìm khi nhấn nút hoặc nhấn Enter) -->
+                <div class="flex items-center gap-2 w-full lg:w-auto shrink-0">
+                    <div class="relative flex-1 lg:w-72">
+                        <i class="ph ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-pastel-500 text-base"></i>
+                        <input type="text" id="searchInput" placeholder="Tìm dữ liệu..." 
+                               class="w-full pl-10 pr-9 py-2.5 glass-panel rounded-2xl text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-pastel-400/50 focus:border-pastel-400 transition-all shadow-glass-sm">
+                        <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full glass-pill hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 items-center justify-center text-xs transition-colors">
+                            <i class="ph-bold ph-x"></i>
+                        </button>
+                    </div>
+
+                    <!-- Nút Tìm Kiếm Thực Thi -->
+                    <button id="searchSubmitBtn" onclick="executeSearch()" title="Nhấp để tìm kiếm tài liệu"
+                            class="h-10 px-4 rounded-2xl bg-pastel-500 hover:bg-pastel-600 text-white flex items-center gap-1.5 text-xs sm:text-sm font-bold shadow-glass-sm shadow-pastel-500/25 active:scale-95 transition-all shrink-0">
+                        <i class="ph-bold ph-magnifying-glass text-base"></i>
+                        <span>Tìm kiếm</span>
+                    </button>
+
+                    <!-- Nút chọn phạm vi tìm kiếm: Toàn kho hoặc Thư mục này -->
+                    <button id="scopeToggleBtn" onclick="toggleSearchScope()" title="Chuyển đổi phạm vi tìm kiếm (Toàn trường / Thư mục này)"
+                            class="h-10 px-3 rounded-2xl glass-panel flex items-center gap-1.5 text-xs font-bold text-pastel-600 dark:text-pastel-300 hover:border-pastel-400 transition-all shrink-0 shadow-glass-sm">
+                        <i class="ph-bold ph-globe" id="scopeIcon"></i>
+                        <span id="scopeText" class="hidden sm:inline">All</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats & Filter Bar -->
+            <div class="flex flex-wrap justify-between items-center mb-5 px-2 gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-pastel-400 shadow-glow"></span>
+                        <span class="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200" id="itemCount">Đang tải dữ liệu...</span>
+                    </div>
+                    <div id="searchBadge" class="hidden items-center gap-1.5 px-3 py-1 rounded-full bg-pastel-100 dark:bg-pastel-950/70 border border-pastel-200 dark:border-pastel-800 text-xs font-bold text-pastel-700 dark:text-pastel-300">
+                        <i class="ph-bold ph-magnifying-glass text-pastel-500"></i>
+                        <span id="searchBadgeText">Kết quả tìm kiếm</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <div class="glass-pill px-3 py-1.5 rounded-xl shadow-glass-sm flex items-center gap-2">
+                        <i class="ph-bold ph-sort-ascending text-pastel-500"></i>
+                        <select id="sortSelect" class="bg-transparent text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200 focus:outline-none cursor-pointer">
+                            <option value="name_asc" class="dark:bg-slate-900">Tên bài giảng: A → Z</option>
+                            <option value="name_desc" class="dark:bg-slate-900">Tên bài giảng: Z → A</option>
+                            <option value="size_desc" class="dark:bg-slate-900">Dung lượng: Lớn → Nhỏ</option>
+                            <option value="size_asc" class="dark:bg-slate-900">Dung lượng: Nhỏ → Lớn</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative min-h-[420px]">
+                
+                <!-- Loading State with Glass spinner -->
+                <div id="loadingOverlay" class="absolute inset-0 bg-white/50 dark:bg-[#051324]/60 backdrop-blur-md z-20 flex flex-col items-center justify-center rounded-3xl transition-all">
+                    <div class="w-16 h-16 rounded-2xl glass-panel shadow-glass-md flex items-center justify-center mb-3">
+                        <i class="ph-duotone ph-spinner-gap text-3xl text-pastel-500 spin"></i>
+                    </div>
+                    <p class="text-sm font-bold text-slate-700 dark:text-pastel-200 tracking-wide">Đang đồng bộ bài giảng từ Google Drive...</p>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyStateContainer" class="hidden flex-col items-center justify-center py-20 px-6 rounded-3xl glass-panel text-center">
+                    <div class="w-20 h-20 rounded-3xl bg-pastel-100 dark:bg-pastel-900/40 text-pastel-500 dark:text-pastel-300 flex items-center justify-center mb-4 border border-pastel-200/50 shadow-glass-sm">
+                        <i class="ph-duotone ph-folder-open text-4xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-1.5">Không tìm thấy bài giảng hoặc học liệu nào</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 max-w-sm mb-4">Thư mục hiện tại đang trống hoặc từ khóa tìm kiếm chưa khớp với bài giảng/slide nào.</p>
+                    <button onclick="clearSearch()" class="px-4 py-2 rounded-xl bg-pastel-500 hover:bg-pastel-600 text-white font-bold text-xs transition-all shadow-sm">
+                        Về thư mục gốc
+                    </button>
+                </div>
+
+                <!-- CHẾ ĐỘ 1: BẢNG CHI TIẾT (DEFAULT) -->
+                <div id="tableViewWrapper" class="glass-panel rounded-3xl overflow-hidden shadow-glass-md border border-white/70 dark:border-pastel-400/20">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse whitespace-nowrap">
+                            <thead>
+                                <tr class="bg-pastel-50/70 dark:bg-slate-900/70 border-b border-pastel-200/50 dark:border-pastel-800/40 text-xs font-extrabold text-slate-600 dark:text-pastel-200 uppercase tracking-wider">
+                                    <th class="py-4 px-4 w-12 text-center">STT</th>
+                                    <th class="py-4 px-3 w-12 text-center">Định dạng</th>
+                                    <th class="py-4 px-4 min-w-[280px]">Tên bài giảng / Kế hoạch bài dạy / Môn học</th>
+                                    <th class="py-4 px-4 w-32">Dung lượng</th>
+                                    <th class="py-4 px-4 w-52 text-right">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody" class="text-sm divide-y divide-slate-100/70 dark:divide-slate-800/60 font-medium">
+                                <!-- Table rows injected here via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CHẾ ĐỘ 2: LƯỚI THẺ TRỰC QUAN (CARDS GRID) -->
+                <div id="dataGrid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                    <!-- Cards will be injected here via JS -->
+                </div>
+
+            </div>
+        </main>
+
+        <footer class="glass-panel border-t border-white/60 dark:border-white/10 mt-16 py-8 transition-colors">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-pastel-500 flex items-center justify-center text-white font-bold text-lg shadow-sm">
+                        <i class="ph-fill ph-student"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-900 dark:text-white">Hệ Thống Kho Tài Liệu Số</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Tài nguyên Lớp 2</p>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-400 dark:text-slate-500 font-medium">
+                    Nh4tHuy
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- MODAL 1: CHI TIẾT FILE -->
+    <div id="fileModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden bg-slate-950/40 opacity-0 transition-opacity">
+        <div class="glass-panel w-full max-w-md rounded-3xl overflow-hidden shadow-glass-lg relative border border-white/80 dark:border-pastel-400/20 transform scale-95 opacity-0 transition-all duration-300" id="fileModalContent">
+            
+            <button onclick="closeModal('fileModal')" class="absolute top-4 right-4 z-10 w-9 h-9 flex items-center justify-center rounded-2xl glass-pill text-slate-600 dark:text-slate-300 hover:text-rose-500 hover:bg-white dark:hover:bg-slate-800 transition-colors shadow-sm">
+                <i class="ph-bold ph-x text-lg"></i>
+            </button>
+
+            <div class="h-36 bg-pastel-50/70 dark:bg-pastel-950/30 flex items-center justify-center border-b border-white/40 dark:border-white/5 relative">
+                <div id="modalIconContainer" class="w-20 h-20 rounded-3xl glass-panel shadow-glass-md flex items-center justify-center text-4xl border border-white/90">
+                    <i class="ph-duotone ph-file text-pastel-500"></i>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <div class="mb-5 text-center">
+                    <h2 id="modalFileName" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2 line-clamp-2 leading-snug">Tên tài liệu.pptx</h2>
+                    <span id="modalFileTypeBadge" class="inline-block px-3 py-1 bg-pastel-100 dark:bg-pastel-900/60 text-pastel-700 dark:text-pastel-300 text-[11px] font-bold uppercase rounded-full border border-pastel-200 dark:border-pastel-700/60">BÀI GIẢNG</span>
+                    <div id="modalFolderPath" class="text-xs text-slate-400 mt-2 flex items-center justify-center gap-1 truncate"></div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 p-4 rounded-2xl glass-pill border border-white/60 dark:border-white/10 mb-6 text-sm">
+                    <div>
+                        <p class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider mb-0.5">Dung lượng</p>
+                        <p id="modalFileSize" class="font-extrabold text-slate-800 dark:text-slate-100">--</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider mb-0.5">Trạng thái file</p>
+                        <p class="font-bold text-emerald-600 dark:text-emerald-400 flex items-center justify-end gap-1">
+                            <i class="ph-fill ph-check-circle"></i> Sẵn sàng tải
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="copyCurrentFileLink()" class="py-3 px-3 rounded-2xl font-bold glass-pill text-slate-700 dark:text-slate-200 hover:bg-pastel-50 dark:hover:bg-pastel-900/60 flex items-center justify-center gap-1.5 transition-all text-xs active:scale-95 shadow-sm">
+                        <i class="ph-bold ph-link text-base text-pastel-500"></i> Sao chép link
+                    </button>
+                    <button onclick="previewFromDetailModal()" class="py-3 px-3 rounded-2xl font-bold bg-amber-500 hover:bg-amber-600 text-white flex items-center justify-center gap-1.5 transition-all text-xs shadow-glass-sm active:scale-95">
+                        <i class="ph-bold ph-eye text-base"></i> Xem trước
+                    </button>
+                    <a id="modalDownloadBtn" href="#" target="_blank" class="py-3 px-3 rounded-2xl font-bold bg-pastel-500 hover:bg-pastel-600 text-white flex items-center justify-center gap-1.5 transition-all shadow-glass-md shadow-pastel-500/25 text-xs active:scale-95">
+                        <i class="ph-bold ph-download-simple text-base"></i> Tải về máy
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: XEM TRƯỚC TÀI LIỆU TRỰC TIẾP (PREVIEW MODAL) -->
+    <div id="previewModal" class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 hidden bg-slate-950/60 opacity-0 backdrop-blur-sm transition-opacity">
+        <div class="glass-panel w-full max-w-5xl h-[90vh] rounded-3xl overflow-hidden shadow-glass-lg relative border border-white/80 dark:border-pastel-400/20 flex flex-col transform scale-95 opacity-0 transition-all duration-300" id="previewModalContent">
+            
+            <!-- Header Modal Xem Trước -->
+            <div class="p-3 sm:p-4 border-b border-white/60 dark:border-white/10 bg-white/40 dark:bg-slate-900/40 flex items-center justify-between gap-3 shrink-0">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div id="previewHeaderIcon" class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400 flex items-center justify-center text-2xl shrink-0 shadow-sm">
+                        <i class="ph-fill ph-file"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 id="previewTitle" class="text-sm sm:text-base font-bold text-slate-900 dark:text-white truncate">Xem trước tài liệu Lớp 2</h3>
+                        <p id="previewSubtitle" class="text-xs text-slate-500 dark:text-slate-400 truncate">Trình xem trực tuyến - Bài giảng Lớp 2</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2 shrink-0">
+                    <a id="previewOpenExternalBtn" href="#" target="_blank" title="Mở trang xem riêng" class="h-9 px-3 rounded-xl glass-pill hover:bg-pastel-100/60 dark:hover:bg-pastel-900/60 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm transition-colors">
+                        <i class="ph-bold ph-arrow-square-out text-base text-pastel-500"></i>
+                        <span class="hidden sm:inline">Mở toàn màn hình</span>
+                    </a>
+                    <a id="previewDownloadBtn" href="#" target="_blank" title="Tải xuống tệp tin" class="h-9 px-3.5 rounded-xl bg-pastel-500 hover:bg-pastel-600 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm active:scale-95 transition-colors">
+                        <i class="ph-bold ph-download-simple text-base"></i>
+                        <span class="hidden sm:inline">Tải về</span>
+                    </a>
+                    <button onclick="closeModal('previewModal')" title="Đóng cửa sổ (Esc)" class="w-9 h-9 rounded-xl glass-pill text-slate-600 dark:text-slate-300 hover:text-rose-500 flex items-center justify-center text-lg active:scale-95 transition-colors">
+                        <i class="ph-bold ph-x"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Nội dung Viewer -->
+            <div class="flex-1 bg-slate-50/50 dark:bg-slate-950/60 relative overflow-hidden flex items-center justify-center">
+                <div id="previewLoader" class="absolute inset-0 bg-white/70 dark:bg-slate-950/80 flex flex-col items-center justify-center z-10">
+                    <i class="ph-duotone ph-spinner-gap text-4xl text-pastel-500 spin mb-2"></i>
+                    <p class="text-xs sm:text-sm font-bold text-slate-700 dark:text-pastel-200">Đang khởi tạo trình xem trực tuyến...</p>
+                    <p class="text-[11px] text-slate-400 mt-1">Có thể xem trước nếu dung lượng tệp không quá lớn.</p>
+                </div>
+
+                <iframe id="previewIframe" src="" class="w-full h-full border-0 hidden" allow="autoplay"></iframe>
+
+                <div id="previewImageWrapper" class="w-full h-full overflow-auto p-4 hidden flex items-center justify-center">
+                    <img id="previewImage" src="" alt="Xem trước tranh ảnh" class="max-w-full max-h-full object-contain rounded-2xl shadow-lg">
+                </div>
+
+                <div id="previewFallback" class="hidden flex-col items-center justify-center text-center p-6">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-100/80 dark:bg-amber-950/60 text-amber-500 flex items-center justify-center text-3xl mb-3 shadow-sm">
+                        <i class="ph-bold ph-file-dashed"></i>
+                    </div>
+                    <h4 class="text-base font-bold text-slate-800 dark:text-white mb-1">Không thể hiển thị xem trước tệp tin này</h4>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 max-w-sm mb-4">Định dạng tệp này phù hợp hơn khi tải về máy tính để mở bằng phần mềm chuyên dụng (PowerPoint, Word, Excel).</p>
+                    <a id="previewFallbackDownloadBtn" href="#" target="_blank" class="px-5 py-2.5 rounded-xl bg-pastel-500 hover:bg-pastel-600 text-white font-bold text-xs sm:text-sm inline-flex items-center gap-2 shadow-sm">
+                        <i class="ph-bold ph-download-simple"></i> Tải về ngay
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: POPUP THÔNG BÁO & CẨM NANG HƯỚNG DẪN DÀNH CHO GIÁO VIÊN TIỂU HỌC LỚP 2 -->
+    <div id="welcomeModal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 hidden bg-slate-950/50 opacity-0 transition-opacity backdrop-blur-sm">
+        <div class="glass-panel w-full max-w-2xl rounded-3xl overflow-hidden shadow-glass-lg relative border border-white/80 dark:border-pastel-400/20 transform scale-95 opacity-0 transition-all duration-300" id="welcomeModalContent">
+            
+            <!-- Header bar with icon -->
+            <div class="p-6 bg-gradient-to-r from-pastel-600 to-sky-500 text-white relative">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-2xl border border-white/30 shadow-inner">
+                        <i class="ph-bold ph-book-open"></i>
+                    </div>
+                    <div>
+                        <span class="bg-white/25 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider border border-white/20">HƯỚNG DẪN</span>
+                        <h3 class="text-lg sm:text-xl font-bold leading-tight mt-1">Cách Sử Dụng Kho Bài Giảng Lớp 2</h3>
+                    </div>
+                </div>
+                <button onclick="closeModal('welcomeModal')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-colors">
+                    <i class="ph-bold ph-x"></i>
+                </button>
+            </div>
+
+            <!-- Body Message -->
+            <div class="p-6 sm:p-7 space-y-5 max-h-[72vh] overflow-y-auto">
+                <div class="space-y-3.5 text-xs sm:text-sm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <!-- Hướng dẫn 1: Tìm kiếm -->
+                        <div class="p-3.5 rounded-2xl glass-pill border border-white/70 dark:border-pastel-400/10 space-y-1.5">
+                            <div class="flex items-center gap-2 font-bold text-pastel-700 dark:text-pastel-300">
+                                <span class="w-6 h-6 rounded-lg bg-pastel-100 dark:bg-pastel-900 flex items-center justify-center text-xs">1</span>
+                                <span>Tìm kiếm nhanh</span>
+                            </div>
+                            <p class="text-slate-600 dark:text-slate-300 leading-normal text-xs">
+                                Tại mục <b>Tìm dữ liệu</b> nhập từ khóa bài dạy sau đó <b>nhấp nút "Tìm kiếm"</b> hoặc bấm phím <b>Enter</b> để lọc bài học.
+                            </p>
+                        </div>
+
+                        <!-- Hướng dẫn 2: Xem trước trực tuyến -->
+                        <div class="p-3.5 rounded-2xl glass-pill border border-white/70 dark:border-pastel-400/10 space-y-1.5">
+                            <div class="flex items-center gap-2 font-bold text-pastel-700 dark:text-pastel-300">
+                                <span class="w-6 h-6 rounded-lg bg-pastel-100 dark:bg-pastel-900 flex items-center justify-center text-xs">2</span>
+                                <span>Xem trước không cần tải</span>
+                            </div>
+                            <p class="text-slate-600 dark:text-slate-300 leading-normal text-xs">
+                                Nhấp vào nút <b>"Xem trước"</b> (màu cam) hoặc bấm trực tiếp vào tên Slide để mở cửa sổ trình chiếu trực tuyến.
+                            </p>
+                        </div>
+
+                        <!-- Hướng dẫn 3: 2 Chế độ hiển thị -->
+                        <div class="p-3.5 rounded-2xl glass-pill border border-white/70 dark:border-pastel-400/10 space-y-1.5">
+                            <div class="flex items-center gap-2 font-bold text-pastel-700 dark:text-pastel-300">
+                                <span class="w-6 h-6 rounded-lg bg-pastel-100 dark:bg-pastel-900 flex items-center justify-center text-xs">3</span>
+                                <span>Đổi chế độ Bảng / Lưới</span>
+                            </div>
+                            <p class="text-slate-600 dark:text-slate-300 leading-normal text-xs">
+                                Ở góc trên bên phải có nút chuyển <b>Bảng</b> (xem danh sách gọn) và <b>Lưới</b> (xem thẻ trực quan) tùy nhu cầu sử dụng.
+                            </p>
+                        </div>
+
+                        <!-- Hướng dẫn 4: Lọc theo phân loại -->
+                        <div class="p-3.5 rounded-2xl glass-pill border border-white/70 dark:border-pastel-400/10 space-y-1.5">
+                            <div class="flex items-center gap-2 font-bold text-pastel-700 dark:text-pastel-300">
+                                <span class="w-6 h-6 rounded-lg bg-pastel-100 dark:bg-pastel-900 flex items-center justify-center text-xs">4</span>
+                                <span>Lọc nhanh định dạng</span>
+                            </div>
+                            <p class="text-slate-600 dark:text-slate-300 leading-normal text-xs">
+                                Sử dụng các thẻ: <b>Powerpoint, Word, PDF, Ảnh</b> để lọc chính xác loại bài dạy hoặc slide cần tìm.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button onclick="acknowledgeWelcome()" class="w-full py-3.5 px-4 rounded-2xl font-bold bg-pastel-500 hover:bg-pastel-600 text-white flex items-center justify-center gap-2 transition-all shadow-md shadow-pastel-500/25 text-sm hover:scale-[1.01] active:scale-[0.98]">
+                        <i class="ph-bold ph-check"></i> Bắt đầu sử dụng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrKpuzuTMJfCc9p24iGdzk13udRNcDs51e3GNW1f9viCqGqC24PuZ_VYV5PlKqOUSf_A/exec';
+        const CACHE_STORAGE_KEY = 'drive_cache_th';
+        const CACHE_TTL_MS = 15 * 60 * 1000; // Tăng hiệu lực bộ nhớ đệm lên 15 phút
+
+        let globalData = [];
+        let byIdMap = new Map();
+        let folderMap = new Map();
+        let parentIndexMap = new Map();
+        let allValidFolderIds = new Set();
+
+        let currentFolderId = 'root'; 
+        let currentSearchQuery = '';
+        let currentSearchScope = 'global'; // 'global' (Toàn kho) hoặc 'current' (Thư mục này)
+        let currentFilterType = 'all';
+        let currentViewMode = localStorage.getItem('kidedu_view_mode') || 'table';
+        let currentActiveFile = null;
+
+        // Dark mode toggle listener
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        });
+
+        function showToast(message, isError = false) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = 'toast-msg';
+            toast.innerHTML = (isError 
+                ? '<i class="ph-bold ph-warning-circle text-rose-400 text-base"></i>' 
+                : '<i class="ph-bold ph-check-circle text-emerald-400 text-base"></i>') 
+                + `<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { if (container.contains(toast)) container.removeChild(toast); }, 2600);
+        }
+
+        // Chuyển đổi tiếng Việt không dấu siêu tốc để tìm kiếm chính xác
+        const VI_NORM_REGEX = /[\u0300-\u036f]/g;
+        function removeVietnameseTones(str) {
+            if (!str) return '';
+            return str.normalize('NFD').replace(VI_NORM_REGEX, '').replace(/[đĐ]/g, m => m === 'đ' ? 'd' : 'D');
+        }
+
+        function processAndIndexData(rawItems) {
+            globalData = rawItems || [];
+            byIdMap.clear();
+            folderMap.clear();
+            parentIndexMap.clear();
+            allValidFolderIds.clear();
+
+            // Lượt 1: Đánh dấu các ID thư mục hợp lệ
+            for (let i = 0; i < globalData.length; i++) {
+                const item = globalData[i];
+                if (!item) continue;
+                item._cleanId = String(item.id || item.link || ('idx_' + i)).trim();
+                item._name = String(item.name || '').trim();
+                item._type = String(item.type || '').toLowerCase().trim();
+                item._searchNorm = removeVietnameseTones(item._name).toLowerCase();
+                
+                byIdMap.set(item._cleanId, item);
+                if (item._type === 'folder') {
+                    folderMap.set(item._cleanId, item._name);
+                    allValidFolderIds.add(item._cleanId);
+                }
+            }
+
+            // Lượt 2: Chuẩn hóa quan hệ cha - con và tổ chức index theo thư mục
+            for (let i = 0; i < globalData.length; i++) {
+                const item = globalData[i];
+                if (!item) continue;
+                let p = item.parent ? String(item.parent).trim() : 'root';
+                if (!p || p === 'root' || !allValidFolderIds.has(p)) {
+                    item._normParent = 'root';
+                } else {
+                    item._normParent = p;
+                }
+
+                let list = parentIndexMap.get(item._normParent);
+                if (!list) {
+                    list = [];
+                    parentIndexMap.set(item._normParent, list);
+                }
+                list.push(item);
+            }
+        }
+
+        function getParentFolderName(parentId) {
+            if (!parentId || parentId === 'root') return 'Thư mục gốc';
+            return folderMap.get(parentId) || 'Thư mục gốc';
+        }
+
+        // Đọc dữ liệu từ bộ nhớ đệm localStorage (tương thích tuyệt đối với Widget.html prefetch) hoặc sessionStorage
+        function readStoredCache() {
+            try {
+                // Ưu tiên đọc từ localStorage - nơi Widget.html đã nạp sẵn (prefetch)
+                const raw = localStorage.getItem(CACHE_STORAGE_KEY) || sessionStorage.getItem(CACHE_STORAGE_KEY);
+                if (!raw) return null;
+
+                const parsed = JSON.parse(raw);
+                const timeStr = localStorage.getItem(`${CACHE_STORAGE_KEY}_time`) || (parsed && parsed.timestamp);
+                const timestamp = timeStr ? parseInt(timeStr, 10) : 0;
+
+                let items = null;
+                if (Array.isArray(parsed)) {
+                    items = parsed;
+                } else if (parsed && Array.isArray(parsed.data)) {
+                    items = parsed.data;
+                }
+
+                if (items && items.length > 0) {
+                    return { items, timestamp };
+                }
+            } catch (e) {
+                console.warn("Lỗi phân giải bộ nhớ đệm:", e);
+            }
+            return null;
+        }
+
+        async function loadData(forceRefresh = false) {
+            const refreshIcon = document.getElementById('refreshIcon');
+            if (refreshIcon) refreshIcon.classList.add('spin');
+
+            // 1. KIỂM TRA BỘ NHỚ ĐỆM PREFETCH: Mở tức thì 0 mili-giây không cần chờ loading
+            if (!forceRefresh) {
+                const cached = readStoredCache();
+                if (cached && cached.items && cached.items.length > 0) {
+                    processAndIndexData(cached.items);
+                    renderView();
+                    showLoading(false);
+                    if (refreshIcon) refreshIcon.classList.remove('spin');
+
+                    const isStillFresh = cached.timestamp && (Date.now() - cached.timestamp < CACHE_TTL_MS);
+                    const indicator = document.getElementById('cacheSyncIndicator');
+                    if (indicator) indicator.textContent = 'Online';
+
+                    // Nếu cache còn hạn, không cần gọi mạng; nếu đã qua thời hạn thì làm mới ngầm (Stale-While-Revalidate)
+                    if (isStillFresh) {
+                        return;
+                    } else {
+                        fetchBackgroundData();
+                        return;
+                    }
+                }
+            }
+
+            // 2. NẾU CHƯA CÓ CACHE: Hiển thị skeleton và gọi mạng trực tiếp
+            if (globalData.length === 0) {
+                renderSkeletonPlaceholders();
+            }
+            showLoading(globalData.length === 0);
+
+            try {
+                const response = await fetch(`${APPS_SCRIPT_URL}?action=getData`, { 
+                    method: 'GET', 
+                    mode: 'cors',
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (!response.ok) throw new Error('Không thể kết nối đến máy chủ Google Apps Script');
+                
+                const rawData = await response.json();
+                const items = rawData.data ? rawData.data : (Array.isArray(rawData) ? rawData : []);
+                
+                processAndIndexData(items);
+
+                // Đồng bộ cache vào cả localStorage (chuẩn của Widget) và sessionStorage
+                try {
+                    const now = String(Date.now());
+                    localStorage.setItem(CACHE_STORAGE_KEY, JSON.stringify(rawData));
+                    localStorage.setItem(`${CACHE_STORAGE_KEY}_time`, now);
+                    sessionStorage.setItem(CACHE_STORAGE_KEY, JSON.stringify({
+                        timestamp: Date.now(),
+                        data: items
+                    }));
+                } catch (e) { }
+
+                renderView();
+                if (forceRefresh) showToast("Đã cập nhật danh mục học liệu Lớp 2 mới nhất!");
+            } catch (error) {
+                console.error(error);
+                if (globalData.length === 0) {
+                    const loadingText = document.querySelector('#loadingOverlay p');
+                    if (loadingText) {
+                        loadingText.textContent = "Không thể tải dữ liệu. Vui lòng kiểm tra lại kết nối.";
+                        loadingText.classList.add("text-rose-500");
+                    }
+                } else {
+                    showToast("Không thể tải bản cập nhật mới", true);
+                }
+            } finally {
+                showLoading(false);
+                if (refreshIcon) refreshIcon.classList.remove('spin');
+            }
+        }
+
+        async function fetchBackgroundData() {
+            try {
+                const res = await fetch(`${APPS_SCRIPT_URL}?action=getData`, { mode: 'cors' });
+                if (!res.ok) return;
+                const raw = await res.json();
+                const freshItems = raw.data ? raw.data : (Array.isArray(raw) ? raw : []);
+                if (freshItems.length > 0) {
+                    processAndIndexData(freshItems);
+                    const now = String(Date.now());
+                    localStorage.setItem(CACHE_STORAGE_KEY, JSON.stringify(raw));
+                    localStorage.setItem(`${CACHE_STORAGE_KEY}_time`, now);
+                    sessionStorage.setItem(CACHE_STORAGE_KEY, JSON.stringify({
+                        timestamp: Date.now(),
+                        data: freshItems
+                    }));
+                    renderView();
+                }
+            } catch (e) { }
+        }
+
+        function showLoading(show) {
+            const overlay = document.getElementById('loadingOverlay');
+            if (!overlay) return;
+            if (show) overlay.classList.remove('hidden');
+            else overlay.classList.add('hidden');
+        }
+
+        function getCardIconStyles(type) {
+            const t = (type || '').toLowerCase();
+            switch(t) {
+                case 'folder': 
+                    return { 
+                        icon: 'ph-fill ph-folder', 
+                        boxClass: 'bg-amber-100/90 dark:bg-amber-950/40 text-amber-500 border border-amber-200/50 dark:border-amber-700/30', 
+                        badgeName: 'Thư mục chủ đề' 
+                    };
+                case 'pdf': 
+                    return { 
+                        icon: 'ph-fill ph-file-pdf', 
+                        boxClass: 'bg-rose-100/90 dark:bg-rose-950/40 text-rose-500 border border-rose-200/50 dark:border-rose-700/30', 
+                        badgeName: 'Tài liệu PDF' 
+                    };
+                case 'docx': case 'doc': 
+                    return { 
+                        icon: 'ph-fill ph-file-doc', 
+                        boxClass: 'bg-blue-100/90 dark:bg-blue-950/40 text-blue-600 border border-blue-200/50 dark:border-blue-700/30', 
+                        badgeName: 'Giáo án Word' 
+                    };
+                case 'xlsx': case 'xls': 
+                    return { 
+                        icon: 'ph-fill ph-file-xls', 
+                        boxClass: 'bg-emerald-100/90 dark:bg-emerald-950/40 text-emerald-600 border border-emerald-200/50 dark:border-emerald-700/30', 
+                        badgeName: 'Bảng tính Excel' 
+                    };
+                case 'pptx': case 'ppt': 
+                    return { 
+                        icon: 'ph-fill ph-file-ppt', 
+                        boxClass: 'bg-orange-100/90 dark:bg-orange-950/40 text-orange-500 border border-orange-200/50 dark:border-orange-700/30', 
+                        badgeName: 'Bài giảng PowerPoint' 
+                    };
+                case 'image': case 'png': case 'jpg': case 'jpeg': case 'webp':
+                    return { 
+                        icon: 'ph-fill ph-image', 
+                        boxClass: 'bg-purple-100/90 dark:bg-purple-950/40 text-purple-600 border border-purple-200/50 dark:border-purple-700/30', 
+                        badgeName: 'Tranh ảnh minh họa' 
+                    };
+                default: 
+                    return { 
+                        icon: 'ph-fill ph-file', 
+                        boxClass: 'bg-slate-100/90 dark:bg-slate-800/50 text-slate-500 border border-slate-200/50 dark:border-slate-700/30', 
+                        badgeName: 'Tập tin học liệu' 
+                    };
+            }
+        }
+
+        function formatBytes(bytes) {
+            if (!bytes || bytes === 0 || bytes === '') return '-';
+            const k = 1024, sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function highlightMatch(text, query) {
+            if (!query || !text) return escapeHtml(text);
+            const queryNorm = removeVietnameseTones(query).toLowerCase().trim();
+            const tokens = queryNorm.split(/\s+/).filter(Boolean);
+            if (tokens.length === 0) return escapeHtml(text);
+
+            const textNorm = removeVietnameseTones(text).toLowerCase();
+            const matches = [];
+
+            tokens.forEach(tok => {
+                let startPos = 0;
+                while ((startPos = textNorm.indexOf(tok, startPos)) !== -1) {
+                    matches.push({ start: startPos, end: startPos + tok.length });
+                    startPos += tok.length;
+                }
+            });
+
+            if (matches.length === 0) return escapeHtml(text);
+
+            matches.sort((a, b) => a.start - b.start);
+            const merged = [];
+            let current = matches[0];
+
+            for (let i = 1; i < matches.length; i++) {
+                const next = matches[i];
+                if (next.start <= current.end) {
+                    current.end = Math.max(current.end, next.end);
+                } else {
+                    merged.push(current);
+                    current = next;
+                }
+            }
+            merged.push(current);
+
+            let result = '';
+            let lastIndex = 0;
+            merged.forEach(m => {
+                result += escapeHtml(text.substring(lastIndex, m.start));
+                result += `<mark class="search-highlight">${escapeHtml(text.substring(m.start, m.end))}</mark>`;
+                lastIndex = m.end;
+            });
+            result += escapeHtml(text.substring(lastIndex));
+            return result;
+        }
+
+        function renderBreadcrumb() {
+            const breadcrumbEl = document.getElementById('breadcrumb');
+            let html = `<button onclick="navigateTo('root')" class="px-3 py-1.5 rounded-xl hover:bg-pastel-100/60 dark:hover:bg-pastel-900/50 text-pastel-600 dark:text-pastel-300 font-bold flex items-center gap-1.5 transition-colors whitespace-nowrap"><i class="ph-bold ph-house-line text-base"></i> Trang chủ</button>`;
+            
+            if (currentSearchQuery) {
+                html += `<i class="ph-bold ph-caret-right text-pastel-300 dark:text-pastel-700 shrink-0"></i>`;
+                html += `<span class="px-2.5 py-1.5 font-bold text-pastel-600 dark:text-pastel-300 truncate max-w-[240px]">Tìm: "${escapeHtml(currentSearchQuery)}"</span>`;
+            } else {
+                let path = [], current = byIdMap.get(currentFolderId);
+                let visited = new Set();
+                while (current && current.id !== 'root' && !visited.has(current.id)) {
+                    visited.add(current.id);
+                    path.unshift(current);
+                    current = byIdMap.get(current._normParent);
+                }
+                
+                path.forEach(folder => {
+                    html += `<i class="ph-bold ph-caret-right text-pastel-300 dark:text-pastel-700 shrink-0"></i>`;
+                    html += `<button onclick="navigateTo('${folder._cleanId}')" class="px-2.5 py-1.5 rounded-xl hover:bg-pastel-100/60 dark:hover:bg-pastel-900/50 font-medium truncate max-w-[170px] text-slate-700 dark:text-slate-200 transition-colors">${escapeHtml(folder.name)}</button>`;
+                });
+            }
+            breadcrumbEl.innerHTML = html;
+        }
+
+        function navigateTo(folderId) {
+            currentFolderId = folderId; 
+            document.getElementById('searchInput').value = ''; 
+            currentSearchQuery = ''; 
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (clearBtn) clearBtn.classList.add('hidden');
+            renderView();
+        }
+
+        function switchViewMode(mode) {
+            currentViewMode = mode;
+            localStorage.setItem('kidedu_view_mode', mode);
+            
+            const btnGrid = document.getElementById('viewBtnGrid');
+            const btnTable = document.getElementById('viewBtnTable');
+            const gridWrapper = document.getElementById('dataGrid');
+            const tableWrapper = document.getElementById('tableViewWrapper');
+
+            if (mode === 'table') {
+                btnTable.className = "h-9 px-3 rounded-xl flex items-center gap-1.5 text-xs sm:text-sm font-bold bg-pastel-500 text-white shadow-sm transition-all";
+                btnGrid.className = "h-9 px-3 rounded-xl flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-600 dark:text-pastel-200 hover:text-pastel-600 dark:hover:text-white transition-all";
+                tableWrapper.classList.remove('hidden');
+                gridWrapper.classList.add('hidden');
+            } else {
+                btnGrid.className = "h-9 px-3 rounded-xl flex items-center gap-1.5 text-xs sm:text-sm font-bold bg-pastel-500 text-white shadow-sm transition-all";
+                btnTable.className = "h-9 px-3 rounded-xl flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-600 dark:text-pastel-200 hover:text-pastel-600 dark:hover:text-white transition-all";
+                gridWrapper.classList.remove('hidden');
+                tableWrapper.classList.add('hidden');
+            }
+            renderView();
+        }
+
+        function toggleSearchScope() {
+            if (currentSearchScope === 'global') {
+                currentSearchScope = 'current';
+                document.getElementById('scopeIcon').className = 'ph-bold ph-folder-notch-open';
+                document.getElementById('scopeText').textContent = 'Thư mục này';
+                showToast("Phạm vi: Tìm kiếm trong thư mục hiện tại");
+            } else {
+                currentSearchScope = 'global';
+                document.getElementById('scopeIcon').className = 'ph-bold ph-globe';
+                document.getElementById('scopeText').textContent = 'All';
+                showToast("Phạm vi: Tìm kiếm quét toàn bộ mọi thư mục");
+            }
+            if (currentSearchQuery) renderView();
+        }
+
+        function executeSearch() {
+            const input = document.getElementById('searchInput');
+            const val = input.value.trim();
+            currentSearchQuery = val;
+            renderView();
+            if (val) {
+                showToast(`Đang hiển thị kết quả cho: "${val}"`);
+            }
+        }
+
+        function clearSearch() {
+            const input = document.getElementById('searchInput');
+            input.value = '';
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            currentSearchQuery = '';
+            renderView();
+        }
+
+        function getFilteredAndSortedData() {
+            let data = [];
+
+            if (currentSearchQuery) {
+                const normQuery = removeVietnameseTones(currentSearchQuery).toLowerCase().trim();
+                const source = (currentSearchScope === 'global') ? globalData : (parentIndexMap.get(currentFolderId) || []);
+                
+                data = source.filter(item => {
+                    const nameNorm = item._searchNorm || '';
+                    const typeNorm = item._type || '';
+                    return nameNorm.includes(normQuery) || typeNorm.includes(normQuery);
+                });
+            } else {
+                data = parentIndexMap.get(currentFolderId) ? [...parentIndexMap.get(currentFolderId)] : [];
+            }
+            
+            if (currentFilterType !== 'all') {
+                const knownTypes = ['folder', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'png', 'jpg', 'jpeg', 'image', 'webp', 'gif'];
+                
+                if (currentFilterType === 'folder') {
+                    data = data.filter(item => item._type === 'folder');
+                } else if (currentFilterType === 'word') {
+                    data = data.filter(item => ['doc', 'docx'].includes(item._type));
+                } else if (currentFilterType === 'ppt') {
+                    data = data.filter(item => ['ppt', 'pptx'].includes(item._type));
+                } else if (currentFilterType === 'pdf') {
+                    data = data.filter(item => item._type === 'pdf');
+                } else if (currentFilterType === 'excel') {
+                    data = data.filter(item => ['xls', 'xlsx'].includes(item._type));
+                } else if (currentFilterType === 'image') {
+                    data = data.filter(item => ['png', 'jpg', 'jpeg', 'image', 'webp', 'gif'].includes(item._type));
+                } else if (currentFilterType === 'other') {
+                    data = data.filter(item => !knownTypes.includes(item._type));
+                }
+            }
+            
+            const sortVal = document.getElementById('sortSelect').value;
+            data.sort((a, b) => {
+                // Luôn xếp Thư mục lên trước
+                if (a._type === 'folder' && b._type !== 'folder') return -1;
+                if (a._type !== 'folder' && b._type === 'folder') return 1;
+                if (sortVal === 'name_asc') return (a.name || '').localeCompare(b.name || '', 'vi', { numeric: true });
+                if (sortVal === 'name_desc') return (b.name || '').localeCompare(a.name || '', 'vi', { numeric: true });
+                if (sortVal === 'size_desc') return (Number(b.size) || 0) - (Number(a.size) || 0);
+                if (sortVal === 'size_asc') return (Number(a.size) || 0) - (Number(b.size) || 0);
+                return 0;
+            });
+            return data;
+        }
+
+        function renderView() {
+            renderBreadcrumb();
+            const dataToRender = getFilteredAndSortedData();
+            const grid = document.getElementById('dataGrid');
+            const tbody = document.getElementById('tableBody');
+            const emptyState = document.getElementById('emptyStateContainer');
+            const searchBadge = document.getElementById('searchBadge');
+            const searchBadgeText = document.getElementById('searchBadgeText');
+            
+            document.getElementById('itemCount').textContent = `${dataToRender.length} tài liệu`;
+
+            if (currentSearchQuery) {
+                searchBadge.classList.remove('hidden');
+                searchBadge.classList.add('flex');
+                searchBadgeText.textContent = `Khớp "${currentSearchQuery}" (${currentSearchScope === 'global' ? 'Toàn trường' : 'Thư mục'})`;
+            } else {
+                searchBadge.classList.add('hidden');
+                searchBadge.classList.remove('flex');
+            }
+
+            const isInsideFolder = currentFolderId !== 'root' && !currentSearchQuery;
+
+            if (dataToRender.length === 0 && !isInsideFolder) {
+                grid.innerHTML = '';
+                tbody.innerHTML = '';
+                emptyState.classList.replace('hidden', 'flex');
+                return;
+            }
+            
+            emptyState.classList.replace('flex', 'hidden');
+
+            let tableRowsHtml = '';
+            const gridFragment = document.createDocumentFragment();
+
+            // Thẻ / Dòng Quay lại thư mục cha
+            if (isInsideFolder) {
+                const parentFolder = byIdMap.get(currentFolderId);
+                const parentId = (parentFolder && parentFolder._normParent) ? parentFolder._normParent : 'root';
+
+                // Grid back card
+                const backCard = document.createElement('div');
+                backCard.className = "glass-card card-animate rounded-3xl p-5 cursor-pointer flex flex-col items-center justify-center min-h-[220px] group shadow-glass-sm hover:border-pastel-400";
+                backCard.onclick = () => navigateTo(parentId);
+                backCard.innerHTML = `
+                    <div class="w-13 h-13 p-3.5 rounded-2xl glass-pill flex items-center justify-center text-pastel-500 group-hover:scale-110 group-hover:bg-pastel-500 group-hover:text-white transition-all mb-3 shadow-sm">
+                        <i class="ph-bold ph-arrow-bend-up-left text-2xl"></i>
+                    </div>
+                    <p class="font-bold text-slate-700 dark:text-slate-200 group-hover:text-pastel-600 dark:group-hover:text-pastel-300">Quay lại</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Thư mục cấp trên</p>
+                `;
+                gridFragment.appendChild(backCard);
+
+                // Table back row
+                tableRowsHtml += `
+                    <tr class="glass-table-row cursor-pointer" onclick="navigateTo('${parentId}')">
+                        <td class="py-3 px-4 text-center text-pastel-500 font-bold"><i class="ph-bold ph-arrow-bend-up-left text-lg"></i></td>
+                        <td class="py-3 px-3 text-center"><i class="ph-fill ph-folder-open text-2xl text-amber-500"></i></td>
+                        <td class="py-3 px-4 font-bold text-pastel-600 dark:text-pastel-300">.. [Quay lại thư mục trước]</td>
+                        <td class="py-3 px-4 text-slate-400 font-semibold text-xs">--</td>
+                        <td class="py-3 px-4 text-right">
+                            <span class="px-3 py-1.5 rounded-xl glass-pill text-pastel-700 dark:text-pastel-300 font-bold text-xs inline-flex items-center gap-1 shadow-sm">
+                                Lên một cấp
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            }
+
+            dataToRender.forEach((item, index) => {
+                const isFolder = item._type === 'folder';
+                const fileId = item.link || item._cleanId;
+                const dlLink = `https://drive.google.com/uc?export=download&confirm=t&id=${fileId}`;
+                const styles = getCardIconStyles(item._type);
+                const parentName = getParentFolderName(item._normParent);
+                const displayName = currentSearchQuery ? highlightMatch(item.name, currentSearchQuery) : escapeHtml(item.name);
+
+                const locationLabel = (currentSearchQuery && currentSearchScope === 'global') ? `
+                    <button onclick="event.stopPropagation(); navigateTo('${item._normParent}')" class="text-[11px] text-pastel-600 dark:text-pastel-400 hover:underline flex items-center gap-1 mt-1 font-semibold" title="Đi tới thư mục chứa">
+                        <i class="ph-bold ph-folder text-amber-500"></i> ${escapeHtml(parentName)}
+                    </button>
+                ` : '';
+
+                // 1. GRID CARD
+                const card = document.createElement('div');
+                card.className = "glass-card card-animate rounded-3xl p-5 shadow-glass-sm flex flex-col group relative overflow-hidden";
+                card.style.animationDelay = `${Math.min(index * 20, 240)}ms`;
+                
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div class="w-13 h-13 p-3.5 rounded-2xl flex items-center justify-center text-2xl shadow-sm ${styles.boxClass} shrink-0">
+                            <i class="${styles.icon}"></i>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            ${isFolder 
+                                ? `<span class="bg-amber-100/90 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase flex items-center gap-1 border border-amber-200/60 dark:border-amber-700/40"><i class="ph-fill ph-folders"></i> Môn học</span>` 
+                                : `<span class="bg-pastel-100/90 dark:bg-pastel-950/60 text-pastel-700 dark:text-pastel-300 text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 border border-pastel-200/60 dark:border-pastel-700/40"><i class="ph-bold ph-hard-drive"></i> ${formatBytes(item.size)}</span>`
+                            }
+                        </div>
+                    </div>
+                    
+                    <h3 class="font-bold text-sm sm:text-base text-slate-900 dark:text-white line-clamp-2 mb-1 group-hover:text-pastel-600 dark:group-hover:text-pastel-300 transition-colors cursor-pointer" 
+                        onclick="${isFolder ? `navigateTo('${item._cleanId}')` : `openPreviewModal('${item._cleanId}')`}" 
+                        title="${escapeHtml(item.name)}">${displayName}</h3>
+
+                    ${locationLabel}
+                    
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-5 mt-1 flex-1 line-clamp-2">
+                        ${isFolder ? 'Thư mục bài giảng, tài liệu Lớp 2.' : `Tài liệu định dạng ${styles.badgeName}.`}
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-2 mt-auto pt-2 border-t border-white/50 dark:border-white/5">
+                        ${isFolder ? `
+                            <button onclick="navigateTo('${item._cleanId}')" class="col-span-2 py-2.5 rounded-xl bg-pastel-500 hover:bg-pastel-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all shadow-glass-sm hover:shadow-pastel-500/25 active:scale-[0.98]">
+                                Mở môn học <i class="ph-bold ph-arrow-right"></i>
+                            </button>
+                        ` : `
+                            <button onclick="openPreviewModal('${item._cleanId}')" class="py-2 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-1 transition-all shadow-sm active:scale-95">
+                                <i class="ph-bold ph-eye"></i> Xem trước
+                            </button>
+                            <a href="${dlLink}" target="_blank" class="py-2 px-3 rounded-xl bg-pastel-500 hover:bg-pastel-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-1 transition-all shadow-sm active:scale-95">
+                                <i class="ph-bold ph-download-simple"></i> Tải về
+                            </a>
+                        `}
+                    </div>
+                `;
+                gridFragment.appendChild(card);
+
+                // 2. TABLE ROW
+                tableRowsHtml += `
+                    <tr class="glass-table-row transition-colors">
+                        <td class="py-3 px-4 text-center text-slate-400 font-semibold text-xs">${index + 1}</td>
+                        <td class="py-3 px-3 text-center">
+                            <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl ${styles.boxClass} text-lg shadow-sm">
+                                <i class="${styles.icon}"></i>
+                            </span>
+                        </td>
+                        <td class="py-3 px-4">
+                            <div class="max-w-xs sm:max-w-md lg:max-w-xl py-0.5">
+                                <span class="font-bold text-slate-900 dark:text-slate-100 text-sm truncate block cursor-pointer hover:text-pastel-600 dark:hover:text-pastel-300 transition-colors" 
+                                      onclick="${isFolder ? `navigateTo('${item._cleanId}')` : `openPreviewModal('${item._cleanId}')`}" 
+                                      title="${escapeHtml(item.name)}">
+                                    ${displayName}
+                                </span>
+                                ${locationLabel}
+                            </div>
+                        </td>
+                        <td class="py-3 px-4 text-slate-600 dark:text-slate-300 font-semibold text-xs sm:text-sm">${isFolder ? '--' : formatBytes(item.size)}</td>
+                        <td class="py-3 px-4 text-right">
+                            ${isFolder ? `
+                                <button onclick="navigateTo('${item._cleanId}')" class="px-3.5 py-1.5 rounded-xl bg-pastel-500 hover:bg-pastel-600 text-white font-bold text-xs inline-flex items-center gap-1.5 active:scale-95 shadow-sm transition-colors">
+                                    Mở thư mục <i class="ph-bold ph-arrow-right"></i>
+                                </button>
+                            ` : `
+                                <div class="inline-flex items-center gap-1.5">
+                                    <button onclick="openFileDetail('${item._cleanId}')" title="Thông tin tệp tin" class="w-8 h-8 rounded-xl glass-pill text-slate-700 dark:text-slate-200 hover:text-pastel-600 flex items-center justify-center active:scale-95 shadow-sm transition-colors">
+                                        <i class="ph-bold ph-info text-sm"></i>
+                                    </button>
+                                    <button onclick="openPreviewModal('${item._cleanId}')" title="Xem trước nội dung" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs inline-flex items-center gap-1 active:scale-95 shadow-sm transition-colors">
+                                        <i class="ph-bold ph-eye text-sm"></i> Xem trước
+                                    </button>
+                                    <a href="${dlLink}" target="_blank" title="Tải xuống tệp tin" class="px-3 py-1.5 rounded-xl bg-pastel-500 hover:bg-pastel-600 text-white font-bold text-xs inline-flex items-center gap-1 active:scale-95 shadow-sm transition-colors">
+                                        <i class="ph-bold ph-download-simple text-sm"></i> Tải về
+                                    </a>
+                                </div>
+                            `}
+                        </td>
+                    </tr>
+                `;
+            });
+
+            grid.innerHTML = '';
+            grid.appendChild(gridFragment);
+            tbody.innerHTML = tableRowsHtml;
+        }
+
+        function renderSkeletonPlaceholders() {
+            const grid = document.getElementById('dataGrid');
+            if (!grid) return;
+            let skeletonsHtml = '';
+            for (let i = 0; i < 8; i++) {
+                skeletonsHtml += `
+                    <div class="glass-card rounded-3xl p-5 shadow-glass-sm flex flex-col skeleton-shimmer">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-13 h-13 rounded-2xl bg-slate-200/70 dark:bg-slate-800/70 p-3.5"></div>
+                            <div class="w-16 h-5 rounded-full bg-slate-200/70 dark:bg-slate-800/70"></div>
+                        </div>
+                        <div class="h-4 w-3/4 rounded-lg bg-slate-200/70 dark:bg-slate-800/70 mb-2"></div>
+                        <div class="h-3 w-1/2 rounded-lg bg-slate-200/60 dark:bg-slate-800/60 mb-6"></div>
+                        <div class="grid grid-cols-2 gap-2 mt-auto pt-2 border-t border-white/40 dark:border-white/5">
+                            <div class="h-8 rounded-xl bg-slate-200/70 dark:bg-slate-800/70"></div>
+                            <div class="h-8 rounded-xl bg-slate-200/70 dark:bg-slate-800/70"></div>
+                        </div>
+                    </div>`;
+            }
+            grid.innerHTML = skeletonsHtml;
+        }
+
+        function setupEvents() {
+            const searchInput = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('clearSearchBtn');
+
+            // Khi gõ: CHỈ hiển thị hoặc ẩn nút Xóa nhanh, TUYỆT ĐỐI KHÔNG tự động tìm kiếm khi đang gõ
+            searchInput.addEventListener('input', (e) => {
+                const val = e.target.value;
+                if (val.trim()) {
+                    clearBtn.classList.remove('hidden');
+                    clearBtn.classList.add('flex');
+                } else {
+                    clearBtn.classList.add('hidden');
+                    clearBtn.classList.remove('flex');
+                }
+            });
+
+            // Cho phép ấn Enter tại ô nhập liệu để tìm kiếm nhanh mà không cần rê chuột bấm nút
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    executeSearch();
+                } else if (e.key === 'Escape') {
+                    clearSearch();
+                }
+            });
+            
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    filterTabs.forEach(t => {
+                        t.classList.remove('bg-pastel-500', 'text-white', 'shadow-glass-sm', 'border-pastel-300/40', 'active');
+                        t.classList.add('glass-pill', 'text-slate-600', 'dark:text-slate-300');
+                    });
+                    
+                    const clickedTab = e.currentTarget;
+                    clickedTab.classList.remove('glass-pill', 'text-slate-600', 'dark:text-slate-300');
+                    clickedTab.classList.add('bg-pastel-500', 'text-white', 'shadow-glass-sm', 'border-pastel-300/40', 'active');
+                    
+                    currentFilterType = clickedTab.dataset.type;
+                    renderView();
+                });
+            });
+
+            document.getElementById('sortSelect').addEventListener('change', renderView);
+        }
+
+        function openFileDetail(cleanId) {
+            const file = byIdMap.get(cleanId);
+            if (!file) return;
+            currentActiveFile = file;
+
+            const styles = getCardIconStyles(file._type);
+            document.getElementById('modalFileName').textContent = file.name;
+            document.getElementById('modalFileTypeBadge').textContent = styles.badgeName;
+            document.getElementById('modalFileSize').textContent = formatBytes(file.size);
+            
+            const parentName = getParentFolderName(file._normParent);
+            document.getElementById('modalFolderPath').innerHTML = `<i class="ph-bold ph-folder text-amber-500"></i> Chủ đề: <span class="font-bold text-slate-700 dark:text-slate-200">${escapeHtml(parentName)}</span>`;
+
+            const iconContainer = document.getElementById('modalIconContainer');
+            iconContainer.className = `w-20 h-20 rounded-3xl glass-panel shadow-glass-md flex items-center justify-center text-4xl border border-white/90 ${styles.boxClass}`;
+            iconContainer.innerHTML = `<i class="${styles.icon}"></i>`;
+            
+            const fileId = file.link || file._cleanId;
+            document.getElementById('modalDownloadBtn').href = `https://drive.google.com/uc?export=download&confirm=t&id=${fileId}`;
+
+            openModal('fileModal');
+        }
+
+        function previewFromDetailModal() {
+            if (!currentActiveFile) return;
+            const fid = currentActiveFile._cleanId;
+            closeModal('fileModal');
+            openPreviewModal(fid);
+        }
+
+        function copyCurrentFileLink() {
+            if (!currentActiveFile) return;
+            const fileId = currentActiveFile.link || currentActiveFile._cleanId;
+            const link = `https://drive.google.com/uc?export=download&confirm=t&id=${fileId}`;
+            
+            const temp = document.createElement('input');
+            temp.value = link;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            showToast("Đã sao chép liên kết tải về!");
+        }
+
+        function openPreviewModal(cleanId) {
+            const file = byIdMap.get(cleanId);
+            if (!file) return;
+            currentActiveFile = file;
+
+            const modal = document.getElementById('previewModal');
+            const iframe = document.getElementById('previewIframe');
+            const imgWrap = document.getElementById('previewImageWrapper');
+            const img = document.getElementById('previewImage');
+            const loader = document.getElementById('previewLoader');
+            const fallback = document.getElementById('previewFallback');
+            const headerIcon = document.getElementById('previewHeaderIcon');
+            const titleEl = document.getElementById('previewTitle');
+            const subTitleEl = document.getElementById('previewSubtitle');
+            const extBtn = document.getElementById('previewOpenExternalBtn');
+            const dlBtn = document.getElementById('previewDownloadBtn');
+            const fallbackDlBtn = document.getElementById('previewFallbackDownloadBtn');
+
+            const fileId = file.link || file._cleanId;
+            const styles = getCardIconStyles(file._type);
+            const parentName = getParentFolderName(file._normParent);
+
+            titleEl.textContent = file.name;
+            subTitleEl.textContent = `Chủ đề: ${parentName} • Dung lượng: ${formatBytes(file.size)}`;
+            headerIcon.className = `w-10 h-10 rounded-2xl flex items-center justify-center text-2xl shrink-0 shadow-sm ${styles.boxClass}`;
+            headerIcon.innerHTML = `<i class="${styles.icon}"></i>`;
+
+            const downloadUrl = `https://drive.google.com/uc?export=download&confirm=t&id=${fileId}`;
+            const previewUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+
+            dlBtn.href = downloadUrl;
+            fallbackDlBtn.href = downloadUrl;
+            extBtn.href = previewUrl;
+
+            loader.classList.remove('hidden');
+            iframe.classList.add('hidden');
+            imgWrap.classList.add('hidden');
+            fallback.classList.add('hidden');
+            iframe.src = '';
+            img.src = '';
+
+            const t = (file._type || '').toLowerCase();
+            const isImage = ['png', 'jpg', 'jpeg', 'image', 'gif', 'webp'].includes(t);
+
+            if (isImage) {
+                img.onload = () => {
+                    loader.classList.add('hidden');
+                    imgWrap.classList.remove('hidden');
+                };
+                img.onerror = () => {
+                    iframe.onload = () => {
+                        loader.classList.add('hidden');
+                        iframe.classList.remove('hidden');
+                    };
+                    iframe.src = previewUrl;
+                };
+                img.src = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1600`;
+            } else {
+                iframe.onload = () => {
+                    loader.classList.add('hidden');
+                    iframe.classList.remove('hidden');
+                };
+                iframe.src = previewUrl;
+
+                setTimeout(() => {
+                    if (!loader.classList.contains('hidden')) {
+                        loader.classList.add('hidden');
+                        iframe.classList.remove('hidden');
+                    }
+                }, 6500);
+            }
+
+            openModal('previewModal');
+        }
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const modalContent = document.getElementById(modalId + 'Content');
+            if (!modal || !modalContent) return;
+
+            modal.classList.remove('hidden');
+            void modal.offsetWidth; 
+            
+            modal.style.opacity = '1';
+            modalContent.classList.remove('scale-95', 'opacity-0');
+            modalContent.classList.add('scale-100', 'opacity-100');
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const modalContent = document.getElementById(modalId + 'Content');
+            if (!modal || !modalContent) return;
+            
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            modal.style.opacity = '0';
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                if (modalId === 'previewModal') {
+                    const iframe = document.getElementById('previewIframe');
+                    const img = document.getElementById('previewImage');
+                    if (iframe) iframe.src = '';
+                    if (img) img.src = '';
+                }
+            }, 220);
+        }
+
+        function checkFirstVisit() {
+            const hasSeen = localStorage.getItem('hasSeenAdminNotice_kidedu_th');
+            if (!hasSeen) {
+                setTimeout(() => openWelcomeModal(false), 500);
+            }
+        }
+
+        function openWelcomeModal(isManual = false) {
+            openModal('welcomeModal');
+        }
+
+        function acknowledgeWelcome() {
+            localStorage.setItem('hasSeenAdminNotice_kidedu_th', 'true');
+            closeModal('welcomeModal');
+        }
+
+        window.onclick = function(e) {
+            ['fileModal', 'welcomeModal', 'previewModal'].forEach(id => {
+                if (e.target === document.getElementById(id)) {
+                    closeModal(id);
+                }
+            });
+        };
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                ['fileModal', 'welcomeModal', 'previewModal'].forEach(id => closeModal(id));
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            switchViewMode(currentViewMode);
+            setupEvents();
+            loadData(); 
+            checkFirstVisit();
+        });
+    </script>
+</body>
+</html>
