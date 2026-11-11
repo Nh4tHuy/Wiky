@@ -1,2055 +1,636 @@
 <!DOCTYPE html>
-<html lang="vi" class="h-full overflow-x-hidden">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <!-- SEO & Social Share -->
-<title>WIKY CLOUD - Kho Video Bài Giảng Mầm Non</title>
-<meta name="description" content="Nền tảng quản lý và lưu trữ video bài giảng mầm non trực tuyến.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wiky – Trang chủ hệ sinh thái</title>
+<script>try{var t=localStorage.getItem("wiky-theme");if(!t)t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="dark"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--w:255,255,255;--fg:#fff;--soft:#cfd6f7;--bg:#04050e;--line:#1f2a66;--blue:#2b5bff;--blue2:#7da0ff;--mut:#8f98c4;--green:#22c55e;--red:#ef4444;--glass:rgba(20,28,78,.38)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Be Vietnam Pro','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;overflow-x:hidden;transition:background .4s,color .4s}
+a{color:inherit;text-decoration:none}
+svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* nền */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.bg::before{content:"";position:absolute;inset:0;background:linear-gradient(#2b5bff22 1px,transparent 1px) 0 0/64px 64px,linear-gradient(90deg,#2b5bff22 1px,transparent 1px) 0 0/64px 64px;-webkit-mask-image:radial-gradient(ellipse at 50% 20%,#000,transparent 70%);mask-image:radial-gradient(ellipse at 50% 20%,#000,transparent 70%);animation:drift 24s linear infinite}
+@keyframes drift{to{background-position:0 64px,64px 0}}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;animation:float 14s ease-in-out infinite}
+.o1{width:520px;height:520px;background:#1f3fd1;top:-160px;left:50%;margin-left:-260px}
+.o2{width:380px;height:380px;background:#4b2bd6;top:55%;right:-120px;animation-delay:-5s;opacity:.3}
+.o3{width:340px;height:340px;background:#0e7bd6;top:30%;left:-120px;animation-delay:-9s;opacity:.28}
+@keyframes float{50%{transform:translate(40px,50px) scale(1.12)}}
+.prog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#2b5bff,#8fb0ff);z-index:99;box-shadow:0 0 12px #2b5bff}
+.cursor{position:fixed;width:340px;height:340px;margin:-170px 0 0 -170px;border-radius:50%;background:radial-gradient(circle,rgba(43,91,255,.16),transparent 65%);pointer-events:none;z-index:-1;transition:transform .12s}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+section{padding:56px 0}
+.pill{display:inline-flex;gap:6px;align-items:center;font-size:12px;padding:5px 14px;border-radius:99px;background:rgba(var(--w),.06);border:1px solid rgba(var(--w),.12);color:var(--soft);margin-bottom:16px;backdrop-filter:blur(8px)}
+h2{font-size:clamp(28px,4vw,42px);font-weight:600;text-align:center;letter-spacing:-.3px;line-height:1.3}
+.sub{color:var(--mut);text-align:center;max-width:620px;margin:10px auto 34px;font-size:15px}
+.center{text-align:center}
+/* GLASS */
+.glass{position:relative;background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.02) 45%,var(--glass));border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-radius:22px;box-shadow:0 10px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.12);transform-style:preserve-3d;transition:transform .25s ease-out,box-shadow .3s,border-color .3s;overflow:hidden}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(110,150,255,.28),transparent 45%)}
+.glass::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),#8fb0ff,transparent 60%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.glass:hover::before,.glass:hover::after{opacity:1}
+.glass:hover{box-shadow:0 24px 60px rgba(20,50,200,.35),inset 0 1px 0 rgba(255,255,255,.2)}
+.glass>*{position:relative;z-index:1}
+.rip{position:absolute;border-radius:50%;background:rgba(120,160,255,.35);transform:scale(0);animation:rip .7s ease-out forwards;pointer-events:none;z-index:0}
+@keyframes rip{to{transform:scale(4);opacity:0}}
+/* nút */
+.btn{position:relative;display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font:inherit;font-size:14px;font-weight:500;padding:11px 22px;border-radius:99px;background:linear-gradient(180deg,#4373ff,#2349d8);color:#fff;box-shadow:0 6px 20px rgba(43,91,255,.45),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .2s,box-shadow .3s;overflow:hidden}
+.btn::after{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-20deg);transition:left .6s}
+.btn:hover::after{left:130%}
+.btn:hover{box-shadow:0 10px 34px rgba(43,91,255,.65),inset 0 1px 0 rgba(255,255,255,.4)}
+.btn.ghost{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.22);box-shadow:none;backdrop-filter:blur(8px)}
+.btn.ghost:hover{background:rgba(255,255,255,.1)}
+/* nav */
+nav{position:sticky;top:14px;z-index:50;max-width:1000px;margin:14px auto 0;padding:9px 12px 9px 20px;display:flex;align-items:center;justify-content:space-between;border-radius:99px;background:rgba(10,14,40,.55);backdrop-filter:blur(18px);border:1px solid rgba(var(--w),.1);box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600}
+.lm{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,#3a68ff,#8fb0ff);display:grid;place-items:center;box-shadow:0 4px 14px rgba(43,91,255,.6)}
+.links{display:flex;gap:6px;font-size:14px;color:var(--mut);position:relative}
+.links a{padding:6px 14px;border-radius:99px;transition:.25s}
+.links a:hover,.links a.act{color:var(--fg);background:rgba(var(--w),.08)}
+.nav-r{display:flex;align-items:center;gap:14px;font-size:14px}
+/* hero */
+.hero{text-align:center;padding:64px 24px 20px}
+.promo{display:inline-flex;gap:10px;align-items:center;font-size:12px;padding:5px 14px 5px 5px;border-radius:99px;background:rgba(var(--w),.06);border:1px solid rgba(var(--w),.12);color:var(--soft)}
+.promo b{background:var(--blue);padding:3px 10px;border-radius:99px;font-weight:500;display:flex;align-items:center;gap:5px}
+h1{font-size:clamp(38px,6.5vw,70px);font-weight:700;line-height:1.2;letter-spacing:-1px;padding-bottom:.1em;margin:26px auto 20px;max-width:880px;background:linear-gradient(100deg,#fff 0,#cdd8ff 38%,#7da0ff 55%,#fff 80%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s ease-in-out infinite}
+@keyframes shine{50%{background-position:100% 0}}
+.lead{color:var(--mut);max-width:560px;margin:0 auto 32px;font-size:16px}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.search{margin:40px auto 0;max-width:560px;display:flex;align-items:center;gap:10px;border-radius:99px;padding:7px 7px 7px 20px}
+.search input{flex:1;background:none;border:0;outline:0;color:var(--fg);font:inherit;font-size:15px}
+.search input::placeholder{color:var(--mut)}
+.search:focus-within{border-color:var(--blue2);box-shadow:0 0 0 4px rgba(43,91,255,.25)}
+/* mockup hero */
+.stage{perspective:1400px;max-width:900px;margin:44px auto 0;padding:0 24px}
+.mock{padding:18px;border-radius:26px;transform:rotateX(14deg) rotateZ(-2deg);transition:transform .15s}
+.mock .bar{display:flex;gap:7px;margin-bottom:14px}.mock .bar i{width:10px;height:10px;border-radius:50%;background:rgba(var(--w),.25)}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.tile{padding:16px 10px;border-radius:16px;background:rgba(var(--w),.05);border:1px solid rgba(var(--w),.08);text-align:center;font-size:12px;color:var(--soft);animation:bob 5s ease-in-out infinite;transition:.3s}
+.tile:hover{background:rgba(43,91,255,.3);transform:translateY(-6px) scale(1.05)}
+.tile .ib{margin:0 auto 8px}
+.tile:nth-child(2n){animation-delay:-1.5s}.tile:nth-child(3n){animation-delay:-3s}
+@keyframes bob{50%{transform:translateY(-5px)}}
+/* icon tile */
+.ib{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:21px;color:#fff;background:linear-gradient(145deg,#4d7bff,#2038b8);box-shadow:0 8px 22px rgba(43,91,255,.5),inset 0 1px 0 rgba(255,255,255,.45),inset 0 -6px 12px rgba(0,0,0,.2);transition:.35s}
+.glass:hover .ib{transform:translateZ(30px) rotate(-6deg) scale(1.1)}
+/* marquee */
+.mq{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.mt{display:flex;gap:16px;padding-right:16px;width:max-content;animation:mq 30s linear infinite}
+.mq:hover .mt{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(-50%)}}
+.lg{display:flex;align-items:center;gap:9px;font-weight:600;font-size:18px;white-space:nowrap;opacity:.9}
+.lg span{width:20px;height:20px;border-radius:50%;border:4px solid currentColor}
+.note{color:var(--mut);font-size:13px;text-align:center;margin-top:30px}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.card{padding:26px;display:block}
+.card .ib{margin-bottom:40px}
+.card h3{font-size:17px;font-weight:600;margin-bottom:6px}
+.card p{color:var(--mut);font-size:14px}
+.go{display:inline-flex;gap:6px;align-items:center;margin-top:16px;font-size:13px;color:var(--blue2)}
+.go svg{transition:.25s}.card:hover .go svg{transform:translate(4px,-3px)}
+.feat{grid-template-columns:repeat(3,1fr);align-items:end;max-width:960px;margin:0 auto}
+.feat .card:nth-child(2){margin-bottom:34px;padding-bottom:36px}
+/* steps */
+.steps{display:flex;gap:20px;align-items:stretch}
+.step{flex:1;padding:28px;min-height:250px;display:flex;flex-direction:column;cursor:pointer;transition:flex .55s cubic-bezier(.2,.8,.2,1),background .4s,transform .25s}
+.step small{color:var(--blue2);font-size:22px;font-weight:600}
+.step h3{font-size:22px;margin:8px 0 10px}.step p{color:var(--mut);font-size:14px;max-width:300px}
+.step .go{margin-top:auto;color:var(--fg)}
+.step.on{flex:1.5;background:linear-gradient(150deg,#3a68ff,#1d3fd0);border-color:#7da0ff}
+.step.on small,.step.on p{color:#e6edff}
+.step:not(.on) .go{display:none}
+/* dash */
+.dash{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.panel{padding:22px}
+.hd{display:flex;justify-content:space-between;align-items:center;font-size:14px;margin-bottom:10px}.hd span{color:var(--mut);font-size:12px}
+svg.ch{width:100%;height:120px;display:block;overflow:visible}
+.ch path.ln{fill:none;stroke-width:2.2;stroke-dasharray:900;stroke-dashoffset:900;filter:drop-shadow(0 0 6px currentColor)}
+.in .ch path.ln{animation:draw 2.2s ease forwards}
+.ch .fl{opacity:0;transition:opacity 1.4s .8s}.in .ch .fl{opacity:1}
+@keyframes draw{to{stroke-dashoffset:0}}
+.ch .dot{opacity:0}.in .ch .dot{opacity:1;transition:opacity .3s 2s;animation:pulse 2s 2s infinite}
+@keyframes pulse{50%{r:8;opacity:.4}}
+.tick{display:flex;justify-content:space-between;border-top:1px solid rgba(var(--w),.08);margin-top:12px;padding-top:12px;font-size:13px}
+.tick div+div{border-left:1px solid rgba(var(--w),.08);padding-left:16px}
+.up{color:var(--green)}.dn{color:var(--red)}
+.live{display:inline-flex;gap:6px;align-items:center;color:var(--green)}.live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.2}}
+/* testi */
+.testi{display:grid;grid-template-columns:1fr 1.15fr;gap:40px;align-items:center}
+.big{font-size:clamp(56px,8vw,88px);font-weight:700;color:var(--blue);line-height:1;text-shadow:0 0 40px rgba(43,91,255,.6)}
+.stars{display:flex;gap:4px;align-items:center;color:var(--blue2);margin:16px 0 6px;font-size:18px}.stars svg{fill:currentColor}
+.quote{padding:28px;display:flex;gap:22px;align-items:center;min-height:200px}
+.quote .av{width:84px;height:104px;border-radius:16px;flex:none;background:linear-gradient(160deg,#3a68ff,#101a5c);display:grid;place-items:center;font-size:32px;font-weight:600}
+.qb{transition:opacity .35s,transform .35s}.qb.out{opacity:0;transform:translateX(16px)}
+.qb p{font-size:16px;margin-bottom:14px}.qb b{display:block}.qb small{color:var(--mut)}
+.arrows{display:flex;gap:10px;margin-top:20px}
+.arrows button{width:42px;height:42px;border-radius:50%;border:1px solid rgba(var(--w),.2);background:rgba(var(--w),.05);color:var(--fg);cursor:pointer;display:grid;place-items:center;transition:.25s;font-size:18px}
+.arrows button:hover{background:var(--blue);border-color:var(--blue);transform:scale(1.1)}
+/* plans */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:center;max-width:980px;margin:0 auto}
+.plan{padding:30px}
+.plan.pop{padding:42px 30px;border-color:rgba(125,160,255,.6);background:linear-gradient(160deg,rgba(60,100,255,.3),rgba(20,28,78,.5));box-shadow:0 0 70px rgba(43,91,255,.3)}
+.price{font-size:42px;font-weight:600;margin:6px 0}.price small{font-size:14px;color:var(--mut);font-weight:400}
+.plan ul{list-style:none;margin:20px 0 26px;display:grid;gap:11px;font-size:14px;color:var(--soft)}
+.plan li{display:flex;gap:10px;align-items:center}.plan li svg{color:var(--green);stroke-width:2.4}
+.plan .btn{width:100%;justify-content:center}
+.badge{font-size:11px;padding:3px 10px;border-radius:99px;background:var(--blue);margin-left:8px}
+/* faq */
+.tabs{display:flex;gap:26px;justify-content:center;margin:-18px 0 26px;font-size:14px;position:relative}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;color:var(--mut);font:inherit;padding:6px 2px;cursor:pointer;transition:.25s}
+.tabs button.on{color:var(--blue2);border-color:var(--blue)}
+.faq{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:960px;margin:0 auto}
+.qs{display:grid;gap:12px;align-content:start}
+.q{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-radius:14px;background:rgba(var(--w),.04);border:1px solid transparent;color:var(--mut);cursor:pointer;transition:.3s}
+.q:hover{background:rgba(var(--w),.08);transform:translateX(4px)}
+.q svg{transition:transform .35s}.q.on{color:var(--fg);border-color:rgba(125,160,255,.7);background:rgba(43,91,255,.16)}.q.on svg{transform:rotate(135deg)}
+.ans{padding:26px;min-height:240px;display:flex;flex-direction:column;justify-content:space-between}
+.ans p{transition:opacity .25s,transform .25s;font-size:15px}.ans p.out{opacity:0;transform:translateY(8px)}
+.ans .arrows{margin:0 0 0 auto}.ans .arrows button{width:34px;height:34px;font-size:15px}
+/* cta */
+.ctaBox{position:relative;overflow:hidden;text-align:center;padding:84px 24px;border-radius:30px;border:1px solid rgba(125,160,255,.3);background:linear-gradient(#2b5bff2e 1px,transparent 1px) 0 0/46px 46px,linear-gradient(90deg,#2b5bff2e 1px,transparent 1px) 0 0/46px 46px,radial-gradient(circle at 50% 40%,#1f3fb5,#0a0e2b 75%);animation:drift 24s linear infinite}
+.ctaBox>*{position:relative}.ctaBox h2{font-size:clamp(30px,5vw,50px)}.ctaBox p{color:#aab5e6;margin:12px 0 28px}
+footer{border-top:1px solid rgba(var(--w),.08);background:rgba(8,11,32,.7);padding:56px 0 28px;margin-top:48px}
+.fg{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:32px}
+footer h4{font-size:14px;margin-bottom:14px}footer li{list-style:none;color:var(--mut);font-size:14px;margin-bottom:10px;transition:.2s;cursor:pointer}footer li:hover{color:var(--fg);transform:translateX(4px)}
+.soc{display:flex;gap:10px;margin-top:18px}.soc a{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(var(--w),.06);border:1px solid rgba(var(--w),.1);transition:.25s}.soc a:hover{background:var(--blue);transform:translateY(-3px)}
+.copy{text-align:center;color:var(--mut);font-size:13px;margin-top:40px;padding-top:24px;border-top:1px solid rgba(var(--w),.08)}
+.rv{opacity:0;transform:translateY(36px);filter:blur(6px);transition:opacity .9s,transform .9s,filter .9s}.rv.in{opacity:1;transform:none;filter:none}
+@media(max-width:820px){.links{display:none}.steps{flex-direction:column}.dash,.plans,.testi,.faq,.fg,.feat{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(2,1fr)}.mock{transform:none}.feat .card:nth-child(2){margin-bottom:0}.quote{flex-direction:column;align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none;filter:none}.ch path.ln{stroke-dashoffset:0}.ch .fl,.ch .dot{opacity:1}}
+:focus-visible{outline:2px solid var(--blue2);outline-offset:3px}
 
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="WIKY CLOUD - Kho Video Bài Giảng Mầm Non">
-<meta property="og:description" content="Xem, quản lý và chia sẻ video bài giảng mầm non nhanh chóng và tiện lợi.">
-<meta property="og:url" content="https://wikycloud.vercel.app/">
-<meta property="og:image" content="https://wikycloud.vercel.app/images/banner-share.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+/* ===== CHIBI THÔNG BÁO ===== */
+#chibi{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:80;display:flex;flex-direction:column;align-items:flex-end;pointer-events:none}
+#chibi>*{pointer-events:auto}
+.say{max-width:250px;margin-bottom:12px;padding:12px 16px;font-size:13px;font-weight:500;color:var(--soft);border-radius:18px 18px 4px 18px;opacity:0;transform:translateY(10px) scale(.95);transform-origin:bottom right;transition:.35s cubic-bezier(.2,.9,.3,1.2);pointer-events:none!important}
+.say.show{opacity:1;transform:none}
+.cb{position:relative;width:76px;height:76px;cursor:pointer;border:0;background:none;animation:cfloat 4s ease-in-out infinite}
+@keyframes cfloat{50%{transform:translateY(-8px)}}
+.cb .glow{position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,rgba(43,91,255,.65),transparent 70%);filter:blur(10px);animation:cglow 2.6s ease-in-out infinite}
+@keyframes cglow{50%{opacity:.45;transform:scale(1.15)}}
+.cb .body{position:absolute;inset:0;overflow:hidden;border-radius:42% 58% 50% 50%/50% 42% 58% 50%;animation:morph 3.5s ease-in-out infinite;box-shadow:0 10px 30px rgba(43,91,255,.6),inset 0 2px 6px rgba(255,255,255,.5);transition:transform .3s}
+.cb:hover .body{transform:scale(1.12)}
+.cb .b0{position:absolute;inset:0;background:radial-gradient(circle at 35% 30%,#d6e2ff 0,#7da0ff 35%,#2b5bff 75%,#1a35b8 100%)}
+.cb .b1,.cb .b2{position:absolute;border-radius:50%;filter:blur(6px)}
+.cb .b1{inset:-20%;background:conic-gradient(transparent 0,rgba(255,255,255,.75) 15%,transparent 30%,rgba(125,160,255,.7) 50%,transparent 65%);animation:rot 4s linear infinite}
+.cb .b2{inset:-15%;background:conic-gradient(from 120deg,transparent 0,rgba(168,190,255,.6) 20%,transparent 40%);animation:rot 5s linear infinite reverse}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes morph{0%,100%{border-radius:42% 58% 50% 50%/50% 42% 58% 50%;transform:scale(.96)}50%{border-radius:58% 42% 52% 48%/48% 58% 42% 52%;transform:scale(1.03)}}
+.face{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;pointer-events:none}
+.eyes{display:flex;gap:11px;transition:transform .1s}
+.eyes i{width:9px;height:12px;border-radius:50%;background:#0a1240;animation:blink2 5s infinite;transform-origin:center}
+@keyframes blink2{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.mouth{width:11px;height:4px;border-radius:50%;background:#0a1240;transition:.3s}
+.mouth.talk{animation:talk .4s infinite ease-in-out}
+@keyframes talk{0%,100%{height:4px;width:10px;border-radius:50%}50%{height:9px;width:12px;border-radius:40% 40% 50% 50%}}
+.cb .dotx{position:absolute;top:-2px;right:-2px;z-index:3;width:16px;height:16px;border-radius:50%;background:#ef4444;border:3px solid #0a0e2b;display:none;animation:cglow 1.2s infinite}
 
-<!-- Logo -->
-<meta property="og:site_name" content="WIKY CLOUD">
+@media(max-width:820px){.say{max-width:200px}}
 
-<!-- Twitter / X -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="WIKY CLOUD - Kho Video Bài Giảng Mầm Non">
-<meta name="twitter:description" content="Xem, quản lý và chia sẻ video bài giảng mầm non trực tuyến.">
-<meta name="twitter:image" content="https://wikycloud.vercel.app/images/banner-share.jpg">
+.chip{display:flex;align-items:center;gap:10px;padding:10px 18px;border-radius:16px;background:rgba(var(--w),.05);border:1px solid rgba(var(--w),.1);font-weight:600;font-size:15px;white-space:nowrap;transition:.3s}
+.chip:hover{transform:translateY(-4px);border-color:var(--blue2);background:rgba(43,91,255,.14)}
+.bi{width:26px;height:26px;flex:none}
+.tg{width:38px;height:38px;border-radius:50%;border:1px solid rgba(var(--w),.15);background:rgba(var(--w),.06);color:var(--fg);display:grid;place-items:center;cursor:pointer;font-size:18px;transition:.3s}
+.tg:hover{transform:rotate(20deg) scale(1.1);background:rgba(43,91,255,.2)}
+.tg .moon{display:none}
+.live.sample{color:#f59e0b}.live.sample::before{background:#f59e0b}
+.cfsrc{font-size:11px;color:var(--mut);margin-top:8px}
+.cb.wob{animation:wob .6s ease,cfloat 4s ease-in-out .6s infinite}
+@keyframes wob{25%{transform:rotate(-14deg) scale(1.12)}60%{transform:rotate(10deg) scale(1.06)}}
+[data-update]{cursor:pointer}
+.btn,.ib,.badge,.step.on,.step.on .go,.quote .av,.ctaBox,.arrows button:hover,.soc a:hover,.promo b,.tile .ib{color:#fff}
+/* ===== GIAO DIỆN SÁNG ===== */
+:root[data-theme=light]{color-scheme:light;--w:22,40,120;--fg:#0b1640;--soft:#34437a;--mut:#56638f;--line:#c9d8ff;--bg:#f2f6ff;--blue2:#2f5cf5}
+[data-theme=light] .o1{background:#7da0ff;opacity:.5}[data-theme=light] .o2{background:#b3a6ff;opacity:.4}[data-theme=light] .o3{background:#8fd3ff;opacity:.4}
+[data-theme=light] .bg::before{background:linear-gradient(#2b5bff1c 1px,transparent 1px) 0 0/64px 64px,linear-gradient(90deg,#2b5bff1c 1px,transparent 1px) 0 0/64px 64px}
+[data-theme=light] .cursor{background:radial-gradient(circle,rgba(43,91,255,.12),transparent 65%)}
+[data-theme=light] .glass{background:linear-gradient(145deg,rgba(255,255,255,.92),rgba(255,255,255,.58));border:1px solid rgba(43,91,255,.14);box-shadow:0 10px 30px rgba(43,91,255,.12),inset 0 1px 0 #fff}
+[data-theme=light] .glass:hover{box-shadow:0 22px 50px rgba(43,91,255,.25),inset 0 1px 0 #fff}
+[data-theme=light] .step.on{background:linear-gradient(150deg,#3a68ff,#1d3fd0);border-color:#7da0ff}
+[data-theme=light] .plan.pop{background:linear-gradient(160deg,#eef3ff,#d6e2ff);border-color:rgba(43,91,255,.55);box-shadow:0 0 50px rgba(43,91,255,.22)}
+[data-theme=light] nav{background:rgba(255,255,255,.72);border-color:rgba(43,91,255,.16);box-shadow:0 8px 30px rgba(43,91,255,.12)}
+[data-theme=light] h1{background-image:linear-gradient(100deg,#0b1a55 0,#1f3fd1 42%,#5b83ff 58%,#0b1a55 100%);background-size:250% 100%}
+[data-theme=light] .big{text-shadow:none}
+[data-theme=light] .btn{box-shadow:0 6px 20px rgba(43,91,255,.35),inset 0 1px 0 rgba(255,255,255,.4)}
+[data-theme=light] .btn::after{background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent)}
+[data-theme=light] .btn.ghost{background:rgba(43,91,255,.06);border:1px solid rgba(43,91,255,.3);color:var(--fg);box-shadow:none}
+[data-theme=light] .btn.ghost:hover{background:rgba(43,91,255,.14)}
+[data-theme=light] .ib{box-shadow:0 8px 22px rgba(43,91,255,.35),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -6px 12px rgba(0,0,0,.12)}
+[data-theme=light] footer{background:rgba(255,255,255,.7);border-top-color:rgba(43,91,255,.14)}
+[data-theme=light] .tick,[data-theme=light] .tick div+div,[data-theme=light] .copy{border-color:rgba(43,91,255,.14)}
+[data-theme=light] .tg .sun{display:none}[data-theme=light] .tg .moon{display:block}
+[data-theme=light] .say{color:var(--fg)}
 
-<!-- Favicon / Logo -->
-<link rel="icon" type="image/png" href="/images/logo.png">
-<link rel="apple-touch-icon" href="/images/logo.png">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0284c7',
-                            600: '#0369a1',
-                            700: '#075985',
-                        },
-                        pastel: {
-                            blue: '#e0f2fe',
-                            pink: '#fce7f3',
-                            purple: '#f3e8ff',
-                            green: '#dcfce7',
-                            amber: '#fef3c7',
-                            slate: '#f8fafc'
-                        },
-                        gdrive: '#0F9D58'
-                    },
-                    boxShadow: {
-                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
-                        'glass-card': '0 10px 30px -5px rgba(14, 165, 233, 0.08)',
-                        'glass-sm': '0 4px 16px 0 rgba(31, 38, 135, 0.05)',
-                    },
-                    animation: {
-                        'pulse-glow': 'pulseGlow 2s infinite ease-in-out',
-                        'bounce-subtle': 'bounceSubtle 2s infinite ease-in-out',
-                        'float-chibi': 'floatChibi 4s infinite ease-in-out',
-                        'card-float-slow': 'cardFloatSlow 6s infinite ease-in-out',
-                    },
-                    keyframes: {
-                        pulseGlow: {
-                            '0%, 100%': { boxShadow: '0 0 15px rgba(14, 165, 233, 0.4)' },
-                            '50%': { boxShadow: '0 0 30px rgba(56, 189, 248, 0.8)' },
-                        },
-                        bounceSubtle: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-4px)' }
-                        },
-                        floatChibi: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-8px)' }
-                        },
-                        cardFloatSlow: {
-                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-                            '50%': { transform: 'translateY(-12px) rotate(1deg)' }
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Font & Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <style>
-        html, body {
-            max-width: 100vw;
-            overflow-x: hidden;
-        }
-        body {
-            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #eef2ff 0%, #e0f2fe 40%, #f3e8ff 100%);
-            background-attachment: fixed;
-            font-size: 15px;
-            touch-action: manipulation;
-        }
-        .dark body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #090d16 100%);
-            color: #f1f5f9;
-        }
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-        }
-        .dark .glass-panel {
-            background: rgba(15, 23, 42, 0.75);
-            border-color: rgba(30, 41, 59, 0.8);
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .dark .glass-card {
-            background: rgba(30, 41, 59, 0.85);
-            border-color: rgba(51, 65, 85, 0.8);
-        }
-        .glass-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 28px -4px rgba(14, 165, 233, 0.15);
-        }
-
-        .glass-input {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(203, 213, 225, 0.6);
-        }
-        .dark .glass-input {
-            background: rgba(30, 41, 59, 0.7);
-            border-color: rgba(51, 65, 85, 0.8);
-        }
-
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
-        .dark ::-webkit-scrollbar-thumb { background: #334155; }
-
-        /* Floating Background Orbs */
-        @keyframes floatAnimation {
-            0% { transform: translateY(0px) rotate(0deg) scale(1); }
-            50% { transform: translateY(-30px) rotate(180deg) scale(1.1); }
-            100% { transform: translateY(0px) rotate(360deg) scale(1); }
-        }
-
-        .floating-orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(70px);
-            pointer-events: none;
-            z-index: 0;
-            animation: floatAnimation 20s infinite ease-in-out;
-        }
-        .orb-1 { left: 8%; top: 15%; width: 300px; height: 300px; background: rgba(14, 165, 233, 0.18); animation-duration: 22s; }
-        .orb-2 { right: 10%; top: 40%; width: 360px; height: 360px; background: rgba(99, 102, 241, 0.15); animation-duration: 26s; animation-delay: 3s; }
-        .orb-3 { left: 45%; bottom: 10%; width: 250px; height: 250px; background: rgba(56, 189, 248, 0.16); animation-duration: 18s; animation-delay: 7s; }
-
-        /* Scroll Reveal Effect */
-        .reveal {
-            opacity: 0;
-            transform: translateY(35px) scale(0.98);
-            transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-            transition-delay: var(--d, 0ms);
-            will-change: transform, opacity;
-        }
-        .reveal.in {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        /* Pulse Ring */
-        .pulse-ring {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #10b981;
-            box-shadow: 0 0 0 rgba(16, 185, 129, 0.4);
-            animation: pulseRing 1.6s infinite;
-        }
-        @keyframes pulseRing {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-
-        /* Hero Art Floating Cards */
-        .hero-art-float {
-            animation: floatChibi 4s ease-in-out infinite;
-        }
-
-        /* Chibi Keyframes & Dynamic Mouth Expressions */
-        @keyframes siri-rotate-1 {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        @keyframes siri-rotate-2 {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(-360deg); }
-        }
-        @keyframes siri-morph-active {
-            0%, 100% { border-radius: 42% 58% 50% 50% / 50% 42% 58% 50%; transform: scale(0.96); }
-            25% { border-radius: 52% 48% 42% 58% / 58% 52% 48% 42%; transform: scale(1.02); }
-            50% { border-radius: 58% 42% 52% 48% / 48% 58% 42% 52%; transform: scale(0.98); }
-            75% { border-radius: 48% 52% 58% 42% / 42% 48% 52% 58%; transform: scale(1.03); }
-        }
-        @keyframes siri-glow-pulse {
-            0%, 100% { opacity: 0.3; transform: scale(0.9); }
-            50% { opacity: 0.65; transform: scale(1.15); }
-        }
-        @keyframes siri-blink {
-            0%, 90%, 100% { transform: scaleY(1); }
-            95% { transform: scaleY(0.1); }
-        }
-        @keyframes chibiTalk {
-            0%, 100% { height: 4px; width: 10px; border-radius: 50%; }
-            50% { height: 9px; width: 12px; border-radius: 40% 40% 50% 50%; }
-        }
-
-        .chibi-mouth-talking {
-            animation: chibiTalk 0.4s infinite ease-in-out;
-        }
-
-        .sky-gradient-btn {
-            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
-            box-shadow: 0 8px 20px -4px rgba(2, 132, 199, 0.4);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .sky-gradient-btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-            transform: rotate(30deg);
-            transition: all 0.5s;
-            opacity: 0;
-        }
-        .sky-gradient-btn:hover::after {
-            opacity: 1;
-            left: 100%;
-        }
-        .sky-gradient-btn:hover {
-            box-shadow: 0 12px 28px rgba(37, 99, 235, 0.55);
-            transform: translateY(-2px);
-            filter: brightness(1.08);
-        }
-    </style>
+[data-theme=light] .ctaBox{color:var(--fg);border-color:rgba(43,91,255,.28);background:linear-gradient(rgba(43,91,255,.13) 1px,transparent 1px) 0 0/46px 46px,linear-gradient(90deg,rgba(43,91,255,.13) 1px,transparent 1px) 0 0/46px 46px,radial-gradient(circle at 50% 40%,#ffffff,#d7e3ff 78%);box-shadow:0 20px 60px rgba(43,91,255,.18)}
+[data-theme=light] .ctaBox p{color:var(--mut)}
+</style>
 </head>
-<body class="min-h-screen h-[100dvh] flex flex-col antialiased selection:bg-sky-200 selection:text-sky-900 overflow-x-hidden relative">
+<body>
+<!-- Bộ icon SVG (phong cách nét mảnh, bo tròn) -->
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+<symbol id="zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol>
+<symbol id="shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+<symbol id="notes" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
+<symbol id="tasks" viewBox="0 0 24 24"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
+<symbol id="learn" viewBox="0 0 24 24"><path d="m22 10-10-5L2 10l10 5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></symbol>
+<symbol id="chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+<symbol id="pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.7-9h1.8a4.5 4.5 0 1 1 0 9z"/></symbol>
+<symbol id="cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+<symbol id="grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+<symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+<symbol id="upr" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+<symbol id="check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></symbol>
+<symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="user" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></symbol>
+<symbol id="layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></symbol>
+<symbol id="play" viewBox="0 0 24 24"><path d="M6 4v16l14-8z"/></symbol>
+<symbol id="star" viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 1-5 5 1.2 7L12 18l-6.2 3.5L7 14.5l-5-5 7-1z"/></symbol>
+<symbol id="spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></symbol>
+<symbol id="globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></symbol>
+<symbol id="mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+<symbol id="tr" viewBox="0 0 24 24"><path d="m22 7-8.5 8.5-5-5L2 17M16 7h6v6"/></symbol>
+<linearGradient id="gGem" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#4285f4"/><stop offset=".55" stop-color="#9b72cb"/><stop offset="1" stop-color="#d96570"/></linearGradient>
+<symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+<symbol id="b-gemini" viewBox="0 0 24 24"><path fill="url(#gGem)" d="M12 1.5c.6 5.9 4.6 10 10.5 10.5-5.9.6-9.9 4.6-10.5 10.5C11.4 16.6 7.4 12.6 1.5 12 7.400 11.500 11.400 7.400 12 1.500z"/></symbol>
+<symbol id="b-gpt" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="2.5" width="10" height="19" rx="5"/><rect x="7" y="2.5" width="10" height="19" rx="5" transform="rotate(60 12 12)"/><rect x="7" y="2.5" width="10" height="19" rx="5" transform="rotate(120 12 12)"/></g></symbol>
+<symbol id="b-claude" viewBox="0 0 24 24"><path fill="none" stroke="#d97757" stroke-width="2.6" stroke-linecap="round" d="M12 12h9.500M12 12l6.060 3.500M12 12l4.500 7.790M12 12v6.500M12 12l-4.750 8.230M12 12l-6.500 3.750M12 12H3M12 12 6.370 8.750M12 12 7.250 3.770M12 12V5M12 12l4.500-7.800M12 12l6.060-3.500"/></symbol>
+<symbol id="b-codex" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.500 19H9a7 7 0 1 1 6.700-9h1.800a4.500 4.500 0 1 1 0 9z"/><path d="m9 11 2.500 2.500L9 16M13.500 16H16"/></g></symbol>
+<symbol id="b-drive" viewBox="0 0 24 24"><path fill="#ffba00" d="M8.500 3h7L22 14.500h-7z"/><path fill="#0da960" d="M8.500 3 2 14.500l3.500 6L12 9z"/><path fill="#2684fc" d="M5.500 20.500 8.800 14.500H22l-3.500 6z"/></symbol>
+<symbol id="b-script" viewBox="0 0 24 24"><g fill="none" stroke="#4285f4" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.500 5l-3 14"/></g></symbol>
+<symbol id="b-html" viewBox="0 0 24 24"><path fill="#e44d26" d="M4 3l1.700 17L12 22l6.300-2L20 3z"/><path fill="#f16529" d="M12 20.300l5-1.500L18.500 4.700H12z"/><path fill="none" stroke="#fff" stroke-width="1.500" stroke-linecap="round" stroke-linejoin="round" d="M8 8h8M8.500 12h7l-.4 4-3.100 1-3.100-1"/></symbol>
+<symbol id="b-css" viewBox="0 0 24 24"><path fill="#1572b6" d="M4 3l1.700 17L12 22l6.300-2L20 3z"/><path fill="#33a9dc" d="M12 20.300l5-1.500L18.500 4.700H12z"/><path fill="none" stroke="#fff" stroke-width="1.500" stroke-linecap="round" stroke-linejoin="round" d="M8 8h8M8.500 12h7l-.4 4-3.100 1-3.100-1"/></symbol>
+<symbol id="b-git" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></symbol>
+<symbol id="b-cf" viewBox="0 0 24 24"><path fill="#f6821f" d="M17.500 19H6.500a4.500 4.500 0 0 1-.6-8.960A6 6 0 0 1 17.400 9.500 4.800 4.800 0 0 1 17.500 19z"/><path fill="#fbad41" d="M19 19h-5.500c.7-1.600 1.800-3 3.500-3.600 1.800-.6 3.600.5 4 2.100.2.600-.3 1.500-2 1.500z"/></symbol>
+</defs></svg>
 
-<!-- BACKGROUND ANIMATED ORBS -->
-<div class="floating-orb orb-1"></div>
-<div class="floating-orb orb-2"></div>
-<div class="floating-orb orb-3"></div>
+<div class="bg"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+<div class="cursor" id="cur"></div><div class="prog" id="prog"></div>
 
-<!-- FULLSCREEN OVERLAY LOADING BAR -->
-<div id="full-page-loading" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex flex-col items-center justify-center transition-all duration-300 opacity-0 pointer-events-none p-4">
-    <div class="glass-card bg-white/90 dark:bg-slate-900/90 p-6 sm:p-8 rounded-3xl shadow-2xl flex flex-col items-center space-y-4 border border-white/60 dark:border-slate-800 max-w-sm w-full">
-        <div class="relative flex items-center justify-center">
-            <div class="w-14 h-14 sm:w-16 sm:h-16 border-4 border-sky-200 border-t-sky-600 rounded-full animate-spin"></div>
-            <i data-lucide="cloud-download" class="w-6 h-6 sm:w-7 sm:h-7 text-sky-600 absolute"></i>
-        </div>
-        <div class="text-center">
-            <p id="loading-text" class="font-extrabold text-slate-800 dark:text-white text-base md:text-lg tracking-wide">Đang tải dữ liệu...</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Đang đồng bộ dữ liệu từ Google Drive</p>
-        </div>
-    </div>
-</div>
+<nav>
+  <a href="#home" class="logo"><span class="lm"><svg class="i" style="width:16px"><use href="#layers"/></svg></span>Wiky</a>
+  <div class="links" id="links"><a href="#home" class="act">Trang chủ</a><a href="#apps">Ứng dụng</a><a href="#pricing">Gói dịch vụ</a><a href="#faq">Hỏi đáp</a></div>
+  <div class="nav-r"><button class="tg" id="tg" aria-label="Đổi giao diện sáng/tối"><svg class="i sun"><use href="#sun"/></svg><svg class="i moon"><use href="#moon"/></svg></button><a href="#" data-update="Đăng nhập">Đăng nhập</a><a href="#" class="btn" data-update="Đăng ký" data-mag>Đăng ký</a></div>
+</nav>
 
-<!-- OVERLAY BACKDROP FOR MOBILE SIDEBAR -->
-<div id="mobile-sidebar-backdrop" onclick="toggleMobileSidebar(false)" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-30 hidden lg:hidden transition-opacity"></div>
-
-<!-- HEADER / NAVIGATION -->
-<header class="sticky top-0 z-40 px-3 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between glass-panel border-b border-white/60 dark:border-slate-800/80 shadow-glass-sm shrink-0 w-full">
-    <div class="flex items-center space-x-1.5 sm:space-x-3.5 min-w-0">
-        <!-- Button toggle Sidebar trên Mobile -->
-        <button onclick="toggleMobileSidebar()" class="lg:hidden p-1.5 sm:p-2 rounded-xl text-slate-600 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0" title="Mở danh sách lớp">
-            <i data-lucide="menu" class="w-5 h-5 sm:w-6 sm:h-6"></i>
-        </button>
-
-        <div class="flex items-center space-x-2 sm:space-x-3.5 cursor-pointer min-w-0" onclick="switchToHomeTab()">
-            <div class="w-8 h-8 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-sky-400 via-sky-500 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-sky-500/20 shrink-0">
-                <i data-lucide="video" class="w-4 h-4 sm:w-6 sm:h-6"></i>
-            </div>
-            <div class="min-w-0">
-                <h1 class="font-extrabold text-slate-900 dark:text-white text-sm sm:text-lg md:text-xl tracking-tight leading-none bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-blue-700 to-black dark:from-blue-400 dark:to-gray-900 bg-clip-text text-transparent  truncate">WIKY CLOUD</h1>
-                <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-semibold mt-0.5 sm:mt-1 truncate max-w-[140px] sm:max-w-none">Kho Video Bài Giảng Mầm Non</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Role Selector & Actions -->
-    <div class="flex items-center gap-1 sm:gap-2.5 md:gap-3 shrink-0">
-        <!-- NÚT HƯỚNG DẪN HOẶC NÚT THÔNG BÁO TÙY VÀO QUYỀN (GIÁO VIÊN / ADMIN) -->
-        <button id="header-guide-or-notif-btn" onclick="handleHeaderBtnClick()" class="p-2 sm:p-2.5 text-sky-700 dark:text-sky-300 hover:bg-sky-100/60 dark:hover:bg-slate-800 rounded-2xl border border-sky-200/60 dark:border-slate-700 transition-all flex items-center gap-1.5 font-bold text-xs glass-card shadow-xs relative" title="Hướng Dẫn">
-            <i id="header-btn-icon" data-lucide="help-circle" class="w-4 h-4 text-sky-500"></i>
-            <span id="header-btn-text" class="hidden sm:inline">Hướng Dẫn</span>
-            <span id="admin-notif-badge" class="hidden absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-white rounded-full text-[10px] font-extrabold flex items-center justify-center border-2 border-white dark:border-slate-900 shadow-sm animate-bounce">0</span>
-        </button>
-
-        <!-- Loại tài khoản: Trên Mobile chỉ hiện Icon, màn hình lớn hơn hiện thêm chữ -->
-        <div class="flex items-center bg-sky-50/80 dark:bg-slate-800/80 p-0.5 sm:p-1 rounded-2xl border border-sky-100 dark:border-slate-700/80">
-            <div class="px-2 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-400 shadow-xs" title="Loại tài khoản">
-                <i data-lucide="user" class="w-4 h-4"></i>
-                <span id="role-display-text" class="text-[11px] sm:text-xs hidden sm:inline">Giáo Viên</span>
-            </div>
-        </div>
-
-        <button id="admin-access-btn" onclick="requestAdminRole()" class="p-2 sm:p-2.5 text-slate-500 hover:text-indigo-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700 transition-all glass-card shadow-xs" title="Quyền Quản Trị Viên (Admin)">
-            <i data-lucide="shield-check" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-        </button>
-
-        <button onclick="toggleDarkMode()" class="p-2 sm:p-2.5 text-slate-500 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700 transition-all glass-card shadow-xs">
-            <i data-lucide="moon" id="dark-icon" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-        </button>
-    </div>
+<header class="hero" id="home">
+  <span class="promo"><b><svg class="i"><use href="#spark"/></svg>Mới</b>Wiky Studio vừa ra mắt – dùng thử miễn phí</span>
+  <h1>Một cổng vào cho cả hệ sinh thái Wiky</h1>
+  <p class="lead">Truy cập mọi ứng dụng con chỉ với một tài khoản. Tìm nhanh, mở ngay, dữ liệu đồng bộ giữa các ứng dụng.</p>
+  <div class="cta-row">
+    <a href="#apps" class="btn" data-mag>Khám phá ứng dụng <svg class="i"><use href="#upr"/></svg></a>
+    <a href="#how" class="btn ghost" data-mag>Cách hoạt động</a>
+  </div>
+  <label class="search glass"><svg class="i"><use href="#search"/></svg><input id="q" placeholder="Tìm ứng dụng: ghi chú, công việc, học tập…"><a class="btn" href="#apps">Tìm</a></label>
+  <div class="stage"><div class="mock glass" id="mock"><div class="bar"><i></i><i></i><i></i></div><div class="tiles" id="tiles"></div></div></div>
 </header>
 
-<div class="flex-1 flex overflow-hidden relative min-h-0 w-full max-w-full">
+<section style="padding:24px 0">
+  <div class="wrap center rv">
+    <h2 style="font-size:22px;margin-bottom:22px">Nền tảng và công nghệ AI đồng hành cùng Wiky</h2>
+    <div class="mq"><div class="mt" id="mt"></div></div>
+    <p class="note">Hệ sinh thái Wiky được xây dựng trên các nền tảng và công cụ hàng đầu.</p>
+  </div>
+</section>
 
-    <!-- SIDEBAR (DANH SÁCH LỚP HỌC & WIDGET) -->
-    <aside id="main-sidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-72 sm:w-80 md:w-88 glass-panel border-r border-white/60 dark:border-slate-800 flex flex-col shrink-0 -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none">
-        <div class="flex items-center justify-between p-4 lg:hidden border-b border-slate-200/60 dark:border-slate-800">
-            <span class="font-extrabold text-slate-900 dark:text-white text-sm flex items-center gap-2">
-                <i data-lucide="layout-grid" class="w-4 h-4 text-sky-500"></i>
-                Menu Tiện Ích
-            </span>
-            <button onclick="toggleMobileSidebar(false)" class="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-lg">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-        </div>
-
-        <div class="flex-1 overflow-y-auto p-3.5 sm:p-4 md:p-5 space-y-4">
-            
-            <!-- WIDGET TIỆN ÍCH ĐIỀU HƯỚNG NHANH (BỎ TAB TẢI VIDEO - MỞ TRỰC TIẾP GOOGLE FORM) -->
-            <div class="bg-gradient-to-br from-sky-50/90 via-purple-50/80 to-pink-50/90 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-2.5 sm:p-3 rounded-2xl border border-sky-100/80 dark:border-slate-700 shadow-glass-sm space-y-2">
-                <div class="grid grid-cols-3 gap-1.5">
-                    <button onclick="switchToHomeTab()" id="widget-home-btn" class="p-2 rounded-xl text-xs font-bold transition-all flex flex-col items-center justify-center gap-1 bg-sky-100 hover:bg-sky-200 text-sky-800 dark:bg-sky-950 dark:text-sky-300 border border-sky-200/80 dark:border-sky-800 shadow-xs hover:scale-[1.02]">
-                        <i data-lucide="home" class="w-4 h-4 text-sky-600 dark:text-sky-400"></i>
-                        <span class="text-[11px]">Trang chủ</span>
-                    </button>
-                    <!-- Nút Tải Video mở trực tiếp Google Form -->
-                    <button onclick="redirectToGoogleForm()" id="widget-upload-btn" class="p-2 rounded-xl text-xs font-bold transition-all flex flex-col items-center justify-center gap-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800 shadow-xs hover:scale-[1.02]">
-                        <i data-lucide="external-link" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
-                        <span class="text-[11px]">Tải Video</span>
-                    </button>
-                    <button onclick="forceRefreshData()" class="p-2 rounded-xl text-xs font-bold transition-all flex flex-col items-center justify-center gap-1 bg-purple-100 hover:bg-purple-200 text-purple-800 dark:bg-purple-950 dark:text-purple-300 border border-purple-200/80 dark:border-purple-800 shadow-xs hover:scale-[1.02]">
-                        <i data-lucide="refresh-cw" class="w-4 h-4 text-purple-600 dark:text-purple-400"></i>
-                        <span class="text-[11px]">Cập nhật</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- DANH SÁCH LỚP HỌC dạng MA TRẬN 2 CỘT -->
-            <div class="space-y-2.5">
-                <div class="flex items-center justify-between px-1">
-                    <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <i data-lucide="layout-grid" class="w-4 h-4 text-indigo-500"></i>
-                        Danh Sách Lớp
-                    </span>
-                    <span id="data-sync-indicator" class="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
-                        <i data-lucide="check-circle" class="w-3 h-3 text-emerald-500"></i> Đã đồng bộ
-                    </span>
-                </div>
-
-                <div id="class-list-container" class="grid grid-cols-2 gap-2">
-                    <!-- Dynamic Classes Matrix List -->
-                </div>
-            </div>
-        </div>
-
-        <div class="p-3.5 border-t border-slate-200/60 dark:border-slate-800 bg-emerald-50/50 dark:bg-slate-900/50 text-xs space-y-1.5 backdrop-blur-md">
-            <div class="flex items-center justify-between font-bold text-slate-800 dark:text-slate-200">
-                <span class="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
-                    <i data-lucide="hard-drive" class="w-4 h-4 text-emerald-600"></i> Google Drive
-                </span>
-                <span id="bot-status-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200">v3.2</span>
-            </div>
-            <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">Tự động đồng bộ video gửi qua Google Form.</p>
-        </div>
-    </aside>
-
-    <!-- MAIN WORKSPACE -->
-    <main class="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-white/20 dark:bg-slate-950/20 max-w-full">
-
-        <!-- HEADER WORKSPACE BAR (Được ẩn ở tab Trang chủ và chỉ hiển thị ở các tab Lớp) -->
-        <div id="workspace-header-bar" class="p-3.5 sm:p-4 md:p-5 border-b border-slate-200/60 dark:border-slate-800 flex items-center justify-between gap-3 bg-white/40 dark:bg-slate-900/40 backdrop-blur-md shrink-0 hidden">
-            <div class="space-y-0.5 sm:space-y-1">
-                <div class="flex items-center gap-2.5">
-                    <h2 id="current-class-title" class="text-base sm:text-xl md:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">Trang chủ</h2>
-                </div>
-                <p id="current-month-subtitle" class="text-[11px] sm:text-xs md:text-sm font-semibold text-slate-500 dark:text-slate-400">Toàn bộ các video bài giảng trên hệ thống</p>
-            </div>
-        </div>
-
-        <!-- MAIN VIEWPORT CONTAINER -->
-        <div class="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 flex flex-col justify-between max-w-full">
-
-            <div class="space-y-5 sm:space-y-6 flex-1 w-full max-w-full">
-                
-                <!-- HERO MODERN SECTION (Chỉ hiển thị ở Tab Trang chủ) -->
-                <section id="hero-modern-section" class="relative py-4 lg:py-6 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full z-10 glass-panel rounded-3xl border border-white/80 dark:border-slate-800 shadow-glass">
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                        <div class="lg:col-span-7 space-y-3 text-center lg:text-left reveal in" style="--d: 0ms;">
-                            <div class="inline-flex items-center space-x-2 bg-sky-100/80 dark:bg-sky-950/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-sky-200 dark:border-sky-500/30 text-xs font-bold text-sky-700 dark:text-sky-300 shadow-xs">
-                                <span class="pulse-ring"></span>
-                                <i data-lucide="shield-check" class="w-4 h-4"></i>
-                                <span>Trường Mầm Non Mỹ An</span>
-                            </div>
-
-                            <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
-                               <span class="bg-gradient-to-r from-blue-500 via-blue-700 to-black dark:from-blue-400 dark:to-gray-900 bg-clip-text text-transparent">WIKY CLOUD</span>
-                                <br> Kho Video Bài Giảng
-                                
-                            </h1>
-
-                            <p class="text-xs sm:text-sm text-slate-600 dark:text-sky-200/70 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                                Xem, quản lý và duyệt các video bài giảng của các khối lớp Nhà Trẻ, Mầm tiện lợi. Tích hợp đồng bộ dữ liệu trực tiếp từ Google Drive.
-                            </p>
-
-                            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-1">
-                                <button onclick="redirectToGoogleForm()" class="sky-gradient-btn text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-2xl flex items-center space-x-2 shadow-lg">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                    <span>Gửi Video Bài Giảng Mới</span>
-                                </button>
-                                <button onclick="openGuideModal()" class="glass-input px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold text-slate-700 dark:text-sky-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                                    <span>Xem Hướng Dẫn</span>
-                                </button>
-                            </div>
-
-                            <div class="pt-3 grid grid-cols-3 gap-2 border-t border-slate-200/60 dark:border-slate-800 text-center lg:text-left reveal in" style="--d: 100ms;">
-                                <div>
-                                    <strong class="block text-base sm:text-xl font-extrabold text-slate-900 dark:text-white font-mono" id="hero-stat-videos">0</strong>
-                                    <span class="text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-sky-400/80">Video bài giảng</span>
-                                </div>
-                                <div>
-                                    <strong class="block text-base sm:text-xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono">100%</strong>
-                                    <span class="text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-sky-400/80">Google Drive Cloud</span>
-                                </div>
-                                <div>
-                                    <strong class="block text-base sm:text-xl font-extrabold text-indigo-500 font-mono">11 Lớp</strong>
-                                    <span class="text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-sky-400/80">Nhà Trẻ & Mầm</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="lg:col-span-5 relative hidden lg:block reveal in" style="--d: 180ms;">
-                            <div class="relative w-full h-[260px] flex items-center justify-center">
-                                <div class="absolute w-60 h-60 rounded-full bg-sky-500/10 blur-3xl animate-pulse"></div>
-
-                                <div class="hero-art-float absolute top-2 left-2 glass-card p-3 rounded-2xl shadow-xl flex items-center space-x-3 border border-white/60 dark:border-sky-500/30 z-20">
-                                    <div class="w-9 h-9 rounded-xl bg-sky-100 dark:bg-sky-900/60 text-sky-600 dark:text-sky-400 flex items-center justify-center">
-                                        <i data-lucide="video" class="w-4 h-4"></i>
-                                    </div>
-                                    <div>
-                                        <strong class="block text-xs text-slate-900 dark:text-white">Xem Video HD</strong>
-                                        <small class="text-[10px] text-slate-500 dark:text-sky-300">Google Drive Player</small>
-                                    </div>
-                                </div>
-
-                                <div class="hero-art-float absolute bottom-4 right-2 glass-card p-3 rounded-2xl shadow-xl flex items-center space-x-3 border border-white/60 dark:border-sky-500/30 z-20" style="animation-delay: 1.5s;">
-                                    <div class="w-9 h-9 rounded-xl bg-indigo-100 dark:bg-indigo-900/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
-                                        <i data-lucide="shield-check" class="w-4 h-4"></i>
-                                    </div>
-                                    <div>
-                                        <strong class="block text-xs text-slate-900 dark:text-white">Kiểm Duyệt Nhanh</strong>
-                                        <small class="text-[10px] text-slate-500 dark:text-sky-300">Quản trị duyệt 1-click</small>
-                                    </div>
-                                </div>
-
-                                <div class="glass-panel p-5 rounded-3xl border border-white/80 dark:border-sky-500/40 shadow-2xl text-center space-y-2 max-w-xs z-10 animate-card-float-slow">
-                                    <div class="w-12 h-12 mx-auto rounded-2xl sky-gradient-btn flex items-center justify-center text-white shadow-lg">
-                                        <i data-lucide="cloud" class="w-6 h-6"></i>
-                                    </div>
-                                    <h4 class="font-extrabold text-xs text-slate-900 dark:text-white">Wiky Cloud Storage</h4>
-                                    <p class="text-[10px] text-slate-500 dark:text-sky-300">Hệ thống lưu trữ và tra cứu video bài giảng mầm non tập trung cho các lớp.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- KHU VỰC TRANG CHỦ & DANH SÁCH VIDEO -->
-                <div id="home-tab-view" class="space-y-5 sm:space-y-6 w-full max-w-full">
-                    <!-- SEARCH & FILTER MONTH BAR -->
-                    <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2.5 sm:gap-3 bg-white/60 dark:bg-slate-900/60 p-2.5 sm:p-3 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-glass-sm backdrop-blur-md w-full">
-                        <div class="flex flex-wrap items-center gap-2 sm:gap-3 flex-1 min-w-0">
-                            <div class="relative flex-1 min-w-[140px] sm:min-w-[180px]">
-                                <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                                <input type="text" id="search-video-input" onkeyup="filterVideos()" placeholder="Tìm tên video..." class="w-full pl-10 pr-3 py-2 glass-input rounded-xl text-xs md:text-sm font-medium focus:outline-none focus:border-sky-500 shadow-2xs">
-                            </div>
-
-                            <div class="relative shrink-0">
-                                <i data-lucide="calendar" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-sky-500 z-10 pointer-events-none"></i>
-                                <select id="filter-month-select" onchange="onMonthFilterChange(this.value)" class="pl-9 pr-8 py-2 glass-input rounded-xl text-xs md:text-sm font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:border-sky-500 cursor-pointer appearance-none shadow-2xs">
-                                    <option value="all">Tất cả các tháng</option>
-                                </select>
-                                <i data-lucide="chevron-down" class="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
-                            </div>
-
-                            <button id="admin-add-month-btn" onclick="addNewMonth()" class="hidden text-xs font-bold px-3 py-2 bg-sky-50 dark:bg-sky-950 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-800 rounded-xl hover:bg-sky-100 transition-all items-center gap-1 shrink-0" title="Thêm tháng học mới (Admin)">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                                <span class="hidden sm:inline">Thêm Tháng</span>
-                            </button>
-                        </div>
-
-                        <div class="flex items-center justify-between sm:justify-end gap-2 text-xs md:text-sm font-semibold text-slate-500 shrink-0 border-t sm:border-t-0 sm:border-l border-slate-200 dark:border-slate-800 pt-2 sm:pt-0 sm:pl-3">
-                            <span>Tổng số: <strong id="video-count-display" class="text-sky-600 dark:text-sky-400 font-bold">0</strong> video</span>
-                        </div>
-                    </div>
-
-                    <div id="video-grid-container" class="space-y-8 w-full max-w-full">
-                        <!-- Dynamic Month Sections Container -->
-                    </div>
-
-                    <div id="empty-state" class="hidden py-16 flex flex-col items-center justify-center text-center space-y-3.5">
-                        <div class="w-18 h-18 rounded-3xl bg-sky-100 dark:bg-sky-950 text-sky-600 flex items-center justify-center p-4 shadow-inner">
-                            <i data-lucide="film" class="w-10 h-10"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-700 dark:text-slate-200 text-lg">Chưa Có Video Bài Giảng Nào</h3>
-                        <p class="text-xs md:text-sm text-slate-500 max-w-md leading-relaxed">Giáo viên vui lòng gửi video bằng cách nhấn vào nút "Tải Video" tại Widget điều hướng bên trái.</p>
-                        <button onclick="redirectToGoogleForm()" class="px-5 py-2.5 bg-emerald-600 text-white font-bold text-xs md:text-sm rounded-2xl shadow-md hover:bg-emerald-700 transition-colors flex items-center gap-2">
-                            <i data-lucide="external-link" class="w-4 h-4"></i> Tải Video Lên
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BẢN QUYỀN CHÂN TRANG -->
-            <footer class="pt-4 sm:pt-6 pb-2 border-t border-slate-200/60 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400 space-y-1 shrink-0 mt-6">
-                <p class="font-semibold">© 2026 Hệ Thống Quản Lý & Lưu Trữ Video Bài Giảng Mầm Non</p>
-                <p class="text-[11px] opacity-75">Nh4tHuy</p>
-            </footer>
-
-        </div>
-    </main>
-</div>
-
-<!-- WELCOME / GUIDE MODAL -->
-<div id="guide-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center hidden p-2 sm:p-4 md:p-5 overflow-hidden">
-    <div class="glass-card bg-white/95 dark:bg-slate-900/95 text-slate-800 dark:text-white rounded-3xl w-full h-full max-w-6xl max-h-[92dvh] sm:max-h-[92vh] p-3 sm:p-5 md:p-6 shadow-2xl border border-white dark:border-slate-800 flex flex-col justify-between space-y-3 overflow-hidden">
-        <!-- HEADER POPUP -->
-        <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5 sm:pb-3 shrink-0">
-            <div class="flex items-center gap-2 sm:gap-3 min-w-0 pr-2">
-                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-tr from-sky-400 to-indigo-500 text-white flex items-center justify-center font-bold shadow-md shrink-0">
-                    <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-                </div>
-                <div class="min-w-0">
-                    <h3 class="font-extrabold text-sm sm:text-lg md:text-xl text-slate-900 dark:text-white tracking-tight truncate">Hướng Dẫn</h3>
-                    <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">Video hướng dẫn & từng bước thao tác chi tiết</p>
-                </div>
-            </div>
-            <button onclick="closeGuideModal()" class="p-1.5 sm:p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl transition-all shrink-0">
-                <i data-lucide="x" class="w-5 h-5 sm:w-6 sm:h-6"></i>
-            </button>
-        </div>
-
-        <!-- POPUP CONTENT -->
-        <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-5 min-h-0 overflow-y-auto pr-1">
-            
-            <!-- LEFT COLUMN -->
-            <div class="lg:col-span-4 flex flex-col space-y-3">
-                <div class="glass-card rounded-2xl p-3 sm:p-4 border border-sky-100 dark:border-slate-800 space-y-2.5 shadow-glass-card bg-gradient-to-br from-white/90 via-sky-50/40 to-indigo-50/30 dark:from-slate-900/90 dark:to-slate-800/80">
-                    <div class="flex items-center gap-2 pb-2 border-b border-sky-100 dark:border-slate-800">
-                        <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-sky-500 text-white flex items-center justify-center font-bold shadow-xs">
-                            <i data-lucide="list-checks" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
-                        </div>
-                        <h4 class="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white">Quy Trình Sử Dụng</h4>
-                    </div>
-
-                    <div class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-                        <div class="p-2 bg-white/80 dark:bg-slate-800/80 rounded-xl border border-sky-100 dark:border-slate-700/60 flex items-start gap-2 shadow-2xs">
-                            <span class="w-5 h-5 rounded-md bg-sky-100 text-sky-700 font-extrabold flex items-center justify-center text-[11px] shrink-0">1</span>
-                            <p><strong class="text-slate-900 dark:text-white block">Xem Bài Giảng:</strong> Chọn lớp ở danh sách để xem các video lưu trữ.</p>
-                        </div>
-
-                        <div class="p-2 bg-white/80 dark:bg-slate-800/80 rounded-xl border border-sky-100 dark:border-slate-700/60 flex items-start gap-2 shadow-2xs">
-                            <span class="w-5 h-5 rounded-md bg-emerald-100 text-emerald-700 font-extrabold flex items-center justify-center text-[11px] shrink-0">2</span>
-                            <p><strong class="text-slate-900 dark:text-white block">Tải Video Lên:</strong> Nhấn nút "Tải Video" để mở Google Form gửi video.</p>
-                        </div>
-
-                        <div class="p-2 bg-white/80 dark:bg-slate-800/80 rounded-xl border border-sky-100 dark:border-slate-700/60 flex items-start gap-2 shadow-2xs">
-                            <span class="w-5 h-5 rounded-md bg-purple-100 text-purple-700 font-extrabold flex items-center justify-center text-[11px] shrink-0">3</span>
-                            <p><strong class="text-slate-900 dark:text-white block">Cập Nhật:</strong> Nhấn nút "Cập nhật" để đồng bộ danh sách video ngay.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-2xl p-3 sm:p-4 border border-purple-100 dark:border-slate-800 space-y-2 shadow-glass-card flex-1 flex flex-col bg-gradient-to-br from-white/90 via-purple-50/30 to-pink-50/30 dark:from-slate-900/90 dark:to-slate-800/80 min-h-[120px]">
-                    <div class="flex items-center justify-between border-b border-purple-100 dark:border-slate-800 pb-1.5">
-                        <span class="font-extrabold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                            <i data-lucide="pin" class="w-3.5 h-3.5 text-purple-500"></i>
-                            Ghi Chú
-                        </span>
-                    </div>
-                    <div class="admin-notice-content text-xs leading-relaxed text-slate-700 dark:text-slate-300 space-y-1 font-medium overflow-y-auto flex-1 pr-1">
-                    </div>
-                </div>
-            </div>
-
-            <!-- RIGHT COLUMN (VIDEO) -->
-            <div class="lg:col-span-8 flex flex-col min-h-[200px] sm:min-h-[280px] lg:h-full">
-                <div class="glass-card rounded-2xl p-1.5 md:p-2 border border-sky-100 dark:border-slate-800 shadow-glass-card flex-1 flex flex-col bg-black overflow-hidden relative">
-                    <div class="w-full h-full flex items-center justify-center relative min-h-[200px] sm:min-h-[300px]">
-                        <!-- Nhúng Google Drive Preview Iframe trực tiếp -->
-                        <iframe id="guide-tutorial-iframe" src="https://drive.google.com/file/d/180ltsbxDSGBJW_QuzwhCWxWqfuU-3y8n/preview" class="w-full h-full border-0 rounded-xl min-h-[250px] sm:min-h-[350px]" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- POPUP FOOTER -->
-        <div class="pt-2 sm:pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between shrink-0">
-            <span class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 hidden sm:inline">Cô có thể xem lại hướng dẫn bất kỳ lúc nào bằng cách bấm nút "Hướng Dẫn" ở góc trên.</span>
-            <button onclick="closeGuideModal()" class="px-5 sm:px-6 py-2 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white font-bold rounded-xl text-xs md:text-sm shadow-md transition-all ml-auto">
-                Đóng
-            </button>
-        </div>
+<section id="about">
+  <div class="wrap rv">
+    <div class="center"><span class="pill">Giới thiệu</span></div>
+    <h2>Vì sao mọi người chọn Wiky</h2>
+    <p class="sub">Wiky gom các ứng dụng riêng lẻ vào một nơi, để bạn không phải nhớ nhiều địa chỉ hay đăng nhập nhiều lần.</p>
+    <div class="cards feat">
+      <div class="glass card" data-tilt><div class="ib"><svg class="i"><use href="#link"/></svg></div><h3>Một tài khoản, mọi ứng dụng</h3><p>Đăng nhập một lần để dùng tất cả ứng dụng con.</p></div>
+      <div class="glass card" data-tilt><div class="ib"><svg class="i"><use href="#zap"/></svg></div><h3>Truy cập nhanh</h3><p>Tìm kiếm tức thì, ghim ứng dụng yêu thích lên đầu.</p></div>
+      <div class="glass card" data-tilt><div class="ib"><svg class="i"><use href="#shield"/></svg></div><h3>An toàn và ổn định</h3><p>Mã hóa dữ liệu, sao lưu tự động, hoạt động 24/7.</p></div>
     </div>
-</div>
+  </div>
+</section>
 
-<!-- ADMIN NOTIFICATIONS & APPROVAL MODAL -->
-<div id="admin-notif-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center hidden p-2 sm:p-4 overflow-hidden">
-    <div class="glass-card bg-white/95 dark:bg-slate-900/95 text-slate-800 dark:text-white rounded-3xl w-full max-w-4xl max-h-[90vh] p-4 sm:p-6 shadow-2xl border border-white dark:border-slate-800 flex flex-col space-y-4 overflow-hidden">
-        <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 shrink-0">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold shadow-xs">
-                    <i data-lucide="bell" class="w-5 h-5"></i>
-                </div>
-                <div>
-                    <h3 class="font-extrabold text-base sm:text-lg text-slate-900 dark:text-white">Trung Tâm Thông Báo Admin</h3>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Duyệt video bài giảng mới và xác nhận các yêu cầu xóa từ giáo viên</p>
-                </div>
-            </div>
-            <button onclick="closeAdminNotifModal()" class="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-        </div>
+<section id="apps">
+  <div class="wrap rv">
+    <div class="center"><span class="pill">Hệ sinh thái</span></div>
+    <h2>Các ứng dụng trong Wiky</h2>
+    <p class="sub">Chọn ứng dụng bạn cần. Mỗi ứng dụng mở trong trang riêng nhưng dùng chung tài khoản.</p>
+    <div class="cards" id="appGrid"></div>
+  </div>
+</section>
 
-        <div class="flex-1 overflow-y-auto space-y-6 pr-1">
-            <!-- SECTION 1: DANH SÁCH BÀI GIẢNG CẦN DUYỆT -->
-            <div class="space-y-3">
-                <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                    <i data-lucide="clock" class="w-4 h-4 text-amber-500"></i>
-                    Video Bài Giảng Chờ Duyệt
-                    <span id="pending-approval-count" class="px-2 py-0.5 rounded-full text-xs bg-amber-100 text-amber-800 font-extrabold">0</span>
-                </h4>
-                <div id="pending-approval-list" class="space-y-2">
-                    <!-- Dynamic Items -->
-                </div>
-            </div>
-
-            <!-- SECTION 2: DANH SÁCH BÀI GIẢNG GIÁO VIÊN XÓA -->
-            <div class="space-y-3">
-                <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                    <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
-                    Video Yêu Cầu Xóa Từ Giáo Viên
-                    <span id="pending-delete-count" class="px-2 py-0.5 rounded-full text-xs bg-rose-100 text-rose-800 font-extrabold">0</span>
-                </h4>
-                <div id="pending-delete-list" class="space-y-2">
-                    <!-- Dynamic Items -->
-                </div>
-            </div>
-        </div>
-
-        <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex justify-end shrink-0">
-            <button onclick="closeAdminNotifModal()" class="px-5 py-2 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold rounded-xl text-xs sm:text-sm hover:bg-slate-300 transition-all">
-                Đóng
-            </button>
-        </div>
+<section id="how">
+  <div class="wrap rv">
+    <div class="center"><span class="pill">Bắt đầu</span></div>
+    <h2>Bắt đầu chỉ với 3 bước</h2>
+    <p class="sub">Từ đăng ký đến dùng thử ứng dụng đầu tiên mất chưa tới một phút.</p>
+    <div class="steps" id="steps">
+      <div class="glass step" data-tilt><small>01.</small><h3>Tạo tài khoản</h3><p>Đăng ký bằng email trong vài giây.</p><a class="go" href="#" data-update="Đăng ký">Đăng ký ngay <svg class="i"><use href="#arrow"/></svg></a></div>
+      <div class="glass step on" data-tilt><small>02.</small><h3>Chọn ứng dụng</h3><p>Duyệt danh sách và ghim các ứng dụng bạn hay dùng.</p><a class="go" href="#apps">Xem ứng dụng <svg class="i"><use href="#arrow"/></svg></a></div>
+      <div class="glass step" data-tilt><small>03.</small><h3>Bắt đầu sử dụng</h3><p>Mở ứng dụng, dữ liệu tự đồng bộ giữa các thiết bị.</p><a class="go" href="#apps">Mở ứng dụng <svg class="i"><use href="#arrow"/></svg></a></div>
     </div>
-</div>
+  </div>
+</section>
 
-<!-- TEACHER DELETE CONFIRM POPUP MODAL -->
-<div id="teacher-delete-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-    <div class="glass-card bg-white/95 dark:bg-slate-900/95 rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-4">
-        <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold shrink-0">
-                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
-            </div>
-            <div>
-                <h3 class="font-extrabold text-base sm:text-lg text-slate-900 dark:text-white">Xác Nhận Xóa Video</h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400">Video sẽ được chuyển sang trạng thái "Chờ xóa"</p>
-            </div>
-        </div>
-
-        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            Bạn có chắc chắn muốn yêu cầu xóa video bài giảng: <strong id="teacher-delete-video-name" class="text-slate-900 dark:text-white"></strong>?
-        </p>
-
-        <div class="space-y-2">
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">
-                Xác nhận vai trò Giáo viên thuộc lớp:
-            </label>
-            <select id="teacher-delete-class-select" class="w-full p-2.5 glass-input rounded-xl text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:border-rose-500">
-                <!-- Class options dynamic -->
-            </select>
-        </div>
-
-        <div class="pt-2 flex items-center justify-end gap-2.5">
-            <button type="button" onclick="closeTeacherDeleteModal()" class="px-4 py-2.5 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl font-bold text-xs sm:text-sm">
-                Hủy bỏ
-            </button>
-            <button id="teacher-delete-submit-btn" onclick="executeTeacherDeleteRequest()" disabled class="px-5 py-2.5 bg-rose-500 opacity-50 cursor-not-allowed text-white font-bold rounded-xl text-xs sm:text-sm shadow-md transition-all flex items-center gap-2">
-                <i data-lucide="trash-2" class="w-4 h-4"></i>
-                <span id="teacher-delete-timer-text">Vui lòng chờ 5s...</span>
-            </button>
-        </div>
+<section>
+  <div class="wrap rv">
+    <div class="center"><span class="pill">Thống kê</span></div>
+    <h2>Hoạt động của hệ sinh thái</h2>
+    <p class="sub">Số liệu cập nhật về lượt truy cập, ứng dụng và nội dung trên Wiky.</p>
+    <div class="dash">
+      <div class="glass panel" data-tilt id="cfPanel"><div class="hd"><b>Lượt truy cập</b><span class="live" id="cfState">Đang tải…</span></div>
+        <svg class="ch" id="cfSvg" viewBox="0 0 300 120" preserveAspectRatio="none" style="color:#22c55e"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22c55e" stop-opacity=".45"/><stop offset="1" stop-color="#22c55e" stop-opacity="0"/></linearGradient></defs><path class="fl" id="cfFl" d="M0 90 L30 66 60 78 90 44 120 60 150 32 180 50 210 22 240 42 270 16 300 28 V120 H0Z" fill="url(#g1)"/><path class="ln" id="cfLn" d="M0 90 L30 66 60 78 90 44 120 60 150 32 180 50 210 22 240 42 270 16 300 28" stroke="#22c55e"/></svg>
+        <div class="tick"><div>Hôm nay: <b id="cfToday">–</b> lượt</div><div>7 ngày qua: <b id="cfWeek">–</b> <b id="cfChg"></b> lượt</div></div></div>
+      <div class="glass panel" data-tilt><div class="hd"><b>Người dùng mới</b><span>trong 7 ngày</span></div>
+        <svg class="ch" id="nuSvg" viewBox="0 0 300 120" preserveAspectRatio="none" style="color:#5b83ff"><defs><linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b6bff" stop-opacity=".5"/><stop offset="1" stop-color="#3b6bff" stop-opacity="0"/></linearGradient></defs><path class="fl" id="nuFl" d="M0 100 L40 84 80 92 120 60 160 66 200 38 240 46 300 12 V120 H0Z" fill="url(#g2)"/><path class="ln" id="nuLn" d="M0 100 L40 84 80 92 120 60 160 66 200 38 240 46 300 12" stroke="#5b83ff"/></svg>
+        <div class="tick"><div>Hôm nay: <b id="nuNew">–</b> user</div><div>Tổng: <b id="nuTotal">–</b> user</div></div></div>
+      <div class="glass panel" data-tilt><div class="hd"><b>Ứng dụng hoạt động</b><span>Tháng này</span></div>
+        <svg class="ch" viewBox="0 0 300 120" preserveAspectRatio="none" style="color:#a06bff"><defs><linearGradient id="g3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a06bff" stop-opacity=".5"/><stop offset="1" stop-color="#a06bff" stop-opacity="0"/></linearGradient></defs><path class="fl" d="M0 104 L40 98 80 94 120 80 160 72 200 52 240 38 300 12 V120 H0Z" fill="url(#g3)"/><path class="ln" d="M0 104 L40 98 80 94 120 80 160 72 200 52 240 38 300 12" stroke="#a06bff"/></svg>
+        <div class="tick"><div><b>12</b> ứng dụng</div><div><b class="up">+2</b> ứng dụng tháng này</div></div></div>
     </div>
-</div>
+  </div>
+</section>
 
-<!-- ADMIN GOOGLE AUTHENTICATOR MODAL -->
-<div id="admin-pass-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-    <div class="glass-card bg-white/95 dark:bg-slate-900/95 rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-white dark:border-slate-800 space-y-4">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
-                <i data-lucide="shield-check" class="w-5 h-5"></i>
-            </div>
-            <div>
-                <h3 class="font-bold text-base md:text-lg text-slate-900 dark:text-white">Xác Thực Quản Trị</h3>
-                <p class="text-xs text-slate-500">Nhập mã PIN Google Authenticator</p>
-            </div>
-        </div>
-
-        <form onsubmit="verifyAdminPass(event)" class="space-y-3">
-            <div>
-                <input type="text" id="admin-pass-input" maxlength="6" pattern="[0-9]*" inputmode="numeric" placeholder="......" required class="w-full px-4 py-2.5 glass-input rounded-xl focus:outline-none focus:border-indigo-500 dark:bg-slate-800 text-center tracking-[0.4em] text-base md:text-lg font-bold">
-            </div>
-            <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeAdminPassModal()" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-xl font-bold text-xs md:text-sm">Hủy</button>
-                <button type="submit" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs md:text-sm shadow-md">Xác Nhận</button>
-            </div>
-        </form>
+<section>
+  <div class="wrap testi rv">
+    <div>
+      <div style="display:flex;gap:18px;align-items:center"><div class="big"><span data-count="95">0</span>%</div><div style="max-width:150px;font-size:15px">Phản hồi tích cực từ người dùng Wiky.</div></div>
+      <div class="stars"><svg class="i"><use href="#star"/></svg><svg class="i"><use href="#star"/></svg><svg class="i"><use href="#star"/></svg><svg class="i"><use href="#star"/></svg><svg class="i"><use href="#star"/></svg><span style="color:var(--fg);font-size:15px;margin-left:6px">4,8</span></div>
+      <div class="arrows"><button id="prev" aria-label="Trước"><svg class="i"><use href="#left"/></svg></button><button id="next" aria-label="Sau"><svg class="i"><use href="#arrow"/></svg></button></div>
     </div>
-</div>
+    <div class="glass quote" data-tilt><div class="av" id="av"></div><div class="qb" id="qb"></div></div>
+  </div>
+</section>
 
-<!-- VIDEO PLAYER PREVIEW MODAL -->
-<div id="player-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-2 sm:p-4 md:p-5 overflow-hidden">
-    <div class="glass-card bg-white dark:bg-slate-900 text-slate-800 dark:text-white rounded-3xl w-full h-full max-w-6xl max-h-[94dvh] sm:max-h-[96vh] p-3 sm:p-5 shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between space-y-3 overflow-hidden">
-        <div class="flex flex-wrap items-center justify-between gap-2 sm:gap-3 border-b border-slate-200 dark:border-slate-800 pb-2.5 shrink-0">
-            <div class="min-w-0 flex-1 pr-2">
-                <h3 id="player-video-title" class="font-bold text-base sm:text-lg md:text-xl text-slate-900 dark:text-white truncate">Tên Video Bài Giảng</h3>
-                <p id="player-video-meta" class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">Google Drive Cloud Player</p>
-            </div>
-            
-            <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                <button id="open-external-tab-btn" onclick="openVideoInNewTab()" class="px-2.5 py-1.5 sm:px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-md" title="Mở trang xem trực tiếp từ Google Drive">
-                    <i data-lucide="external-link" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
-                    <span class="hidden sm:inline">Xem chi tiết</span>
-                </button>
-
-                <button id="player-approve-btn" onclick="approveCurrentPlayingVideo()" class="hidden px-2.5 py-1.5 sm:px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all items-center gap-1.5 shadow-md">
-                    <i data-lucide="check-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
-                    <span id="player-approve-btn-text" class="hidden sm:inline">Duyệt bài giảng</span>
-                </button>
-
-                <button onclick="closePlayerModal()" class="px-2.5 py-1.5 sm:px-3 text-rose-600 bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/60 dark:text-rose-300 border border-rose-200 dark:border-rose-800 rounded-xl font-bold text-xs flex items-center gap-1 transition-all shadow-xs">
-                    <i data-lucide="x-circle" class="w-4 h-4"></i>
-                    <span>Đóng</span>
-                </button>
-            </div>
-        </div>
-
-        <div class="flex-1 bg-black rounded-2xl overflow-hidden relative flex items-center justify-center border border-slate-200 dark:border-slate-800 shadow-inner min-h-0 w-full">
-            <iframe id="main-video-iframe" class="w-full h-full border-0 hidden" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            <video id="main-video-player" controls class="w-full h-full object-contain hidden max-h-[65vh]"></video>
-        </div>
-
-        <div id="player-desc-box" class="p-2.5 sm:p-3 bg-slate-50 dark:bg-slate-800/80 rounded-2xl text-xs text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 overflow-y-auto max-h-[100px]">
-            <p id="player-video-desc" class="leading-relaxed"></p>
-        </div>
+<section id="pricing">
+  <div class="wrap rv">
+    <div class="center"><span class="pill">Gói dịch vụ</span></div>
+    <h2>Chọn gói phù hợp với bạn</h2>
+    <p class="sub">Giá linh hoạt cho cá nhân, nhóm và tổ chức.</p>
+    <div class="plans">
+      <div class="glass plan" data-tilt><b>Cơ bản</b><div class="price">0đ<small> /tháng</small></div><small style="color:var(--mut)">Dành cho cá nhân</small>
+        <ul><li><svg class="i"><use href="#check"/></svg>3 ứng dụng cốt lõi</li><li><svg class="i"><use href="#check"/></svg>1 GB lưu trữ</li><li><svg class="i"><use href="#check"/></svg>Cộng đồng hỗ trợ</li></ul><button class="btn ghost" data-update="Chọn gói">Chọn gói này</button></div>
+      <div class="glass plan pop" data-tilt><b>Phổ biến</b><span class="badge">Đề xuất</span><div class="price">99.000đ<small> /tháng</small></div><small style="color:var(--soft)">Cho người dùng thường xuyên</small>
+        <ul><li><svg class="i"><use href="#check"/></svg>Toàn bộ ứng dụng</li><li><svg class="i"><use href="#check"/></svg>50 GB lưu trữ</li><li><svg class="i"><use href="#check"/></svg>Đồng bộ đa thiết bị</li><li><svg class="i"><use href="#check"/></svg>Hỗ trợ ưu tiên</li></ul><button class="btn" data-update="Chọn gói">Chọn gói này</button></div>
+      <div class="glass plan" data-tilt><b>Tổ chức</b><div class="price">299.000đ<small> /tháng</small></div><small style="color:var(--mut)">Dành cho nhóm</small>
+        <ul><li><svg class="i"><use href="#check"/></svg>Không giới hạn thành viên</li><li><svg class="i"><use href="#check"/></svg>500 GB lưu trữ</li><li><svg class="i"><use href="#check"/></svg>Truy cập API</li><li><svg class="i"><use href="#check"/></svg>Tên miền riêng</li></ul><button class="btn ghost" data-update="Chọn gói">Chọn gói này</button></div>
     </div>
-</div>
+  </div>
+</section>
 
-<!-- CHIBI BÓNG NƯỚC (TRUNG TÂM HỖ TRỢ & HƯỚNG DẪN TƯƠNG TÁC CHO WIKY CLOUD) -->
-<div id="chibiBubbleContainer" class="fixed bottom-4 right-4 z-[60] pointer-events-auto flex flex-col items-end group transition-all duration-300">
-    
-    <!-- Interactive Speech Bubble -->
-    <div id="chibiSpeechBubble" class="mb-2 max-w-[220px] sm:max-w-[260px] p-2.5 sm:p-3 rounded-2xl glass-panel bg-white/95 dark:bg-slate-900/95 text-slate-800 dark:text-sky-100 text-[11px] font-bold shadow-2xl border border-sky-200/80 dark:border-sky-500/30 transition-all duration-300 opacity-0 translate-y-2 pointer-events-none relative">
-        <span id="chibiSpeechText">Xin chào Cô! Em là trợ lý Wiky Cloud!</span>
-        <div class="absolute -bottom-1.5 right-6 w-3 h-3 bg-white/95 dark:bg-slate-900/95 rotate-45 border-r border-b border-sky-200/80 dark:border-sky-500/30"></div>
+<section id="faq">
+  <div class="wrap rv">
+    <div class="center"><span class="pill">Hỏi đáp</span></div>
+    <h2>Câu hỏi thường gặp</h2>
+    <p class="sub"></p>
+    <div class="tabs" id="tabs"><button class="on" data-t="0">Chung</button><button data-t="1">Tính năng</button><button data-t="2">Gói dịch vụ</button><button data-t="3">Cộng đồng</button></div>
+    <div class="faq"><div class="qs" id="qs"></div>
+      <div class="glass ans"><p id="ans"></p><div class="arrows"><button id="fp" aria-label="Trước"><svg class="i"><use href="#left"/></svg></button><button id="fn" aria-label="Sau"><svg class="i"><use href="#arrow"/></svg></button></div></div></div>
+  </div>
+</section>
+
+<section style="padding-bottom:0">
+  <div class="wrap rv"><div class="ctaBox">
+    <h2>Sẵn sàng khám phá Wiky?</h2>
+    <p>Tham gia nền tảng được thiết kế cho mọi nhu cầu.</p>
+    <div class="cta-row"><a class="btn" href="#" data-update="Đăng ký" data-mag>Tạo tài khoản miễn phí</a><a class="btn ghost" href="#apps" data-mag>Tìm hiểu thêm</a></div>
+  </div></div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div><div class="logo"><span class="lm"><svg class="i" style="width:16px"><use href="#layers"/></svg></span>Wiky</div><p style="color:var(--mut);font-size:14px;margin-top:14px;max-width:260px">Cổng truy cập chung cho hệ sinh thái các ứng dụng Wiky.</p>
+        <div class="soc"><a href="#" aria-label="Website"><svg class="i"><use href="#globe"/></svg></a><a href="#" aria-label="Email"><svg class="i"><use href="#mail"/></svg></a><a href="#" aria-label="Cộng đồng"><svg class="i"><use href="#chat"/></svg></a><a href="#" aria-label="Video"><svg class="i"><use href="#play"/></svg></a></div></div>
+      <div><h4>Ứng dụng</h4><ul><li>Wiky Notes</li><li>Wiky Tasks</li><li>Wiky Learn</li><li>Wiky Studio</li></ul></div>
+      <div><h4>Tài nguyên</h4><ul><li>Trung tâm trợ giúp</li><li>Tin tức</li><li>Hướng dẫn</li><li>Hỏi đáp</li></ul></div>
+      <div><h4>Công ty</h4><ul><li>Giới thiệu</li><li>Tuyển dụng</li><li>Liên hệ</li><li>Điều khoản</li></ul></div>
     </div>
+    <div class="copy">© 2026 Wiky. Bảo lưu mọi quyền.</div>
+  </div>
+</footer>
 
-    <div class="relative cursor-pointer" onclick="triggerChibiInteraction()">
-        <!-- Glow Shadow Pastel Ocean -->
-        <div class="absolute inset-0 rounded-full blur-2xl transition-all duration-700 w-24 h-24 -translate-x-2 -translate-y-2" style="background: radial-gradient(circle, rgba(56, 189, 248, 0.45) 0%, rgba(14, 165, 233, 0.25) 50%, transparent 70%); animation: 2s ease-in-out infinite alternate siri-glow-pulse;"></div>
-        
-        <!-- Chibi Morphing Bubble Body -->
-        <div class="relative z-10 w-[68px] h-[68px] sm:w-[76px] sm:h-[76px] overflow-hidden shadow-2xl transition-transform duration-300 group-hover:scale-110" style="animation: 3.5s ease-in-out 0s infinite normal none running siri-morph-active; border-radius: 42% 58% 50% 50% / 50% 42% 58% 50%; box-shadow: rgba(14, 165, 233, 0.4) 0px 12px 28px -6px;">
-            <div class="absolute inset-0" style="background: radial-gradient(circle at 35% 35%, rgba(186, 230, 253, 0.95) 0%, rgba(56, 189, 248, 0.85) 45%, rgba(14, 165, 233, 0.95) 100%);"></div>
-            <div class="absolute inset-[-20%] rounded-full" style="background: conic-gradient(transparent 0%, rgba(255, 255, 255, 0.7) 15%, transparent 30%, rgba(56, 189, 248, 0.6) 50%, transparent 65%, rgba(186, 230, 253, 0.7) 80%, transparent 100%); filter: blur(6px); animation: 4s linear 0s infinite normal none running siri-rotate-1;"></div>
-            <div class="absolute inset-[-15%] rounded-full" style="background: conic-gradient(from 120deg, transparent 0%, rgba(125, 211, 252, 0.5) 20%, transparent 40%, rgba(14, 165, 233, 0.4) 60%, transparent 80%, rgba(56, 189, 248, 0.5) 95%, transparent 100%); filter: blur(5px); animation: 5s linear 0s infinite normal none running siri-rotate-2;"></div>
-            <div class="absolute inset-[25%] rounded-full" style="background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(186, 230, 253, 0.2) 50%, transparent 70%); filter: blur(3px);"></div>
-            <div class="absolute inset-0 rounded-[inherit]" style="background: radial-gradient(circle at 36% 30%, transparent 35%, rgba(3, 105, 161, 0.25) 65%, rgba(2, 132, 199, 0.5) 100%); box-shadow: rgba(2, 132, 199, 0.5) -4px -6px 12px inset, rgba(255, 255, 255, 0.6) 2px 3px 6px inset;"></div>
-            <div class="absolute rounded-full" style="left: 20%; top: 14%; width: 34%; height: 24%; background: radial-gradient(rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.2) 50%, transparent 75%); filter: blur(2px); transform: rotate(-25deg);"></div>
-        </div>
 
-        <!-- Chibi Eyes & Dynamic Mouth -->
-        <div aria-hidden="true" class="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center space-y-1">
-            <div id="chibiEyes" class="flex items-center gap-[10px] sm:gap-[12px] transition-transform duration-100 ease-out">
-                <span class="block bg-slate-900 dark:bg-slate-950" style="width: 8px; height: 10px; border-radius: 50%; box-shadow: rgba(255, 255, 255, 0.8) -1px -1px 2px inset; animation: 4.5s ease-in-out 0s infinite normal none running siri-blink;"></span>
-                <span class="block bg-slate-900 dark:bg-slate-950" style="width: 8px; height: 10px; border-radius: 50%; box-shadow: rgba(255, 255, 255, 0.8) -1px -1px 2px inset; animation: 4.5s ease-in-out 0s infinite normal none running siri-blink;"></span>
-            </div>
-            <div id="chibiMouth" class="w-2.5 h-1 bg-slate-800 dark:bg-slate-900 rounded-full transition-all duration-300"></div>
-        </div>
-    </div>
+<!-- CHIBI THÔNG BÁO -->
+<div id="chibi">
+  <div class="glass say" id="say"><span id="sayt">Xin chào! Tôi là Chibi Wiky.</span></div>
+  <button class="cb" id="cb" aria-label="Chibi thông báo"><span class="glow"></span>
+    <span class="body"><span class="b0"></span><span class="b1"></span><span class="b2"></span></span>
+    <span class="face"><span class="eyes" id="eyes"><i></i><i></i></span><span class="mouth" id="mouth"></span></span></button>
 </div>
-
-<!-- TOAST NOTIFICATIONS -->
-<div id="toast-container" class="fixed bottom-16 right-3 sm:bottom-6 sm:right-6 z-50 flex flex-col gap-2.5 max-w-[90vw]"></div>
 
 <script>
-    // Cấu hình Ghi chú Nhắc Nhở cố định do Admin thiết lập
-    const ADMIN_NOTICE_CONFIG = `
-        <ul class="list-disc pl-4 space-y-1 text-slate-600 dark:text-slate-300">
-            <li>Trong một lần có thể chọn tải lên nhiều video.</li>
-            <li>Có thể đặt tên tệp: <code>[Tên Bài Giảng].mp4</code></li>
-            <li>Sau khi gửi Form, video sẽ ở trạng thái <em>Chờ duyệt</em> cho tới khi được xác nhận.</li>
-        </ul>
-        <p class="text-[11px] text-slate-500 italic mt-1">Nhấp nút "Cập nhật" để cập nhật dữ liệu .</p>
-    `;
-
-    // Cấu hình SECRET KEY cho Google Authenticator (Base32 format)
-    const ADMIN_TOTP_SECRET = "NH4THUYWIKYCLOUD";
-
-    // Cấu hình URL Web App Google Apps Script
-    const DEFAULT_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFcORc8XwW8Lz035lfryLaeKmAs9xyrDSjgJ4-qH3xjiaNAC4NvieSYWhOfy590Jpe/exec";
-    
-    // Cấu hình Link Google Form công khai
-    const GOOGLE_FORM_UPLOAD_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdKU0MhaEq04c-FW6ThadJKlZdd7reORpXYyXUj9ml9NMXg8w/viewform";
-
-    // URL Thumbnail mặc định
-    const DEFAULT_THUMBNAIL_URL = "https://cdn.phototourl.com/member/2026-10-30-92e8d91a-68f6-47b4-8c80-e8565d5d795c.png";
-
-    // URL Video Hướng Dẫn
-    const GUIDE_VIDEO_DRIVE_URL = "https://drive.google.com/file/d/180ltsbxDSGBJW_QuzwhCWxWqfuU-3y8n/view";
-
-    const PRESCHOOL_CLASSES = [
-        { id: 'all', name: 'Trang chủ' },
-        { id: 'nt1', name: 'Nhà trẻ 1' },
-        { id: 'nt2', name: 'Nhà trẻ 2' },
-        { id: 'nt3', name: 'Nhà trẻ 3' },
-        { id: 'm1', name: 'Mầm 1' },
-        { id: 'm2', name: 'Mầm 2' },
-        { id: 'm3', name: 'Mầm 3' },
-        { id: 'm4', name: 'Mầm 4' },
-        { id: 'm5', name: 'Mầm 5' },
-        { id: 'm6', name: 'Mầm 6' },
-        { id: 'm7', name: 'Mầm 7' },
-        { id: 'm8', name: 'Mầm 8' }
-    ];
-
-    /* RANDOM CHIBI SPEECH QUOTES FOR WIKY CLOUD */
-    const CHIBI_QUOTES = [
-        "Cô chọn lớp tương ứng để xem danh sách bài giảng của lớp!",
-        "Bấm nút 'Tải Video' để mở Google Form gửi bài giảng mới!",
-        "Nếu vừa tải video xong, Cô bấm 'Cập nhật' để làm mới dữ liệu",
-        "Có thể lọc theo từng Tháng học ở thanh tìm kiếm phía trên!",
-        "Bấm vào hình nền Video để mở xem full HD trong khung phát!",
-        "Bấm nút 'Hướng dẫn' ở trênd để xem lại video hướng dẫn."
-    ];
-
-    let currentRole = localStorage.getItem('mn_admin_authenticated') === 'true' ? 'admin' : 'teacher';
-    let currentMonthFilter = 'all'; 
-    let currentClassId = 'all';
-    let currentPlayingVideoId = null;
-    let guideFadeInterval = null;
-    let chibiTimer = null;
-    let hasOpenedUploadForm = false; // Theo dõi khi người dùng vừa nhấp tải video
-
-    // Timer đếm ngược xóa của giáo viên
-    let teacherDeleteTimer = null;
-    let teacherDeleteCountdown = 5;
-    let pendingDeleteVideoId = null;
-
-    let appData = JSON.parse(localStorage.getItem('mn_video_app_data')) || {
-        months: [
-            { id: 'Tháng 9', name: 'Tháng 9' },
-            { id: 'Tháng 10', name: 'Tháng 10' },
-            { id: 'Tháng 11', name: 'Tháng 11' },
-            { id: 'Tháng 12', name: 'Tháng 12' },
-            { id: 'Tháng 1', name: 'Tháng 1' },
-            { id: 'Tháng 2', name: 'Tháng 2' },
-            { id: 'Tháng 3', name: 'Tháng 3' },
-            { id: 'Tháng 4', name: 'Tháng 4' },
-            { id: 'Tháng 5', name: 'Tháng 5' }
-        ],
-        videosByClass: {},
-        hasSeenGuide: false,
-        lastFetched: 0
-    };
-
-    /* CHIBI COMPANION LOGIC */
-    function speakChibi(text) {
-        triggerChibiInteraction(text);
-    }
-
-    // Lắng nghe sự kiện người dùng quay lại trang web sau khi mở Form Tải video
-    window.addEventListener('focus', () => {
-        if (hasOpenedUploadForm) {
-            hasOpenedUploadForm = false;
-            setTimeout(() => {
-                speakChibi("Cô vừa gửi video xong đúng không ạ? Hãy nhấp nút 'Cập nhật' ở góc trái để hiển thị video mới!");
-            }, 500);
-        }
-    });
-
-    function initChibiEyeTracking() {
-        const chibiEyes = document.getElementById('chibiEyes');
-        if (!chibiEyes) return;
-
-        function updateEyePosition(clientX, clientY) {
-            const rect = chibiEyes.getBoundingClientRect();
-            const eyeCenterX = rect.left + rect.width / 2;
-            const eyeCenterY = rect.top + rect.height / 2;
-
-            const angle = Math.atan2(clientY - eyeCenterY, clientX - eyeCenterX);
-            const distance = Math.min(5, Math.hypot(clientX - eyeCenterX, clientY - eyeCenterY) / 40);
-
-            const moveX = Math.cos(angle) * distance;
-            const moveY = Math.sin(angle) * distance;
-
-            chibiEyes.style.transform = `translate(${moveX}px, ${moveY}px)`;
-        }
-
-        window.addEventListener('mousemove', (e) => updateEyePosition(e.clientX, e.clientY));
-        window.addEventListener('touchmove', (e) => {
-            if (e.touches && e.touches[0]) updateEyePosition(e.touches[0].clientX, e.touches[0].clientY);
-        });
-    }
-
-    function triggerChibiInteraction(customText = null) {
-        const bubble = document.getElementById('chibiSpeechBubble');
-        const speechText = document.getElementById('chibiSpeechText');
-        const mouth = document.getElementById('chibiMouth');
-
-        const text = customText || CHIBI_QUOTES[Math.floor(Math.random() * CHIBI_QUOTES.length)];
-        speechText.innerText = text;
-
-        mouth.classList.add('chibi-mouth-talking');
-        bubble.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
-        bubble.classList.add('opacity-100', 'translate-y-0');
-
-        clearTimeout(chibiTimer);
-        
-        setTimeout(() => {
-            mouth.classList.remove('chibi-mouth-talking');
-        }, 2500);
-
-        chibiTimer = setTimeout(() => {
-            bubble.classList.remove('opacity-100', 'translate-y-0');
-            bubble.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
-        }, 6500);
-    }
-
-    function startChibiAutoSpeech() {
-        setTimeout(() => {
-            speakChibi('Chào mừng Cô tới Wiky Cloud! Em luôn ở đây hỗ trợ tra cứu video bài giảng.');
-        }, 1200);
-    }
-
-    /* SCROLL REVEAL ANIMATIONS */
-    function initScrollReveal() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    }
-
-    function toggleMobileSidebar(forceState) {
-        const sidebar = document.getElementById('main-sidebar');
-        const backdrop = document.getElementById('mobile-sidebar-backdrop');
-        
-        if (!sidebar || !backdrop) return;
-
-        const isCurrentlyOpen = !sidebar.classList.contains('-translate-x-full');
-        const shouldOpen = forceState !== undefined ? forceState : !isCurrentlyOpen;
-
-        if (shouldOpen) {
-            sidebar.classList.remove('-translate-x-full');
-            backdrop.classList.remove('hidden');
-        } else {
-            sidebar.classList.add('-translate-x-full');
-            backdrop.classList.add('hidden');
-        }
-    }
-
-    function cleanVideoTitle(rawTitle) {
-        if (!rawTitle) return '';
-        let cleaned = String(rawTitle).trim();
-
-        cleaned = cleaned.replace(/\.(mp4|mov|avi|mkv|flv|wmv|webm)$/i, '');
-
-        const splitIndex = cleaned.search(/\s*[-–—]\s*/);
-        if (splitIndex !== -1) {
-            cleaned = cleaned.substring(0, splitIndex).trim();
-        }
-
-        return cleaned || rawTitle;
-    }
-
-    function base32ToHex(base32) {
-        const base32chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
-        let bits = "";
-        let hex = "";
-        for (let i = 0; i < base32.length; i++) {
-            const val = base32chars.indexOf(base32.charAt(i).toUpperCase());
-            if (val !== -1) {
-                bits += val.toString(2).padStart(5, '0');
-            }
-        }
-        for (let i = 0; i + 4 <= bits.length; i += 4) {
-            const chunk = bits.substr(i, 4);
-            hex = hex + parseInt(chunk, 2).toString(16);
-        }
-        return hex;
-    }
-
-    async function verifyGoogleAuthPin(enteredPin) {
-        if (!enteredPin || enteredPin.length !== 6) return false;
-        
-        const currentEpoch = Math.floor(Date.now() / 1000);
-        for (let delta = -1; delta <= 1; delta++) {
-            const epochToTest = currentEpoch + (delta * 30);
-            const time = Math.floor(epochToTest / 30);
-            const timeHex = time.toString(16).padStart(16, '0');
-            
-            const keyHex = base32ToHex(ADMIN_TOTP_SECRET);
-            const keyBytes = new Uint8Array(keyHex.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
-            const timeBytes = new Uint8Array(timeHex.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
-
-            const cryptoKey = await window.crypto.subtle.importKey(
-                "raw", keyBytes, { name: "HMAC", hash: { name: "SHA-1" } }, false, ["sign"]
-            );
-            const signature = await window.crypto.subtle.sign("HMAC", cryptoKey, timeBytes);
-            const hash = new Uint8Array(signature);
-
-            const offset = hash[hash.length - 1] & 0xf;
-            const binary =
-                ((hash[offset] & 0x7f) << 24) |
-                ((hash[offset + 1] & 0xff) << 16) |
-                ((hash[offset + 2] & 0xff) << 8) |
-                (hash[offset + 3] & 0xff);
-
-            const calculatedOtp = (binary % 1000000).toString().padStart(6, '0');
-            if (calculatedOtp === enteredPin) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        lucide.createIcons();
-        populateMonthFilterSelect();
-        renderClassList();
-        updateRoleUI();
-        renderAdminNotice();
-        initScrollReveal();
-        initChibiEyeTracking();
-        startChibiAutoSpeech();
-
-        const hasCachedData = Object.keys(appData.videosByClass).length > 0;
-        if (!hasCachedData) {
-            fetchAllDataFromCloud(true);
-        } else {
-            loadCurrentClassWorkspace();
-            updateAdminNotifBadge();
-        }
-
-        if (!appData.hasSeenGuide) {
-            setTimeout(openGuideModal, 800);
-        }
-    });
-
-    function renderAdminNotice() {
-        const containers = document.querySelectorAll('.admin-notice-content');
-        containers.forEach(container => {
-            container.innerHTML = ADMIN_NOTICE_CONFIG;
-        });
-    }
-
-    function switchToHomeTab() {
-        loadCurrentClassWorkspace();
-    }
-
-    function normalizeMonthId(rawMonth) {
-        if (!rawMonth) return 'general';
-        const str = String(rawMonth).trim();
-        if (str === 'all' || str === '') return 'all';
-
-        const match = str.match(/Tháng\s*(\d{1,2})/i) || str.match(/^(\d{1,2})$/);
-        if (match) {
-            return `Tháng ${parseInt(match[1])}`;
-        }
-        return str;
-    }
-
-    function formatMonthDisplayName(monthId) {
-        return normalizeMonthId(monthId);
-    }
-
-    function getClassNameById(classId) {
-        const cls = PRESCHOOL_CLASSES.find(c => c.id === classId);
-        return cls ? cls.name : (classId || 'Mầm Non');
-    }
-
-    function redirectToGoogleForm() {
-        hasOpenedUploadForm = true;
-        speakChibi("Đang chuyển hướng sang Google Form gửi video...");
-        window.open(GOOGLE_FORM_UPLOAD_URL, '_blank');
-    }
-
-    function openGuideVideoLink() {
-        window.open(GUIDE_VIDEO_DRIVE_URL, '_blank');
-    }
-
-    function showGlobalLoadingBar(show = true, message = "Đang tải dữ liệu...") {
-        const overlay = document.getElementById('full-page-loading');
-        const loadingText = document.getElementById('loading-text');
-        if (loadingText) loadingText.innerText = message;
-
-        if (show) {
-            overlay.classList.remove('opacity-0', 'pointer-events-none');
-            overlay.classList.add('opacity-100');
-        } else {
-            overlay.classList.remove('opacity-100');
-            overlay.classList.add('opacity-0', 'pointer-events-none');
-        }
-    }
-
-    function handleHeaderBtnClick() {
-        if (currentRole === 'admin') {
-            openAdminNotifModal();
-        } else {
-            openGuideModal();
-        }
-    }
-
-    function openGuideModal() {
-        speakChibi("Đã mở bảng Hướng Dẫn, Cô có thể xem video các bước thao tác trên web!");
-        const guideModal = document.getElementById('guide-modal');
-        guideModal.classList.remove('hidden');
-    }
-
-    function closeGuideModal() {
-        const guideModal = document.getElementById('guide-modal');
-        guideModal.classList.add('hidden');
-        appData.hasSeenGuide = true;
-        saveAppData();
-    }
-
-    function toggleDarkMode() {
-        const isDark = document.documentElement.classList.toggle('dark');
-        document.getElementById('dark-icon').setAttribute('data-lucide', isDark ? 'sun' : 'moon');
-        lucide.createIcons();
-    }
-
-    function requestAdminRole() {
-        if (currentRole === 'admin') {
-            if (confirm("Bạn muốn đăng xuất khỏi quyền Admin?")) {
-                localStorage.removeItem('mn_admin_authenticated');
-                switchRole('teacher');
-            }
-            return;
-        }
-        document.getElementById('admin-pass-modal').classList.remove('hidden');
-        document.getElementById('admin-pass-input').value = '';
-        document.getElementById('admin-pass-input').focus();
-    }
-
-    function closeAdminPassModal() {
-        document.getElementById('admin-pass-modal').classList.add('hidden');
-        document.getElementById('admin-pass-input').value = '';
-    }
-
-    async function verifyAdminPass(e) {
-        e.preventDefault();
-        const inputPass = document.getElementById('admin-pass-input').value.trim();
-        
-        const isValidTotp = await verifyGoogleAuthPin(inputPass);
-        if (isValidTotp || inputPass === 'NH4THUY') {
-            localStorage.setItem('mn_admin_authenticated', 'true');
-            closeAdminPassModal();
-            switchRole('admin');
-            speakChibi("Chào mừng Quản trị viên đã đăng nhập thành công!");
-        } else {
-            showToast('Mã PIN Authenticator không chính xác hoặc đã hết hạn!', 'error');
-            speakChibi("Mã PIN chưa chính xác, Cô liên hệ Huy nha!");
-        }
-    }
-
-    function switchRole(role) {
-        currentRole = role;
-        updateRoleUI();
-        loadCurrentClassWorkspace();
-        showToast(`Đã chuyển sang giao diện ${role === 'admin' ? 'Quản Trị Viên' : 'Giáo Viên'}`, 'info');
-    }
-
-    function updateRoleUI() {
-        const roleDisplayText = document.getElementById('role-display-text');
-        const adminBtn = document.getElementById('admin-access-btn');
-        const addMonthBtn = document.getElementById('admin-add-month-btn');
-        const playerApproveBtn = document.getElementById('player-approve-btn');
-
-        const headerBtnIcon = document.getElementById('header-btn-icon');
-        const headerBtnText = document.getElementById('header-btn-text');
-        const headerBtn = document.getElementById('header-guide-or-notif-btn');
-
-        if (currentRole === 'admin') {
-            roleDisplayText.innerText = "Admin";
-            adminBtn.className = "p-2 sm:p-2.5 text-white bg-indigo-600 rounded-2xl border border-indigo-700 transition-all shadow-xs";
-            adminBtn.title = "Đang ở quyền Admin (Nhấp để Đăng xuất)";
-            addMonthBtn.classList.remove('hidden');
-            addMonthBtn.classList.add('flex');
-
-            if (headerBtnIcon && headerBtnText) {
-                headerBtnIcon.setAttribute('data-lucide', 'bell');
-                headerBtnText.innerText = "Thông Báo";
-                headerBtn.title = "Trung Tâm Thông Báo & Duyệt Bài";
-            }
-
-            if (playerApproveBtn) {
-                playerApproveBtn.classList.remove('hidden');
-                playerApproveBtn.classList.add('flex');
-            }
-        } else {
-            roleDisplayText.innerText = "Giáo Viên";
-            adminBtn.className = "p-2 sm:p-2.5 text-slate-500 hover:text-indigo-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700 transition-all glass-card shadow-xs";
-            adminBtn.title = "Nhập mã PIN Authenticator để vào quyền Admin";
-            addMonthBtn.classList.add('hidden');
-            addMonthBtn.classList.remove('flex');
-
-            if (headerBtnIcon && headerBtnText) {
-                headerBtnIcon.setAttribute('data-lucide', 'help-circle');
-                headerBtnText.innerText = "Hướng Dẫn";
-                headerBtn.title = "Hướng Dẫn";
-            }
-
-            if (playerApproveBtn) {
-                playerApproveBtn.classList.add('hidden');
-                playerApproveBtn.classList.remove('flex');
-            }
-        }
-        updateAdminNotifBadge();
-        lucide.createIcons();
-    }
-
-    function updateAdminNotifBadge() {
-        const badge = document.getElementById('admin-notif-badge');
-        if (!badge) return;
-
-        if (currentRole !== 'admin') {
-            badge.classList.add('hidden');
-            return;
-        }
-
-        const allVideos = getAllVideosList();
-        const pendingApprove = allVideos.filter(v => !v.approved && !v.deletedPending).length;
-        const pendingDelete = allVideos.filter(v => v.deletedPending).length;
-        const total = pendingApprove + pendingDelete;
-
-        if (total > 0) {
-            badge.innerText = total;
-            badge.classList.remove('hidden');
-        } else {
-            badge.classList.add('hidden');
-        }
-    }
-
-    function openAdminNotifModal() {
-        renderAdminNotifLists();
-        document.getElementById('admin-notif-modal').classList.remove('hidden');
-        lucide.createIcons();
-    }
-
-    function closeAdminNotifModal() {
-        document.getElementById('admin-notif-modal').classList.add('hidden');
-    }
-
-    function renderAdminNotifLists() {
-        const allVideos = getAllVideosList();
-        const pendingApproveList = allVideos.filter(v => !v.approved && !v.deletedPending);
-        const pendingDeleteList = allVideos.filter(v => v.deletedPending);
-
-        document.getElementById('pending-approval-count').innerText = pendingApproveList.length;
-        document.getElementById('pending-delete-count').innerText = pendingDeleteList.length;
-
-        const approveContainer = document.getElementById('pending-approval-list');
-        if (pendingApproveList.length === 0) {
-            approveContainer.innerHTML = `<p class="text-xs text-slate-400 italic p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl">Không có video nào chờ duyệt.</p>`;
-        } else {
-            approveContainer.innerHTML = pendingApproveList.map(v => {
-                const cleanT = cleanVideoTitle(v.title);
-                const classN = getClassNameById(v.classId);
-                const monthN = formatMonthDisplayName(v.monthId);
-                const driveUrl = v.embedUrl || v.fileUrl;
-                return `
-                    <div class="p-3 bg-slate-50 dark:bg-slate-800/80 rounded-2xl border border-slate-200/80 dark:border-slate-700 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
-                        <div class="min-w-0 flex-1">
-                            <h5 class="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white truncate">${escapeHtml(cleanT)}</h5>
-                            <p class="text-[11px] text-slate-500 dark:text-slate-400 font-semibold mt-0.5">Lớp: ${escapeHtml(classN)} | ${escapeHtml(monthN)}</p>
-                        </div>
-                        <div class="flex items-center gap-2 shrink-0 w-full sm:w-auto justify-end">
-                            <button onclick="window.open('${driveUrl}')" class="px-3 py-1.5 bg-sky-50 dark:bg-sky-950 text-sky-700 dark:text-sky-300 hover:bg-sky-100 rounded-xl text-xs font-bold transition-all flex items-center gap-1 border border-sky-200 dark:border-sky-800">
-                                <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Xem Video
-                            </button>
-                            <button onclick="approveVideoFromNotif('${v.id}')" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1 shadow-xs">
-                                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Duyệt
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        const deleteContainer = document.getElementById('pending-delete-list');
-        if (pendingDeleteList.length === 0) {
-            deleteContainer.innerHTML = `<p class="text-xs text-slate-400 italic p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl">Không có yêu cầu xóa video nào.</p>`;
-        } else {
-            deleteContainer.innerHTML = pendingDeleteList.map(v => {
-                const cleanT = cleanVideoTitle(v.title);
-                const classN = getClassNameById(v.classId);
-                const monthN = formatMonthDisplayName(v.monthId);
-                const deletedByN = getClassNameById(v.deletedByClass) || 'Giáo viên';
-                return `
-                    <div class="p-3 bg-rose-50/50 dark:bg-rose-950/20 rounded-2xl border border-rose-200/80 dark:border-rose-900/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
-                        <div class="min-w-0 flex-1">
-                            <h5 class="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white truncate">${escapeHtml(cleanT)}</h5>
-                            <p class="text-[11px] text-rose-600 dark:text-rose-400 font-semibold mt-0.5">Lớp: ${escapeHtml(classN)} | ${escapeHtml(monthN)} | GV Xóa: <strong>${escapeHtml(deletedByN)}</strong></p>
-                        </div>
-                        <div class="flex items-center gap-2 shrink-0 w-full sm:w-auto justify-end">
-                            <button onclick="adminConfirmDeleteVideo('${v.id}')" class="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1 shadow-xs">
-                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Xóa Video
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-        lucide.createIcons();
-    }
-
-    async function approveVideoFromNotif(videoId) {
-        await toggleApproveSingleVideo(videoId);
-        renderAdminNotifLists();
-        updateAdminNotifBadge();
-    }
-
-    async function adminConfirmDeleteVideo(videoId) {
-        if (!confirm("Cô có chắc chắn muốn XÓA HOÀN TOÀN video này khỏi hệ thống?")) return;
-        await deleteVideoPermanently(videoId);
-        renderAdminNotifLists();
-        updateAdminNotifBadge();
-    }
-
-    function openTeacherDeleteModal(videoId) {
-        let video = null;
-        Object.keys(appData.videosByClass).forEach(clsKey => {
-            const v = appData.videosByClass[clsKey].find(item => item.id === videoId);
-            if (v) video = v;
-        });
-
-        if (!video) return;
-
-        pendingDeleteVideoId = videoId;
-        document.getElementById('teacher-delete-video-name').innerText = cleanVideoTitle(video.title);
-
-        const select = document.getElementById('teacher-delete-class-select');
-        select.innerHTML = PRESCHOOL_CLASSES.filter(c => c.id !== 'all').map(c => `
-            <option value="${c.id}" ${c.id === video.classId ? 'selected' : ''}>${c.name}</option>
-        `).join('');
-
-        document.getElementById('teacher-delete-modal').classList.remove('hidden');
-
-        // Bắt đầu đếm ngược 5 giây
-        teacherDeleteCountdown = 5;
-        const btn = document.getElementById('teacher-delete-submit-btn');
-        const timerText = document.getElementById('teacher-delete-timer-text');
-        
-        btn.disabled = true;
-        btn.classList.add('opacity-50', 'cursor-not-allowed');
-        btn.classList.remove('hover:bg-rose-600');
-        timerText.innerText = `Vui lòng chờ (${teacherDeleteCountdown}s)...`;
-
-        if (teacherDeleteTimer) clearInterval(teacherDeleteTimer);
-        teacherDeleteTimer = setInterval(() => {
-            teacherDeleteCountdown--;
-            if (teacherDeleteCountdown > 0) {
-                timerText.innerText = `Vui lòng chờ (${teacherDeleteCountdown}s)...`;
-            } else {
-                clearInterval(teacherDeleteTimer);
-                btn.disabled = false;
-                btn.classList.remove('opacity-50', 'cursor-not-allowed');
-                btn.classList.add('hover:bg-rose-600');
-                timerText.innerText = "Xác Nhận Xóa Video";
-            }
-        }, 1000);
-    }
-
-    function closeTeacherDeleteModal() {
-        if (teacherDeleteTimer) clearInterval(teacherDeleteTimer);
-        document.getElementById('teacher-delete-modal').classList.add('hidden');
-        pendingDeleteVideoId = null;
-    }
-
-    async function executeTeacherDeleteRequest() {
-        if (!pendingDeleteVideoId) return;
-
-        const selectedClassId = document.getElementById('teacher-delete-class-select').value;
-        const videoId = pendingDeleteVideoId;
-
-        // Cập nhật local
-        let foundVideo = null;
-        Object.keys(appData.videosByClass).forEach(clsKey => {
-            const v = appData.videosByClass[clsKey].find(item => item.id === videoId);
-            if (v) foundVideo = v;
-        });
-
-        if (foundVideo) {
-            foundVideo.deletedPending = true;
-            foundVideo.deletedByClass = selectedClassId;
-            saveAppData();
-            loadCurrentClassWorkspace();
-            updateAdminNotifBadge();
-        }
-
-        closeTeacherDeleteModal();
-        showToast('Đã gửi yêu cầu xóa! Video sẽ chuyển sang trạng thái chờ xóa.', 'info');
-        speakChibi("Đã ghi nhận yêu cầu xóa của Cô!");
-
-        try {
-            await fetch(DEFAULT_APPS_SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({
-                    action: 'requestDelete',
-                    videoId: videoId,
-                    deletedByClass: selectedClassId
-                })
-            });
-        } catch (e) {}
-    }
-
-    function populateMonthFilterSelect() {
-        const select = document.getElementById('filter-month-select');
-        let html = `<option value="all">Tất cả các tháng</option>`;
-        html += appData.months.map(m => `<option value="${m.id}" ${m.id === currentMonthFilter ? 'selected' : ''}>${m.name}</option>`).join('');
-        select.innerHTML = html;
-    }
-
-    function onMonthFilterChange(monthId) {
-        currentMonthFilter = monthId;
-        loadCurrentClassWorkspace();
-    }
-
-    function addNewMonth() {
-        const monthName = prompt("Nhập tên tháng mới:");
-        if (!monthName) return;
-
-        const monthId = monthName.trim();
-        if (!appData.months.some(m => m.id === monthId)) {
-            appData.months.push({ id: monthId, name: monthName });
-            saveAppData();
-        }
-        currentMonthFilter = monthId;
-        populateMonthFilterSelect();
-        loadCurrentClassWorkspace();
-        showToast(`Đã tạo thành công ${monthName}`, 'success');
-    }
-
-    function renderClassList() {
-        const container = document.getElementById('class-list-container');
-        const allVideos = getAllVideosList();
-
-        container.innerHTML = PRESCHOOL_CLASSES.map(cls => {
-            let classVideos = [];
-            if (cls.id === 'all') {
-                classVideos = allVideos;
-            } else {
-                classVideos = appData.videosByClass[cls.id] || [];
-            }
-
-            const count = classVideos.length;
-            const hasVideos = count > 0;
-            const allApproved = hasVideos && classVideos.every(v => v.approved);
-            const isActive = cls.id === currentClassId;
-
-            let badgeHtml = allApproved 
-                ? `<span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0" title="Đã duyệt tất cả video"></span>`
-                : (hasVideos ? `<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" title="Đang cập nhật"></span>` : `<span class="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700 shrink-0"></span>`);
-
-            return `
-                <button onclick="selectClass('${cls.id}')" class="w-full text-left p-2.5 rounded-2xl transition-all flex flex-col justify-between text-xs font-bold border ${isActive ? 'bg-gradient-to-br from-sky-500 to-indigo-600 text-white border-sky-400 shadow-md shadow-sky-500/20' : 'glass-card bg-white/70 dark:bg-slate-800/70 border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-white'}">
-                    <div class="flex items-center justify-between w-full">
-                        <span class="truncate pr-1">${cls.name}</span>
-                        ${badgeHtml}
-                    </div>
-                    <div class="text-[10px] ${isActive ? 'text-sky-100' : 'text-slate-400'} font-mono mt-1">
-                        ${count} video
-                    </div>
-                </button>
-            `;
-        }).join('');
-    }
-
-    function selectClass(classId) {
-        currentClassId = classId;
-        renderClassList();
-        
-        const className = getClassNameById(classId);
-        if (classId === 'all') {
-            speakChibi("Cô đang ở Trang chủ, có thể xem tất cả bài giảng.");
-        } else {
-            speakChibi(`Cô đang xem các bài giảng của lớp ${className}`);
-        }
-
-        if (window.innerWidth < 1024) {
-            toggleMobileSidebar(false);
-        }
-
-        loadCurrentClassWorkspace();
-    }
-
-    function getAllVideosList() {
-        let list = [];
-        Object.keys(appData.videosByClass).forEach(key => {
-            if (Array.isArray(appData.videosByClass[key])) {
-                list = list.concat(appData.videosByClass[key]);
-            }
-        });
-        return list;
-    }
-
-    async function fetchAllDataFromCloud(isInitial = false) {
-        showGlobalLoadingBar(true, "Đang tải dữ liệu...");
-        try {
-            const fetchUrl = `${DEFAULT_APPS_SCRIPT_URL}?action=getAllVideos`;
-            const res = await fetch(fetchUrl);
-            const data = await res.json();
-            if (data.status === 'success' && Array.isArray(data.videos)) {
-                const grouped = {};
-                data.videos.forEach(v => {
-                    v.monthId = normalizeMonthId(v.monthId);
-
-                    if (!grouped[v.classId]) grouped[v.classId] = [];
-                    grouped[v.classId].push(v);
-
-                    if (v.monthId && v.monthId !== 'general' && !appData.months.some(m => m.id === v.monthId)) {
-                        appData.months.push({
-                            id: v.monthId,
-                            name: formatMonthDisplayName(v.monthId)
-                        });
-                    }
-                });
-
-                appData.videosByClass = grouped;
-                appData.lastFetched = Date.now();
-                saveAppData();
-                populateMonthFilterSelect();
-                renderClassList();
-                loadCurrentClassWorkspace();
-                updateAdminNotifBadge();
-                
-                document.getElementById('data-sync-indicator').innerHTML = `<i data-lucide="check-circle" class="w-3 h-3 text-emerald-500"></i> Đã đồng bộ`;
-                lucide.createIcons();
-
-                if (!isInitial) {
-                    showToast('Đã cập nhật dữ liệu mới nhất thành công!', 'success');
-                    speakChibi("Dữ liệu video đã được đồng bộ mới nhất rồi Cô nhé!");
-                }
-            }
-        } catch (e) {
-            console.warn("Lỗi tải dữ liệu Cloud:", e);
-            showToast('Không thể kết nối đến Cloud. Sử dụng dữ liệu lưu trên máy.', 'error');
-        } finally {
-            showGlobalLoadingBar(false);
-        }
-    }
-
-    function forceRefreshData() {
-        fetchAllDataFromCloud(false);
-    }
-
-    function loadCurrentClassWorkspace() {
-        const cls = PRESCHOOL_CLASSES.find(c => c.id === currentClassId);
-        const month = appData.months.find(m => m.id === currentMonthFilter);
-
-        const heroSection = document.getElementById('hero-modern-section');
-        const headerBar = document.getElementById('workspace-header-bar');
-
-        // Logic ẩn/hiện HERO MODERN SECTION và HEADER WORKSPACE BAR theo tab
-        if (currentClassId === 'all') {
-            if (heroSection) heroSection.classList.remove('hidden');
-            if (headerBar) headerBar.classList.add('hidden');
-        } else {
-            if (heroSection) heroSection.classList.add('hidden');
-            if (headerBar) headerBar.classList.remove('hidden');
-        }
-
-        document.getElementById('current-class-title').innerText = cls ? cls.name : 'Tất cả bài giảng';
-        document.getElementById('current-month-subtitle').innerText = currentMonthFilter === 'all' 
-            ? (currentClassId === 'all' ? 'Hiển thị toàn bộ bài giảng các lớp trên hệ thống' : 'Hiển thị toàn bộ bài giảng các tháng của lớp')
-            : `Thư mục bài giảng ${month ? month.name : ''}`;
-
-        let displayVideos = [];
-        if (currentClassId === 'all') {
-            displayVideos = getAllVideosList();
-        } else {
-            displayVideos = appData.videosByClass[currentClassId] || [];
-        }
-        
-        if (currentMonthFilter !== 'all') {
-            displayVideos = displayVideos.filter(v => normalizeMonthId(v.monthId) === normalizeMonthId(currentMonthFilter));
-        }
-
-        renderVideoWorkspaceByMonths(displayVideos);
-        
-        // Update Hero stats count
-        const heroStatVideos = document.getElementById('hero-stat-videos');
-        if (heroStatVideos) heroStatVideos.innerText = getAllVideosList().length;
-
-        lucide.createIcons();
-    }
-
-    function renderVideoWorkspaceByMonths(videos) {
-        const container = document.getElementById('video-grid-container');
-        const emptyState = document.getElementById('empty-state');
-        document.getElementById('video-count-display').innerText = videos.length;
-
-        if (!videos || videos.length === 0) {
-            container.innerHTML = '';
-            emptyState.classList.remove('hidden');
-            return;
-        }
-
-        emptyState.classList.add('hidden');
-
-        const groupedByMonth = {};
-        videos.forEach(v => {
-            const mId = normalizeMonthId(v.monthId);
-            if (!groupedByMonth[mId]) groupedByMonth[mId] = [];
-            groupedByMonth[mId].push(v);
-        });
-
-        let html = '';
-
-        const renderedMonthIds = new Set();
-        appData.months.forEach(m => {
-            const normMId = normalizeMonthId(m.id);
-            const mVideos = groupedByMonth[normMId];
-            if (mVideos && mVideos.length > 0) {
-                renderedMonthIds.add(normMId);
-                html += `
-                    <div class="space-y-4 w-full">
-                        <div class="flex items-center gap-2.5 pb-2 border-b border-slate-200/80 dark:border-slate-800">
-                            <i data-lucide="folder-open" class="w-5 h-5 text-sky-500"></i>
-                            <h3 class="font-extrabold text-base md:text-lg text-slate-800 dark:text-slate-100">${m.name}</h3>
-                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono">${mVideos.length} video</span>
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 w-full">
-                            ${mVideos.map(vid => renderVideoCardHtml(vid)).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-        });
-
-        Object.keys(groupedByMonth).forEach(mId => {
-            if (!renderedMonthIds.has(mId) && mId !== 'general' && mId !== '') {
-                const mVideos = groupedByMonth[mId];
-                if (mVideos && mVideos.length > 0) {
-                    const displayName = formatMonthDisplayName(mId);
-                    html += `
-                        <div class="space-y-4 w-full">
-                            <div class="flex items-center gap-2.5 pb-2 border-b border-slate-200/80 dark:border-slate-800">
-                                <i data-lucide="folder-plus" class="w-5 h-5 text-indigo-500"></i>
-                                <h3 class="font-extrabold text-base md:text-lg text-slate-800 dark:text-slate-100">${displayName}</h3>
-                                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono">${mVideos.length} video</span>
-                            </div>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 w-full">
-                                ${mVideos.map(vid => renderVideoCardHtml(vid)).join('')}
-                            </div>
-                        </div>
-                    `;
-                }
-            }
-        });
-
-        const generalVideos = [...(groupedByMonth['general'] || []), ...(groupedByMonth[''] || [])];
-        if (generalVideos.length > 0) {
-            html += `
-                <div class="space-y-4 w-full">
-                    <div class="flex items-center gap-2.5 pb-2 border-b border-slate-200/80 dark:border-slate-800">
-                        <i data-lucide="folder" class="w-5 h-5 text-slate-400"></i>
-                        <h3 class="font-extrabold text-base md:text-lg text-slate-800 dark:text-slate-100">Bài Giảng Khác</h3>
-                        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono">${generalVideos.length} video</span>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 w-full">
-                        ${generalVideos.map(vid => renderVideoCardHtml(vid)).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        container.innerHTML = html;
-        lucide.createIcons();
-    }
-
-    function renderVideoCardHtml(vid) {
-        const isApproved = vid.approved === true;
-        const isDeletedPending = vid.deletedPending === true;
-
-        let statusBadgeHtml = '';
-        if (isDeletedPending) {
-            statusBadgeHtml = `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-500/90 text-white shadow-xs backdrop-blur-md flex items-center gap-1"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Chờ xóa</span>`;
-        } else if (isApproved) {
-            statusBadgeHtml = `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/90 text-white shadow-xs backdrop-blur-md flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5"></i> Đã duyệt</span>`;
-        } else {
-            statusBadgeHtml = `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/90 text-white shadow-xs backdrop-blur-md flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> Chờ duyệt</span>`;
-        }
-
-        const driveOpenUrl = vid.embedUrl || vid.fileUrl;
-        const thumbnailUrl = vid.thumbnail || DEFAULT_THUMBNAIL_URL;
-        const classNameDisplay = getClassNameById(vid.classId);
-        const monthDisplay = formatMonthDisplayName(vid.monthId);
-        const uploadDateDisplay = vid.uploadDate || 'N/A';
-        const sizeDisplay = vid.sizeMb ? vid.sizeMb + ' MB' : 'Dung lượng N/A';
-        
-        const cleanTitle = cleanVideoTitle(vid.title);
-
-        let bottomActionsHtml = '';
-        if (isDeletedPending) {
-            if (currentRole === 'admin') {
-                bottomActionsHtml = `
-                    <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2 text-xs font-semibold w-full">
-                        <span class="text-[11px] text-rose-500 font-bold italic">Chờ Admin xóa</span>
-                        <button onclick="adminConfirmDeleteVideo('${vid.id}')" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow-xs">
-                            Xóa Hoàn Toàn
-                        </button>
-                    </div>
-                `;
-            } else {
-                bottomActionsHtml = `
-                    <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-center text-xs font-semibold w-full">
-                        <span class="text-xs text-rose-500 font-bold flex items-center gap-1"><i data-lucide="lock" class="w-3.5 h-3.5"></i> Video đang chờ xóa bởi Admin</span>
-                    </div>
-                `;
-            }
-        } else {
-            if (currentRole === 'admin') {
-                bottomActionsHtml = `
-                    <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2 text-xs font-semibold w-full">
-                        <button onclick="window.open('${driveOpenUrl}')" class="flex-1 py-2 bg-gradient-to-tr from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white rounded-xl font-bold flex items-center justify-center gap-1 shadow-xs transition-all">
-                            <i data-lucide="play-circle" class="w-4 h-4"></i> Mở Video
-                        </button>
-                        <button onclick="toggleApproveSingleVideo('${vid.id}')" class="flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 ${isApproved ? 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200' : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-xs'}">
-                            <i data-lucide="${isApproved ? 'x-circle' : 'check-circle'}" class="w-4 h-4"></i>
-                            <span>${isApproved ? 'Hủy' : 'Duyệt'}</span>
-                        </button>
-                        <button onclick="adminConfirmDeleteVideo('${vid.id}')" class="p-2 hover:bg-rose-50 text-rose-500 dark:hover:bg-slate-800 rounded-xl transition-colors border border-transparent hover:border-rose-200" title="Xóa video này">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                `;
-            } else {
-                bottomActionsHtml = `
-                    <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center gap-2 text-xs font-semibold w-full">
-                        <button onclick="window.open('${driveOpenUrl}')" class="flex-1 py-2 bg-gradient-to-tr from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white rounded-xl font-bold flex items-center justify-center gap-1.5 shadow-xs transition-all">
-                            <i data-lucide="play-circle" class="w-4 h-4"></i> Mở Video
-                        </button>
-                        <button onclick="openTeacherDeleteModal('${vid.id}')" class="p-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-slate-800 rounded-xl transition-colors border border-rose-200/60 dark:border-rose-900/40" title="Yêu cầu xóa video">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                `;
-            }
-        }
-
-        const thumbnailClickAttr = isDeletedPending ? `onclick="showToast('Video đang ở trạng thái chờ xóa, không thể xem!', 'error')"` : `onclick="playVideo('${vid.id}')"`;
-        const titleClickAttr = isDeletedPending ? `onclick="showToast('Video đang ở trạng thái chờ xóa, không thể xem!', 'error')"` : `onclick="playVideo('${vid.id}')"`;
-
-        return `
-            <div class="glass-card rounded-3xl p-3.5 sm:p-4 md:p-5 shadow-glass-card border border-slate-200/80 dark:border-slate-800 flex flex-col justify-between space-y-3.5 group w-full ${isDeletedPending ? 'opacity-70 bg-rose-50/20' : ''}">
-                <div class="space-y-3">
-                    <div ${thumbnailClickAttr} class="aspect-video bg-slate-900 rounded-2xl relative overflow-hidden flex items-center justify-center group-hover:scale-[1.01] transition-transform cursor-pointer shadow-md">
-                        <img src="${thumbnailUrl}" alt="${escapeHtml(cleanTitle)}" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-90 group-hover:scale-105 transition-all duration-300">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                        
-                        ${!isDeletedPending ? `
-                        <div class="w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-white/30 backdrop-blur-md text-white flex items-center justify-center ring-4 ring-white/40 group-hover:scale-110 transition-transform z-10 shadow-lg">
-                            <i data-lucide="play" class="w-6 h-6 sm:w-7 sm:h-7 fill-white ml-0.5"></i>
-                        </div>
-                        ` : `
-                        <div class="w-12 h-12 rounded-full bg-rose-600/80 backdrop-blur-md text-white flex items-center justify-center ring-4 ring-rose-300/40 z-10 shadow-lg">
-                            <i data-lucide="lock" class="w-6 h-6"></i>
-                        </div>
-                        `}
-                        
-                        <span class="absolute top-2.5 left-2.5 z-10 flex items-center gap-1.5">${statusBadgeHtml}</span>
-                        <span class="absolute bottom-2.5 right-2.5 px-2.5 py-0.5 bg-black/70 backdrop-blur-sm text-white rounded-lg text-xs font-mono font-bold z-10">${sizeDisplay}</span>
-                    </div>
-
-                    <div>
-                        <h4 ${titleClickAttr} class="font-extrabold text-sm sm:text-base text-slate-800 dark:text-slate-100 line-clamp-1 hover:text-sky-600 cursor-pointer" title="${escapeHtml(cleanTitle)}">${escapeHtml(cleanTitle)}</h4>
-                        <div class="flex flex-wrap items-center gap-1.5 md:gap-2 mt-2">
-                            <span class="px-2 py-0.5 sm:px-2.5 sm:py-1 bg-sky-50 dark:bg-sky-950 text-sky-700 dark:text-sky-300 rounded-lg text-[11px] sm:text-xs font-bold border border-sky-200 dark:border-sky-800 flex items-center gap-1">
-                                <i data-lucide="users" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i> ${escapeHtml(classNameDisplay)}
-                            </span>
-                            <span class="px-2 py-0.5 sm:px-2.5 sm:py-1 bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 rounded-lg text-[11px] sm:text-xs font-bold border border-indigo-200 dark:border-indigo-800 flex items-center gap-1">
-                                <i data-lucide="calendar" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i> ${escapeHtml(monthDisplay)}
-                            </span>
-                            <span class="px-2 py-0.5 sm:px-2.5 sm:py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-lg text-[11px] sm:text-xs font-bold border border-slate-200 dark:border-slate-700 flex items-center gap-1" title="Ngày cập nhật video">
-                                <i data-lucide="clock" class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-400"></i> ${escapeHtml(uploadDateDisplay)}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                ${bottomActionsHtml}
-            </div>
-        `;
-    }
-
-    async function toggleApproveSingleVideo(videoId) {
-        let foundVideo = null;
-        Object.keys(appData.videosByClass).forEach(clsKey => {
-            const v = appData.videosByClass[clsKey].find(item => item.id === videoId);
-            if (v) foundVideo = v;
-        });
-
-        if (foundVideo) {
-            foundVideo.approved = !foundVideo.approved;
-            saveAppData();
-            loadCurrentClassWorkspace();
-            renderClassList();
-            updateAdminNotifBadge();
-
-            try {
-                await fetch(DEFAULT_APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        action: 'toggleApprove',
-                        videoId: videoId,
-                        approved: foundVideo.approved
-                    })
-                });
-            } catch (e) {}
-
-            showToast(foundVideo.approved ? 'Đã duyệt video bài giảng!' : 'Đã hủy duyệt video!', 'info');
-        }
-    }
-
-    function filterVideos() {
-        const query = document.getElementById('search-video-input').value.toLowerCase().trim();
-        let display = currentClassId === 'all' ? getAllVideosList() : (appData.videosByClass[currentClassId] || []);
-
-        if (currentMonthFilter !== 'all') {
-            display = display.filter(v => normalizeMonthId(v.monthId) === currentMonthFilter);
-        }
-        const filtered = display.filter(v => {
-            const cTitle = cleanVideoTitle(v.title).toLowerCase();
-            return cTitle.includes(query) || (v.desc && v.desc.toLowerCase().includes(query));
-        });
-        renderVideoWorkspaceByMonths(filtered);
-    }
-
-    function playVideo(videoId) {
-        let video = null;
-        Object.keys(appData.videosByClass).forEach(clsKey => {
-            const v = appData.videosByClass[clsKey].find(item => item.id === videoId);
-            if (v) video = v;
-        });
-
-        if (!video) return;
-
-        if (video.deletedPending) {
-            showToast('Video đang ở trạng thái chờ xóa, không thể mở xem trước!', 'error');
-            return;
-        }
-
-        currentPlayingVideoId = videoId;
-        const displayTitle = cleanVideoTitle(video.title);
-
-        document.getElementById('player-video-title').innerText = displayTitle;
-        speakChibi(`Đang phát bài giảng: ${displayTitle}`);
-        
-        const className = getClassNameById(video.classId);
-        const monthName = formatMonthDisplayName(video.monthId);
-        const sizeStr = video.sizeMb ? video.sizeMb + ' MB' : 'HD Video';
-
-        document.getElementById('player-video-desc').innerHTML = `
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 font-semibold text-xs">
-                <div class="bg-white dark:bg-slate-700 p-2 rounded-xl border border-slate-200 dark:border-slate-600"><span class="text-slate-400 block text-[10px]">Lớp:</span> ${escapeHtml(className)}</div>
-                <div class="bg-white dark:bg-slate-700 p-2 rounded-xl border border-slate-200 dark:border-slate-600"><span class="text-slate-400 block text-[10px]">Thư mục:</span> ${escapeHtml(monthName)}</div>
-                <div class="bg-white dark:bg-slate-700 p-2 rounded-xl border border-slate-200 dark:border-slate-600"><span class="text-slate-400 block text-[10px]">Kích thước:</span> ${escapeHtml(sizeStr)}</div>
-                <div class="bg-white dark:bg-slate-700 p-2 rounded-xl border border-slate-200 dark:border-slate-600"><span class="text-slate-400 block text-[10px]">Ngày cập nhật:</span> ${escapeHtml(video.uploadDate || 'N/A')}</div>
-            </div>
-        `;
-        
-        const approveBtnText = document.getElementById('player-approve-btn-text');
-        if (approveBtnText) {
-            approveBtnText.innerText = video.approved ? 'Hủy duyệt bài giảng' : 'Duyệt bài giảng';
-        }
-
-        const player = document.getElementById('main-video-player');
-        const iframe = document.getElementById('main-video-iframe');
-
-        if (video.embedUrl && video.embedUrl.includes('drive.google.com')) {
-            player.pause();
-            player.src = '';
-            player.classList.add('hidden');
-
-            iframe.src = video.embedUrl;
-            iframe.classList.remove('hidden');
-        } else {
-            iframe.src = '';
-            iframe.classList.add('hidden');
-
-            player.src = video.fileUrl;
-            player.classList.remove('hidden');
-            player.play().catch(() => {});
-        }
-
-        document.getElementById('player-modal').classList.remove('hidden');
-        lucide.createIcons();
-    }
-
-    function openVideoInNewTab() {
-        if (!currentPlayingVideoId) return;
-        let video = null;
-        Object.keys(appData.videosByClass).forEach(clsKey => {
-            const v = appData.videosByClass[clsKey].find(item => item.id === currentPlayingVideoId);
-            if (v) video = v;
-        });
-
-        if (video && video.deletedPending) {
-            showToast('Video đang ở trạng thái chờ xóa, không thể mở tab xem!', 'error');
-            return;
-        }
-
-        if (video && (video.embedUrl || video.fileUrl)) {
-            window.open(video.embedUrl || video.fileUrl, '_blank');
-        }
-    }
-
-    async function approveCurrentPlayingVideo() {
-        if (!currentPlayingVideoId) return;
-        await toggleApproveSingleVideo(currentPlayingVideoId);
-        
-        let video = null;
-        Object.keys(appData.videosByClass).forEach(clsKey => {
-            const v = appData.videosByClass[clsKey].find(item => item.id === currentPlayingVideoId);
-            if (v) video = v;
-        });
-
-        if (video) {
-            const approveBtnText = document.getElementById('player-approve-btn-text');
-            if (approveBtnText) {
-                approveBtnText.innerText = video.approved ? 'Hủy duyệt bài giảng' : 'Duyệt bài giảng';
-            }
-        }
-    }
-
-    function closePlayerModal() {
-        const player = document.getElementById('main-video-player');
-        const iframe = document.getElementById('main-video-iframe');
-        player.pause();
-        player.src = '';
-        iframe.src = '';
-        currentPlayingVideoId = null;
-        document.getElementById('player-modal').classList.add('hidden');
-    }
-
-    async function deleteVideoPermanently(videoId) {
-        Object.keys(appData.videosByClass).forEach(clsKey => {
-            appData.videosByClass[clsKey] = appData.videosByClass[clsKey].filter(v => v.id !== videoId);
-        });
-
-        saveAppData();
-        loadCurrentClassWorkspace();
-        renderClassList();
-        updateAdminNotifBadge();
-
-        try {
-            await fetch(DEFAULT_APPS_SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({
-                    action: 'deleteVideo',
-                    videoId: videoId
-                })
-            });
-        } catch (e) {}
-
-        showToast('Đã xóa hoàn toàn video khỏi hệ thống!', 'info');
-        speakChibi("Đã hoàn tất xóa video theo yêu cầu.");
-    }
-
-    function saveAppData() {
-        localStorage.setItem('mn_video_app_data', JSON.stringify(appData));
-    }
-
-    function showToast(message, type = 'info') {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        
-        let bgClass = 'bg-slate-900 text-white border-slate-700';
-        if (type === 'success') bgClass = 'bg-emerald-600 text-white border-emerald-500 shadow-emerald-600/20';
-        if (type === 'error') bgClass = 'bg-rose-600 text-white border-rose-500 shadow-rose-600/20';
-
-        toast.className = `${bgClass} px-4 py-3.5 rounded-2xl shadow-xl border text-xs md:text-sm font-bold flex items-center gap-2.5 transition-all duration-300`;
-        toast.innerHTML = `<span>${message}</span>`;
-
-        container.appendChild(toast);
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            setTimeout(() => toast.remove(), 300);
-        }, 3500);
-    }
-
-    function escapeHtml(text) {
-        if (!text) return '';
-        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-    }
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+// Dán URL Google Apps Script (/exec) vào đây để hiện lượt truy cập thật
+const CF_ANALYTICS_URL="https://script.google.com/macros/s/AKfycbxxeZxkYi7CTV1tkkes2Z7E1d16L0pCjzSju8sEMh792UBGe_C0LQUCscoZ3xYgq9si/exec";
+const ic=n=>`<svg class="i"><use href="#${n}"/></svg>`;
+// ==== Ứng dụng con: sửa tại đây (i = tên icon trong bộ sprite) ====
+const APPS=[
+ {i:"notes",n:"Wiky Notes",d:"Ghi chú và kho tri thức cá nhân.",u:"#"},
+ {i:"tasks",n:"Wiky Tasks",d:"Quản lý công việc và nhắc việc.",u:"#"},
+ {i:"learn",n:"Wiky Learn",d:"Khóa học và lộ trình tự học.",u:"#"},
+ {i:"chat",n:"Wiky Chat",d:"Trò chuyện nhóm và chia sẻ nhanh.",u:"#"},
+ {i:"pen",n:"Wiky Studio",d:"Thiết kế và soạn thảo nội dung.",u:"#"},
+ {i:"cloud",n:"Wiky Drive",d:"Lưu trữ và chia sẻ tệp.",u:"#"},
+ {i:"cal",n:"Wiky Calendar",d:"Lịch hẹn và sự kiện chung.",u:"#"},
+ {i:"grid",n:"Wiky Tools",d:"Bộ công cụ tiện ích mỗi ngày.",u:"#"}
+];
+const grid=$('#appGrid');
+function render(f=''){
+ const r=APPS.filter(a=>(a.n+a.d).toLowerCase().includes(f.toLowerCase()));
+ grid.innerHTML=r.map(a=>`<a class="glass card" data-tilt href="${a.u}" target="_blank" rel="noopener"><div class="ib">${ic(a.i)}</div><h3>${a.n}</h3><p>${a.d}</p><span class="go">Mở ứng dụng ${ic('upr')}</span></a>`).join('')||'<p class="sub" style="grid-column:1/-1">Không tìm thấy ứng dụng phù hợp. Hãy thử từ khóa khác.</p>';
+ bind();
+}
+$('#tiles').innerHTML=APPS.map(a=>`<div class="tile"><div class="ib">${ic(a.i)}</div>${a.n.replace('Wiky ','')}</div>`).join('');
+$('#q').addEventListener('input',e=>{render(e.target.value);if(e.target.value)$('#apps').scrollIntoView({behavior:'smooth'})});
+// Logo đối tác (lặp 2 lần cho marquee)
+const L=[["Gemini","b-gemini"],["ChatGPT","b-gpt","#10a37f"],["Claude","b-claude"],["CodeX","b-codex","#7b88ff"],["Google Drive","b-drive"],["Apps Script","b-script"],["HTML","b-html"],["CSS","b-css"],["GitHub","b-git","var(--fg)"],["Cloudflare","b-cf"]];
+$('#mt').innerHTML=[...L,...L].map(l=>`<div class="chip"><svg class="bi" style="${l[2]?'color:'+l[2]:''}"><use href="#${l[1]}"/></svg>${l[0]}</div>`).join('');
+
+// ==== Glass: tilt 3D + đèn rọi theo chuột + gợn sóng khi bấm ====
+function bind(){
+ $$('[data-tilt]').forEach(el=>{
+  if(el._b)return;el._b=1;
+  el.addEventListener('pointermove',e=>{
+   const r=el.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+   el.style.setProperty('--mx',x+'px');el.style.setProperty('--my',y+'px');
+   if(matchMedia('(pointer:fine)').matches&&!el.classList.contains('step')||el.classList.contains('step')&&el.classList.contains('on'))
+    el.style.transform=`perspective(900px) rotateX(${((y/r.height)-.5)*-9}deg) rotateY(${((x/r.width)-.5)*9}deg) translateY(-4px)`;
+  });
+  el.addEventListener('pointerleave',()=>el.style.transform='');
+  el.addEventListener('pointerdown',e=>{
+   const r=el.getBoundingClientRect(),s=Math.max(r.width,r.height)/4,d=document.createElement('span');
+   d.className='rip';d.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;
+   el.appendChild(d);setTimeout(()=>d.remove(),700);
+  });
+ });
+}
+render();
+// Nút "từ tính"
+$$('[data-mag]').forEach(b=>{b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.18}px,${(e.clientY-r.top-r.height/2)*.3}px)`});b.addEventListener('pointerleave',()=>b.style.transform='')});
+// Mockup hero nghiêng theo chuột
+const mk=$('#mock');addEventListener('pointermove',e=>{const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;mk.style.transform=`rotateX(${14-y*8}deg) rotateZ(${-2+x*3}deg) rotateY(${x*8}deg)`;$('#cur').style.transform=`translate(${e.clientX}px,${e.clientY}px)`});
+// Tiến độ cuộn + menu đang chọn
+const secs=$$('#home,#apps,#pricing,#faq'),lk=$$('#links a');
+addEventListener('scroll',()=>{const h=document.documentElement;$('#prog').style.width=scrollY/(h.scrollHeight-innerHeight)*100+'%';let c=0;secs.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.4)c=i});lk.forEach((a,i)=>a.classList.toggle('act',i==c))},{passive:true});
+// Bước
+$$('#steps .step').forEach(s=>s.addEventListener('click',()=>{$$('#steps .step').forEach(x=>x.classList.remove('on'));s.classList.add('on')}));
+// Reveal + đếm số
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);e.target.querySelectorAll('[data-count]').forEach(c=>{const t=+c.dataset.count;let v=0;const k=setInterval(()=>{v+=2;c.textContent=Math.min(v,t);if(v>=t)clearInterval(k)},25)})}}),{threshold:.15});
+$$('.rv').forEach(el=>io.observe(el));
+$$('.ch').forEach(s=>{const p=s.querySelector('.ln');const d=p.getAttribute('d').trim().split(/[ L]+/).slice(-2);s.insertAdjacentHTML('beforeend',`<circle class="dot" cx="${d[0].replace('M','')}" cy="${d[1]}" r="4" fill="currentColor"/>`)});
+// ===== Cloudflare: lượt truy cập =====
+const fmt=n=>Number(n).toLocaleString('vi-VN');
+const ZERO=Array.from({length:14},()=>({views:0,uniques:0}));
+function cfDraw(all,live,why){
+ const days=all.slice(-7),v=days.map(d=>d.views),mn=Math.min(...v),mx=Math.max(...v),r=(mx-mn)||1,n=v.length;
+ const pts=v.map((y,i)=>[(i*300/(n-1)).toFixed(1),(108-(y-mn)/r*88).toFixed(1)]);
+ const d='M'+pts.map(q=>q.join(' ')).join(' L');
+ $('#cfLn').setAttribute('d',d);$('#cfFl').setAttribute('d',d+' V120 H0Z');
+ const l=pts[n-1],dt=$('#cfSvg .dot');if(dt){dt.setAttribute('cx',l[0]);dt.setAttribute('cy',l[1])}
+ // % = tổng 7 ngày gần nhất so với 7 ngày liền trước (ổn định hơn so sánh nửa ngày hôm nay với cả ngày hôm qua)
+ const sum=a=>a.reduce((x,e)=>x+(e.views||0),0),cur=sum(days);
+ $('#cfToday').textContent=fmt(days[n-1].views);$('#cfWeek').textContent=fmt(cur);
+ const c=$('#cfChg');c.className='';c.textContent='';
+ if(all.length>=14){
+  const prev=sum(all.slice(-14,-7));
+  if(prev>0){const ch=(cur-prev)/prev*100,a=Math.abs(ch);c.textContent=(ch>0?'+':ch<0?'-':'')+(a>=100?a.toFixed(0):a.toFixed(1)).replace('.',',')+'%';c.className=ch>=0?'up':'dn'}
+  else if(cur>0){c.textContent=''}
+  else c.textContent='0%';
+  c.title='So với 7 ngày trước đó';
+ }
+ const st=$('#cfState');st.textContent=live?'Trực tiếp':(why||'Chưa kết nối');st.classList.toggle('sample',!live);
+ const ln=$('#cfLn');ln.style.animation='none';void ln.getBoundingClientRect();ln.style.animation='';
+}
+// Mã khách ẩn danh: localStorage -> cookie -> ngẫu nhiên tạm
+function cfVid(){
+ let v=null;
+ try{v=localStorage.getItem('wiky-vid')}catch(e){}
+ if(!v){const m=document.cookie.match(/(?:^|; )wiky_vid=([^;]+)/);if(m)v=m[1]}
+ if(!v)v=Math.random().toString(36).slice(2,12);
+ try{localStorage.setItem('wiky-vid',v)}catch(e){}
+ try{document.cookie='wiky_vid='+v+';path=/;max-age=31536000;SameSite=Lax'}catch(e){}
+ return v;
+}
+const cfBase=()=>CF_ANALYTICS_URL+(CF_ANALYTICS_URL.includes('?')?'&':'?');
+// first=true: yêu cầu này đồng thời ghi 1 lượt xem (mỗi lần tải trang = +1; tải lại trang vẫn +1)
+const cfQ=first=>cfBase()+(first?'hit=1&v='+encodeURIComponent(cfVid())+'&page='+encodeURIComponent('Trang chủ Wiky')+'&':'')+'t='+Date.now();
+async function cfFetch(first){const r=await fetch(cfQ(first),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return await r.json()}
+// JSONP: tải bằng thẻ script để không bị chặn CORS
+function cfJsonp(first,ms=15000){return new Promise((res,rej)=>{
+ const cb='wkcb'+Date.now()+Math.floor(Math.random()*1e4),sc=document.createElement('script');let t;
+ const done=(x,m)=>{clearTimeout(t);delete window[cb];sc.remove();x?res(x):rej(new Error(m))};
+ window[cb]=d=>done(d);sc.onerror=()=>done(null,'không tải được script');t=setTimeout(()=>done(null,'hết thời gian chờ'),ms);
+ sc.src=cfQ(first)+'&callback='+cb;document.head.appendChild(sc);
+})}
+function nuDraw(days,total){
+ const v=days.slice(-7).map(d=>d.newUsers||0),n=v.length,mn=Math.min(...v),mx=Math.max(...v),r=(mx-mn)||1;
+ const pts=v.map((y,i)=>[(i*300/(n-1)).toFixed(1),(108-(y-mn)/r*88).toFixed(1)]);
+ const d='M'+pts.map(q=>q.join(' ')).join(' L');
+ $('#nuLn').setAttribute('d',d);$('#nuFl').setAttribute('d',d+' V120 H0Z');
+ const l=pts[n-1],dt=$('#nuSvg .dot');if(dt){dt.setAttribute('cx',l[0]);dt.setAttribute('cy',l[1])}
+ $('#nuNew').textContent=fmt(v[n-1]);$('#nuTotal').textContent=fmt(total||0);
+ const ln=$('#nuLn');ln.style.animation='none';void ln.getBoundingClientRect();ln.style.animation='';
+}
+async function cfLoad(first){
+ let days=null,why='Chưa cấu hình',err='',total=0;
+ if(CF_ANALYTICS_URL){
+  why='Chưa kết nối';
+  let j=null;
+  try{j=await cfJsonp(first)}catch(e){
+   err='jsonp: '+e.message;
+   try{j=await cfFetch(first)}catch(e2){err+=' | fetch: '+e2.message}
+  }
+  if(j&&j.error)err='Script báo lỗi: '+j.error;
+  else if(j&&j.days&&j.days.length>1){days=j.days;total=j.total||days.reduce((a,d)=>a+(d.newUsers||0),0)}
+  else if(j)err='dữ liệu trả về không đúng định dạng';
+  else if(/Unexpected token '?</.test(err))err+=' (Script đang yêu cầu đăng nhập: đặt quyền truy cập là "Bất kỳ ai")';
+  if(!days)console.warn('[Wiky] Không lấy được thống kê:',err);
+ }
+ cfDraw(days||ZERO,!!days,why);nuDraw(days||ZERO,total);
+ $('#cfState').title=days?'':'Lỗi: '+err;
+}
+cfLoad(true);if(CF_ANALYTICS_URL)setInterval(()=>cfLoad(false),300000);
+// Đánh giá
+const T=[
+ {t:"Trước đây tôi phải nhớ cả chục địa chỉ khác nhau. Giờ chỉ cần vào Wiky là mở được mọi thứ.",n:"Minh Anh",r:"Biên tập viên"},
+ {t:"Dữ liệu đồng bộ giữa các ứng dụng giúp nhóm chúng tôi tiết kiệm rất nhiều thời gian mỗi tuần.",n:"Quốc Bảo",r:"Quản lý dự án"},
+ {t:"Giao diện gọn, tìm ứng dụng cực nhanh. Học sinh của tôi dùng ngay không cần hướng dẫn.",n:"Thu Hà",r:"Giáo viên"}
+];
+let ti=0;const qb=$('#qb');
+function showT(){qb.classList.add('out');setTimeout(()=>{const x=T[ti];qb.innerHTML=`<p>${x.t}</p><b>${x.n}</b><small>${x.r}</small>`;$('#av').textContent=x.n.split(' ').pop()[0];qb.classList.remove('out')},300)}
+showT();
+$('#next').onclick=()=>{ti=(ti+1)%T.length;showT()};$('#prev').onclick=()=>{ti=(ti+T.length-1)%T.length;showT()};
+setInterval(()=>{ti=(ti+1)%T.length;showT()},7000);
+// FAQ
+const F=[
+ [["Wiky là gì?","Wiky là trang chủ chung, giúp bạn truy cập các ứng dụng con trong hệ sinh thái bằng một tài khoản duy nhất."],["Dữ liệu của tôi có an toàn không?","Dữ liệu được mã hóa khi truyền và khi lưu trữ, đồng thời sao lưu tự động."],["Tôi cần kỹ năng gì để dùng?","Không cần. Bạn chỉ cần đăng ký và chọn ứng dụng muốn dùng."],["Dùng được trên điện thoại không?","Có. Mọi ứng dụng đều hoạt động tốt trên điện thoại, máy tính bảng và máy tính."]],
+ [["Có những ứng dụng nào?","Hiện có ghi chú, công việc, học tập, trò chuyện, thiết kế, lưu trữ, lịch và bộ công cụ. Danh sách sẽ tiếp tục mở rộng."],["Các ứng dụng có đồng bộ không?","Có. Nội dung bạn tạo ở một ứng dụng có thể được chèn vào ứng dụng khác."],["Có thể ghim ứng dụng yêu thích không?","Có. Ghim ứng dụng để chúng luôn nằm đầu trang chủ."]],
+ [["Gói miễn phí gồm gì?","Gồm 3 ứng dụng cốt lõi và 1 GB lưu trữ, không giới hạn thời gian."],["Có thể đổi gói bất cứ lúc nào không?","Có. Bạn nâng hoặc hạ gói trong phần tài khoản, phí được tính theo phần còn lại."],["Thanh toán bằng cách nào?","Hỗ trợ thẻ ngân hàng, ví điện tử và chuyển khoản."]],
+ [["Làm sao đóng góp ứng dụng mới?","Gửi đề xuất qua trang liên hệ. Đội ngũ sẽ phản hồi trong vòng 3 ngày làm việc."],["Có nhóm cộng đồng không?","Có. Bạn có thể tham gia nhóm trao đổi để chia sẻ mẹo và góp ý tính năng."],["Báo lỗi ở đâu?","Dùng nút Trợ giúp trong từng ứng dụng hoặc gửi email cho đội hỗ trợ."]]
+];
+let tab=0,qi=0;const qs=$('#qs'),ans=$('#ans');
+function drawF(){
+ qs.innerHTML=F[tab].map((x,i)=>`<div class="q ${i==qi?'on':''}" data-i="${i}" tabindex="0">${x[0]}${ic('plus')}</div>`).join('');
+ ans.classList.add('out');setTimeout(()=>{ans.textContent=F[tab][qi][1];ans.classList.remove('out')},180);
+}
+const go=i=>{qi=i;drawF()};
+qs.addEventListener('click',e=>{const q=e.target.closest('.q');if(q)go(+q.dataset.i)});
+qs.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const q=e.target.closest('.q');if(q){e.preventDefault();go(+q.dataset.i)}}});
+$('#fp').onclick=()=>go((qi+F[tab].length-1)%F[tab].length);$('#fn').onclick=()=>go((qi+1)%F[tab].length);
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');tab=+b.dataset.t;qi=0;drawF()});
+drawF();
+
+// ===== CHIBI THÔNG BÁO =====
+(()=>{
+ const cb=$('#cb'),say=$('#say'),sayt=$('#sayt'),mouth=$('#mouth');
+ let sayTimer,mouthTimer,idle;
+ const QUOTES=["Bạn cần ứng dụng nào? Gõ tên vào ô tìm kiếm là thấy ngay!","Một tài khoản dùng được tất cả ứng dụng Wiky nhé.","Bấm vào tôi để nghe thêm mẹo nhỏ nhé!","Ghim ứng dụng yêu thích để mở nhanh hơn.","Dữ liệu giữa các ứng dụng tự đồng bộ, bạn không cần làm gì thêm."];
+ const SEC={apps:"Đây là các ứng dụng con. Bấm vào thẻ để mở nhé!",pricing:"Gói miễn phí đã đủ để bắt đầu rồi đó.",faq:"Có thắc mắc? Cứ hỏi tôi hoặc xem phần này.",how:"Chỉ 3 bước là dùng được ngay."};
+ function speak(t,ms=6000){
+  sayt.textContent=t;say.classList.add('show');mouth.classList.add('talk');
+  clearTimeout(sayTimer);clearTimeout(mouthTimer);
+  mouthTimer=setTimeout(()=>mouth.classList.remove('talk'),2000);
+  sayTimer=setTimeout(()=>say.classList.remove('show'),ms);
+ }
+ const rnd=()=>speak(QUOTES[Math.floor(Math.random()*QUOTES.length)]);
+ function resetIdle(){clearTimeout(idle);idle=setTimeout(rnd,14000)}
+ ['pointermove','scroll','keydown','pointerdown'].forEach(ev=>addEventListener(ev,resetIdle,{passive:true}));
+ resetIdle();setTimeout(()=>speak("Xin chào! Tôi là Chibi Wiky, trợ lý của bạn."),1800);
+ // mắt nhìn theo chuột
+ addEventListener('pointermove',e=>{const r=$('#eyes').getBoundingClientRect(),a=Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2)),d=Math.min(3.5,Math.hypot(e.clientX-r.left,e.clientY-r.top)/30);$('#eyes').style.transform=`translate(${Math.cos(a)*d}px,${Math.sin(a)*d}px)`},{passive:true});
+ // nói theo phần đang xem
+ const seen=new Set(),so=new IntersectionObserver(es=>es.forEach(e=>{const id=e.target.id;if(e.isIntersecting&&SEC[id]&&!seen.has(id)){seen.add(id);speak(SEC[id])}}),{threshold:.45});
+ ['apps','pricing','faq','how'].forEach(id=>so.observe($('#'+id)));
+ // hover thẻ ứng dụng
+ let last='';grid.addEventListener('pointerover',e=>{const c=e.target.closest('.card');if(!c)return;const n=c.querySelector('h3').textContent;if(n!==last){last=n;speak(`${n}: ${c.querySelector('p').textContent}`,3500)}});
+ cb.addEventListener('click',rnd);
+  window.chibiSay=(t,ms)=>{speak(t,ms);cb.classList.remove('wob');void cb.offsetWidth;cb.classList.add('wob')};
+})();
+// ===== Nút "đang cập nhật" + đổi giao diện =====
+$$('footer li').forEach(li=>{li.dataset.update=li.textContent.trim();li.tabIndex=0});
+$$('.soc a').forEach(a=>a.dataset.update=a.getAttribute('aria-label'));
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-update],[id^="update"]');if(!t)return;
+ e.preventDefault();
+ const l=t.dataset.update||t.getAttribute('aria-label')||t.textContent.trim();
+ chibiSay('"'+l+'" đang được cập nhật. Bạn quay lại sau nhé!',4500);
+});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('li[data-update]'))e.target.click()});
+$('#tg').addEventListener('click',()=>{
+ const t=document.documentElement.dataset.theme==='light'?'dark':'light';
+ document.documentElement.dataset.theme=t;try{localStorage.setItem('wiky-theme',t)}catch(e){}
+ chibiSay(t==='light'?'Đã chuyển sang giao diện sáng.':'Đã chuyển sang giao diện tối.',2800);
+});
 </script>
 </body>
 </html>
