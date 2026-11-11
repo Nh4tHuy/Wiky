@@ -2051,5 +2051,17 @@
         return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 </script>
+    <script>
+(function(){
+  var U="https://script.google.com/macros/s/AKfycbxxeZxkYi7CTV1tkkes2Z7E1d16L0pCjzSju8sEMh792UBGe_C0LQUCscoZ3xYgq9si/exec",v=null;
+  try{v=localStorage.getItem("wiky-vid")}catch(e){}
+  if(!v){var m=document.cookie.match(/(?:^|; )wiky_vid=([^;]+)/);if(m)v=m[1]}
+  if(!v)v=Math.random().toString(36).slice(2,12);
+  try{localStorage.setItem("wiky-vid",v)}catch(e){}
+  try{document.cookie="wiky_vid="+v+";path=/;max-age=31536000;SameSite=Lax"}catch(e){}
+  var u=U+(U.indexOf("?")>-1?"&":"?")+"hit=1&v="+encodeURIComponent(v)+"&page="+encodeURIComponent(document.title||location.pathname)+"&t="+Date.now();
+  try{fetch(u,{mode:"no-cors",keepalive:true})}catch(e){new Image().src=u}
+})();
+</script>
 </body>
 </html>
