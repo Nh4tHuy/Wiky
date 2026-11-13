@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Wiky Link – Rút gọn liên kết</title>
+<script>try{var t=localStorage.getItem("wiky-theme");if(!t)t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="dark"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--w:255,255,255;--fg:#fff;--soft:#cfd6f7;--bg:#04050e;--line:#1f2a66;--blue:#2b5bff;--blue2:#7da0ff;--mut:#8f98c4;--red:#ef4444;--glass:rgba(20,28,78,.38)}
+:root[data-theme=light]{color-scheme:light;--w:22,40,120;--fg:#0b1640;--soft:#34437a;--mut:#56638f;--line:#c9d8ff;--bg:#f2f6ff;--blue2:#2f5cf5}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Be Vietnam Pro','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;overflow-x:hidden;min-height:100vh;transition:background .4s,color .4s}
+a{color:inherit;text-decoration:none}
+svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.bg::before{content:"";position:absolute;inset:0;background:linear-gradient(#2b5bff22 1px,transparent 1px) 0 0/64px 64px,linear-gradient(90deg,#2b5bff22 1px,transparent 1px) 0 0/64px 64px;-webkit-mask-image:radial-gradient(ellipse at 50% 20%,#000,transparent 70%);mask-image:radial-gradient(ellipse at 50% 20%,#000,transparent 70%);animation:drift 24s linear infinite}
+@keyframes drift{to{background-position:0 64px,64px 0}}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;animation:float 14s ease-in-out infinite}
+.o1{width:520px;height:520px;background:#1f3fd1;top:-160px;left:50%;margin-left:-260px}
+.o2{width:380px;height:380px;background:#4b2bd6;top:55%;right:-120px;animation-delay:-5s;opacity:.3}
+@keyframes float{50%{transform:translate(40px,50px) scale(1.12)}}
+[data-theme=light] .o1{background:#7da0ff}[data-theme=light] .o2{background:#b3a6ff;opacity:.4}
+[data-theme=light] .bg::before{background:linear-gradient(#2b5bff1c 1px,transparent 1px) 0 0/64px 64px,linear-gradient(90deg,#2b5bff1c 1px,transparent 1px) 0 0/64px 64px}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:14px;z-index:50;max-width:1000px;margin:14px 16px 0;padding:9px 12px 9px 20px;display:flex;align-items:center;justify-content:space-between;border-radius:99px;background:rgba(10,14,40,.55);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(var(--w),.1);box-shadow:0 8px 30px rgba(0,0,0,.4)}
+@media(min-width:1032px){nav{margin:14px auto 0}}
+[data-theme=light] nav{background:rgba(255,255,255,.72);border-color:rgba(43,91,255,.16);box-shadow:0 8px 30px rgba(43,91,255,.12)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600}
+.lm{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,#3a68ff,#8fb0ff);display:grid;place-items:center;box-shadow:0 4px 14px rgba(43,91,255,.6)}
+.nav-r{display:flex;align-items:center;gap:10px;font-size:14px}
+.tg{width:38px;height:38px;border-radius:50%;border:1px solid rgba(var(--w),.15);background:rgba(var(--w),.06);color:var(--fg);display:grid;place-items:center;cursor:pointer;font-size:18px;transition:.3s}
+.tg:hover{transform:rotate(20deg) scale(1.1);background:rgba(43,91,255,.2)}
+.tg .moon{display:none}[data-theme=light] .tg .sun{display:none}[data-theme=light] .tg .moon{display:block}
+.pill{display:inline-flex;gap:6px;align-items:center;font-size:12px;padding:5px 14px;border-radius:99px;background:rgba(var(--w),.06);border:1px solid rgba(var(--w),.12);color:var(--soft)}
+.hero{text-align:center;padding:52px 0 28px}
+h1{font-size:clamp(36px,7vw,62px);font-weight:700;line-height:1.2;letter-spacing:-1px;padding-bottom:.1em;margin:20px auto 14px;background:linear-gradient(100deg,#fff 0,#cdd8ff 38%,#7da0ff 55%,#fff 80%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s ease-in-out infinite}
+[data-theme=light] h1{background-image:linear-gradient(100deg,#0b1a55 0,#1f3fd1 42%,#5b83ff 58%,#0b1a55 100%)}
+@keyframes shine{50%{background-position:100% 0}}
+.lead{color:var(--mut);max-width:520px;margin:0 auto;font-size:15.5px}
+.glass{position:relative;background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.02) 45%,var(--glass));border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-radius:22px;box-shadow:0 10px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.12)}
+[data-theme=light] .glass{background:linear-gradient(145deg,rgba(255,255,255,.92),rgba(255,255,255,.58));border-color:rgba(43,91,255,.14);box-shadow:0 10px 30px rgba(43,91,255,.12),inset 0 1px 0 #fff}
+.form{display:flex;align-items:center;gap:10px;border-radius:99px;padding:7px 7px 7px 20px;transition:.25s}
+.form:focus-within{border-color:var(--blue2);box-shadow:0 0 0 4px rgba(43,91,255,.25)}
+.form input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--fg);font:inherit;font-size:15px}
+.form input::placeholder{color:var(--mut)}
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:inherit;font-size:14px;font-weight:500;padding:11px 22px;border-radius:99px;background:linear-gradient(180deg,#4373ff,#2349d8);color:#fff;box-shadow:0 6px 20px rgba(43,91,255,.45),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .2s,box-shadow .3s;overflow:hidden;white-space:nowrap}
+.btn::after{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-20deg);transition:left .6s}
+.btn:hover::after{left:130%}.btn:hover{transform:translateY(-1px)}
+.btn:disabled{opacity:.6;cursor:wait}
+.btn.sm{padding:7px 14px;font-size:12.5px}
+.btn.ghost{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.22);box-shadow:none}
+[data-theme=light] .btn.ghost{background:rgba(43,91,255,.06);border-color:rgba(43,91,255,.3);color:var(--fg)}
+.btn.del{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);color:var(--red);box-shadow:none}
+.msg{font-size:13.5px;color:var(--mut);margin:12px 6px 0;min-height:22px;text-align:center}.msg.err{color:var(--red)}
+.res{display:none;margin-top:18px;padding:20px;text-align:center}.res.on{display:block}
+.res a.s{display:block;font-size:clamp(20px,4vw,26px);font-weight:700;color:var(--blue2);word-break:break-all;margin-bottom:12px}
+.res small{display:block;color:var(--mut);font-size:12.5px;margin-top:12px}
+.list{margin-top:28px;padding:22px 24px}
+.list h2{font-size:18px;font-weight:600;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.list h2 span{font-size:12px;color:var(--mut);font-weight:400}
+.row{display:flex;align-items:center;gap:10px;padding:13px 0;border-top:1px solid rgba(var(--w),.1)}
+.row:first-of-type{border-top:0}
+.row div{flex:1;min-width:0}
+.row a.s{font-weight:600;color:var(--blue2);font-size:15px}
+.row p{font-size:12.5px;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.empty{color:var(--mut);font-size:14px;text-align:center;padding:14px 0}
+footer{margin-top:48px;padding:24px 0 32px;text-align:center;color:var(--mut);font-size:13px;border-top:1px solid rgba(var(--w),.08)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></symbol>
+  <symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></symbol>
+  <symbol id="home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8M5 10v10h14V10"/></symbol>
+</defs></svg>
+<div class="bg"><div class="orb o1"></div><div class="orb o2"></div></div>
+
+<nav>
+  <a href="https://wiky.io.vn/" class="logo"><span class="lm"><svg class="i" style="width:16px"><use href="#layers"/></svg></span>Wiky</a>
+  <div class="nav-r">
+    <a href="https://wiky.io.vn/" class="btn ghost sm"><svg class="i"><use href="#home"/></svg>Wiky Spaces</a>
+    <button class="tg" id="tg" aria-label="Đổi giao diện sáng/tối"><svg class="i sun"><use href="#sun"/></svg><svg class="i moon"><use href="#moon"/></svg></button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <header class="hero">
+    <span class="pill"><svg class="i"><use href="#link"/></svg>Ứng dụng con của Wiky Spaces</span>
+    <h1>Wiky Link</h1>
+    <p class="lead">Rút gọn liên kết thành <b>wiky.io.vn/p/số</b> – ngắn gọn, dễ nhớ, dễ chia sẻ.</p>
+  </header>
+
+  <label class="form glass"><svg class="i" style="color:var(--mut)"><use href="#link"/></svg><input id="url" type="url" placeholder="Dán liên kết cần rút gọn…" autocomplete="off"><button class="btn" id="go">Rút gọn</button></label>
+  <p class="msg" id="msg"></p>
+  <div class="res glass" id="res">
+    <a class="s" id="short" href="#" target="_blank" rel="noopener"></a>
+    <button class="btn" id="copy">Sao chép</button>
+    <small>Liên kết hoạt động sau khoảng 1 phút, khi GitHub Pages triển khai xong.</small>
+  </div>
+
+  <section class="list glass">
+    <h2>Liên kết đã tạo <span id="cnt"></span></h2>
+    <div id="list"><p class="empty">Đang tải…</p></div>
+  </section>
+</main>
+<footer>© 2026 Wiky. Bảo lưu mọi quyền.</footer>
+
+<script>
+/* ========= CẤU HÌNH GITHUB (sửa 3 dòng này) ========= */
+const CFG = {
+  repo:   'TEN-BAN/p',            // chủ-sở-hữu/tên-repo
+  branch: 'main',                 // nhánh chạy GitHub Pages
+  token:  'github_pat_XXXXXXXX'   // fine-grained token, quyền Contents: Read and write
+};
+const BASE = 'https://wiky.io.vn/p';
+const MAX = 998;                  // số ngẫu nhiên từ 1 đến 998
+/* ===================================================== */
+
+const $ = s => document.querySelector(s);
+let used = new Map(); // số -> {sha, url}
+const ready = !/XXXX|TEN-BAN/.test(CFG.token + CFG.repo);
+
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+const unesc = s => s.replace(/&lt;/g,'<').replace(/&quot;/g,'"').replace(/&amp;/g,'&');
+const b64 = s => btoa(String.fromCharCode(...new TextEncoder().encode(s)));
+const unb64 = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g,'')), c => c.charCodeAt(0)));
+const say = (t, err) => { const m = $('#msg'); m.textContent = t; m.className = 'msg' + (err ? ' err' : ''); };
+
+async function api(path, opt = {}) {
+  const r = await fetch('https://api.github.com/repos/' + CFG.repo + path, {
+    ...opt,
+    headers: { Accept: 'application/vnd.github+json', Authorization: 'Bearer ' + CFG.token, ...(opt.body ? { 'Content-Type': 'application/json' } : {}) }
+  });
+  if (!r.ok) { const e = await r.json().catch(() => ({})); const x = new Error(e.message || r.status); x.status = r.status; throw x; }
+  return r.json();
+}
+
+const page = u => `<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><meta name="wiky-target" content="${esc(u)}"><meta http-equiv="refresh" content="0;url=${esc(u)}"><title>Đang chuyển hướng…</title></head><body><p>Đang chuyển hướng tới <a href="${esc(u)}">${esc(u)}</a>…</p><script>location.replace(document.querySelector('meta[name=wiky-target]').content)<\/script></body></html>`;
+
+async function load() {
+  if (!ready) { $('#list').innerHTML = '<p class="empty">Chưa cấu hình GitHub trong code (khối CFG đầu phần script).</p>'; return; }
+  try {
+    const t = await api('/git/trees/' + CFG.branch + '?recursive=1');
+    const items = t.tree.filter(x => /^\d{1,3}\/index\.html$/.test(x.path));
+    used = new Map();
+    let i = 0;
+    await Promise.all(Array.from({ length: 6 }, async () => {
+      while (i < items.length) {
+        const x = items[i++], n = +x.path.split('/')[0];
+        try {
+          const b = await api('/git/blobs/' + x.sha);
+          const m = unb64(b.content).match(/wiky-target" content="([^"]*)"/);
+          used.set(n, { sha: x.sha, url: m ? unesc(m[1]) : '?' });
+        } catch {}
+      }
+    }));
+    render();
+  } catch (e) { $('#list').innerHTML = '<p class="empty">Không tải được: ' + esc(e.message) + '</p>'; }
+}
+
+function render() {
+  const rows = [...used.entries()].sort((a, b) => b[0] - a[0]);
+  $('#cnt').textContent = rows.length + '/' + MAX;
+  $('#list').innerHTML = rows.length ? rows.map(([n, v]) =>
+    `<div class="row"><div><a class="s" href="${BASE}/${n}" target="_blank" rel="noopener">wiky.io.vn/p/${n}</a><p title="${esc(v.url)}">${esc(v.url)}</p></div>
+     <button class="btn ghost sm" data-c="${n}">Sao chép</button><button class="btn del sm" data-d="${n}">Xoá</button></div>`).join('')
+    : '<p class="empty">Chưa có liên kết nào.</p>';
+}
+
+async function create() {
+  const u = $('#url').value.trim();
+  try { if (!/^https?:$/.test(new URL(u).protocol)) throw 0; } catch { return say('Liên kết không hợp lệ (cần bắt đầu bằng http:// hoặc https://).', true); }
+  if (!ready) return say('Chưa cấu hình GitHub trong code.', true);
+  $('#go').disabled = true; say('Đang tạo…');
+  try {
+    for (let k = 0; k < 15; k++) {
+      const free = []; for (let n = 1; n <= MAX; n++) if (!used.has(n)) free.push(n);
+      if (!free.length) throw new Error('Đã hết số (1–998). Hãy xoá bớt liên kết cũ.');
+      const n = free[Math.floor(Math.random() * free.length)];
+      try {
+        const r = await api('/contents/' + n + '/index.html', { method: 'PUT', body: JSON.stringify({ message: 'Thêm link /p/' + n, content: b64(page(u)), branch: CFG.branch }) });
+        used.set(n, { sha: r.content.sha, url: u });
+        const link = BASE + '/' + n;
+        $('#short').href = link; $('#short').textContent = link.replace('https://', '');
+        $('#res').classList.add('on'); $('#url').value = ''; say(''); render();
+        return;
+      } catch (e) {
+        if (e.status === 422) { used.set(n, { sha: '', url: '?' }); continue; }
+        throw e;
+      }
+    }
+    throw new Error('Không tìm được số trống, thử lại.');
+  } catch (e) { say('Lỗi: ' + e.message, true); }
+  finally { $('#go').disabled = false; }
+}
+
+async function remove(n) {
+  const v = used.get(n);
+  if (!v || !confirm('Xoá liên kết /p/' + n + '?')) return;
+  try {
+    await api('/contents/' + n + '/index.html', { method: 'DELETE', body: JSON.stringify({ message: 'Xoá link /p/' + n, sha: v.sha, branch: CFG.branch }) });
+    used.delete(n); render();
+  } catch (e) { alert('Không xoá được: ' + e.message); }
+}
+
+const copy = async t => { try { await navigator.clipboard.writeText(t); say('Đã sao chép!'); } catch { prompt('Sao chép liên kết:', t); } };
+
+$('#go').onclick = create;
+$('#url').addEventListener('keydown', e => e.key === 'Enter' && create());
+$('#copy').onclick = () => copy('https://' + $('#short').textContent);
+$('#list').addEventListener('click', e => {
+  const c = e.target.dataset.c, d = e.target.dataset.d;
+  if (c) copy(BASE + '/' + c); if (d) remove(+d);
+});
+$('#tg').onclick = () => {
+  const t = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+  document.documentElement.dataset.theme = t; try { localStorage.setItem('wiky-theme', t); } catch (e) {}
+};
+addEventListener('storage', e => { if (e.key === 'wiky-theme' && e.newValue) document.documentElement.dataset.theme = e.newValue; });
+load();
+</script>
+</body>
+</html>
