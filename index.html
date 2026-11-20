@@ -177,24 +177,15 @@ footer h4{font-size:14px;margin-bottom:14px}footer li{list-style:none;color:var(
 @keyframes cfloat{50%{transform:translateY(-8px)}}
 .cb .glow{position:absolute;inset:-16px;border-radius:50%;background:radial-gradient(circle,rgba(48,96,255,.6),transparent 68%);filter:blur(12px);animation:cglow 2.8s ease-in-out infinite}
 @keyframes cglow{50%{opacity:.45;transform:scale(1.14)}}
-/* thân mây: ghép 5 khối cầu (dữ liệu cloudee.avatar.json) thành 1 khối liền bằng bộ lọc goo */
-.cld{position:absolute;inset:0;z-index:1;filter:url(#cldGoo);transition:transform .3s}
+/* thân mây: 5 khối cầu (dữ liệu cloudee.avatar.json) hợp nhất thành MỘT thân liền mạch
+   — dùng chung 1 gradient userSpaceOnUse nên toàn bộ khối có một dải sáng liên tục, không lộ lớp */
+.cld{position:absolute;inset:0;z-index:1;width:100%;height:100%;display:block;overflow:visible;transition:transform .3s}
 .cb:hover .cld{transform:scale(1.1)}
-.blob{position:absolute;border-radius:50%;background:radial-gradient(circle at 34% 27%,#f4f7ff 0,#bccdff 28%,#4c77ff 64%,#16289a 100%)}
-.blob.b0{left:18.4%;top:20.29%;width:66.67%;height:66.67%}
-.blob.b1{left:12.14%;top:28.3%;width:34%;height:34%;animation:cldF1 5s ease-in-out infinite}
-.blob.b2{left:2.4%;top:43.13%;width:45.27%;height:36.29%;animation:cldF2 5.6s ease-in-out infinite}
-.blob.b3{left:56.87%;top:41.35%;width:40.75%;height:40.35%;animation:cldF3 5.2s ease-in-out infinite}
-.blob.b4{left:49.36%;top:18.29%;width:39.31%;height:39.31%;animation:cldF4 6s ease-in-out infinite}
-@keyframes cldF1{50%{transform:translate(2px,-2px) scale(1.03)}}
-@keyframes cldF2{50%{transform:translate(-2px,2px) scale(1.03)}}
-@keyframes cldF3{50%{transform:translate(2px,2px) scale(1.04)}}
-@keyframes cldF4{50%{transform:translate(-2px,-2px) scale(1.03)}}
 .face{position:absolute;inset:0;z-index:2;pointer-events:none}
-.eyes{position:absolute;left:50%;top:55%;display:flex;gap:9px;margin:-5.5px 0 0 -12.5px;transition:transform .1s}
+.eyes{position:absolute;left:50%;top:53%;display:flex;gap:9px;margin:-5.5px 0 0 -12.5px;transition:transform .1s}
 .eyes i{width:8px;height:11px;border-radius:50%;background:#0b1230;animation:blink2 5s infinite;transform-origin:center}
 @keyframes blink2{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
-.mouth{position:absolute;left:50%;top:63%;width:12px;height:5px;margin:-2.5px 0 0 -6px;border-radius:50%;background:#0b1230;opacity:0;transition:.3s}
+.mouth{position:absolute;left:50%;top:61%;width:12px;height:5px;margin:-2.5px 0 0 -6px;border-radius:50%;background:#0b1230;opacity:0;transition:.3s}
 .mouth.talk{animation:talk .4s infinite ease-in-out;opacity:.85}
 @keyframes talk{0%,100%{height:4px;width:11px}50%{height:8px;width:13px}}
 .cb .dotx{position:absolute;top:-2px;right:-2px;z-index:3;width:16px;height:16px;border-radius:50%;background:#ef4444;border:3px solid #0a0e2b;display:none;animation:cglow 1.2s infinite}
@@ -327,7 +318,7 @@ footer h4{font-size:14px;margin-bottom:14px}footer li{list-style:none;color:var(
 <symbol id="b-css" viewBox="0 0 24 24"><path fill="#1572b6" d="M4 3l1.700 17L12 22l6.300-2L20 3z"/><path fill="#33a9dc" d="M12 20.300l5-1.500L18.500 4.700H12z"/><path fill="none" stroke="#fff" stroke-width="1.500" stroke-linecap="round" stroke-linejoin="round" d="M8 8h8M8.500 12h7l-.4 4-3.100 1-3.100-1"/></symbol>
 <symbol id="b-git" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></symbol>
 <symbol id="b-cf" viewBox="0 0 24 24"><path fill="#f6821f" d="M17.500 19H6.500a4.500 4.500 0 0 1-.6-8.960A6 6 0 0 1 17.400 9.500 4.800 4.800 0 0 1 17.500 19z"/><path fill="#fbad41" d="M19 19h-5.500c.7-1.600 1.800-3 3.500-3.600 1.800-.6 3.600.5 4 2.100.2.600-.3 1.500-2 1.500z"/></symbol>
-<!-- Bộ lọc "goo": nung chảy 5 khối cầu của Cloudee thành một thân mây liền mạch -->
+<!-- Bộ lọc "goo": nung chảy 5 khối cầu của Cloudee thành một thân mây liền mạch (giữ nguyên gradient chung) -->
 <filter id="cldGoo" x="-40%" y="-40%" width="180%" height="180%" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="7" result="b"/><feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="g"/><feComposite in="SourceGraphic" in2="g" operator="atop"/></filter>
 </defs></svg>
 
@@ -487,11 +478,30 @@ footer h4{font-size:14px;margin-bottom:14px}footer li{list-style:none;color:var(
   <button class="btn" type="submit">Bắt đầu trải nghiệm <svg class="i"><use href="#arrow"/></svg></button><div class="lge" id="lgE"></div>
   <div class="lgn">Thông tin chỉ lưu trên trình duyệt của bạn, không có đăng ký tài khoản. <button type="button" id="lgOut">Xoá thông tin đã lưu</button></div>
  </form></div></div>
-<!-- CLOUDEE TRỢ LÝ -->
+<!-- CLOUDEE TRỢ LÝ — thân mây dựng từ cloudee.avatar.json, hợp nhất 1 khối bằng goo + 1 gradient chung -->
 <div id="chibi">
   <div class="glass say" id="say"><span id="sayt">Xin chào! Tôi là Cloudee.</span></div>
   <button class="cb" id="cb" aria-label="Cloudee trợ lý"><span class="sc"><span class="glow"></span>
-    <span class="cld"><span class="blob b0"></span><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
+    <svg class="cld" viewBox="-128 -122 248 248" aria-hidden="true">
+      <defs>
+        <!-- Một gradient duy nhất trải trên toàn không gian: mọi khối cầu dùng chung nên dải sáng liên tục, không lộ đường ghép -->
+        <radialGradient id="cldBody" gradientUnits="userSpaceOnUse" cx="-52" cy="-56" r="205">
+          <stop offset="0" stop-color="#f6f9ff"/>
+          <stop offset=".30" stop-color="#cfdcff"/>
+          <stop offset=".58" stop-color="#7f9cff"/>
+          <stop offset=".82" stop-color="#3a5ce0"/>
+          <stop offset="1" stop-color="#14309f"/>
+        </radialGradient>
+      </defs>
+      <!-- 1 thân chính + 4 khối phụ, đúng toạ độ dữ liệu; bộ lọc goo nung thành một silhouette liền -->
+      <g filter="url(#cldGoo)">
+        <circle  cx="0"      cy="0"      r="79.9" fill="url(#cldBody)"/>
+        <ellipse cx="-54.2"  cy="20"     rx="40.8" ry="40.8" fill="url(#cldBody)"/>
+        <ellipse cx="-64.1"  cy="-18.4"  rx="54.3" ry="43.6" fill="url(#cldBody)"/>
+        <ellipse cx="61.2"   cy="-19"    rx="48.9" ry="48.4" fill="url(#cldBody)"/>
+        <ellipse cx="41.5"   cy="37.6"   rx="47.2" ry="47.2" fill="url(#cldBody)"/>
+      </g>
+    </svg>
     <span class="face"><span class="eyes" id="eyes"><i></i><i></i></span><span class="mouth" id="mouth"></span></span></span></button>
 </div>
 
@@ -770,6 +780,7 @@ $('#lgf').addEventListener('focusin',e=>{const t=TIP[e.target.id];if(t&&lgo.clas
 $('#lgOpen').addEventListener('click',e=>{e.preventDefault();openLogin()});
 $('#lgX').onclick=closeLogin;lgo.addEventListener('click',e=>{if(e.target===lgo)closeLogin()});
 addEventListener('keydown',e=>{if(e.key==='Escape'&&lgo.classList.contains('vis'))closeLogin()});
+if(location.hash==='#login')openLogin();
 addEventListener('resize',()=>lgo.classList.contains('vis')&&(cvSize(),drawMoon()));
 $('#lgf').addEventListener('submit',e=>{
  e.preventDefault();const u=$('#lgU').value.trim(),k=$('#lgA').value.trim();
