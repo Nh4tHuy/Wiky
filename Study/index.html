@@ -1164,9 +1164,121 @@ biplot(pca1, xlabs = rep("", nrow(myData)))       # Ẩn nhãn cá thể để n
             full_efa: {
                 fileName: 'Code_EFA_TKNC',
                 badge: 'Đang xem: Code EFA',
-                  code: `# =========================================================================
-# CHƯA CÓ KINH PHÍ
-# =========================================================================
+                  code: `# Thiết lập thư mục làm việc & nạp thư viện cần thiết
+setwd("C:/Users/NHAT HUY/Desktop/TKNC")
+library(readxl)
+library(scatterplot3d)
+
+# Function
+N03_Huy_15 <- function(c, d) {
+  if (d == 1) { # Nhập DL nhỏ (5 địa phương)
+    data <- matrix(c(6, 6, 4,
+                     7, 3, 2,
+                     8, 1, 3,
+                     9, 3, 2,
+                     10, 7, 4), nrow = 5, byrow = TRUE)
+  } else if (d == 2) { # Nhập DL từ File
+    data1 <- read_excel("winequality-red.xlsx", col_names = TRUE)
+    data <- as.matrix(data1)
+    
+  } else if (d == 3) { # Nhập DL từ File và lấy vùng
+    data1 <- read_excel("winequality-red.xlsx", range = "A2:C9", col_names = TRUE)
+    data <- as.matrix(data1)
+    
+  } else { # Chọn File từ máy
+    data1 <- read_excel(file.choose(), col_names = TRUE)
+    data <- as.matrix(data1)
+  }
+  
+  # Truy xuất dữ liệu
+  n_rows <- nrow(data)
+  n_cols <- ncol(data)
+  
+  # Quy tâm dữ liệu
+  X  <- scale(data, center = TRUE, scale = FALSE)
+  
+  # Ma trận hiệp phương sai M0
+  M0 <- (t(X) %*% X) / (n_rows - 1)
+  
+  # Dùng hàm prcomp để tính PCA
+  pca_r  <- prcomp(data, center = TRUE, scale. = FALSE)
+  lambda <- pca_r$sdev^2       # Các giá trị riêng
+  u      <- pca_r$rotation     # Các vector riêng
+  z      <- pca_r$x            # Các tọa độ cá thể
+  
+  # Tỷ lệ quán tính đóng góp của các trục chính
+  tr_M0 <- sum(diag(M0))
+  tlqt <- lambda / tr_M0
+  
+  # Độ lệch chuẩn các cột ma trận X
+  sigmax <- apply(X, 2, sd)
+  
+  # Xác định dạng các ma trận V và X_hat
+  V      <- matrix(0, nrow = n_rows, ncol = n_cols)
+  X_hat  <- matrix(0, nrow = n_rows, ncol = n_cols)
+  for (j in 1:n_cols) {
+    V[, j]     <- (X %*% u[, j]) / sqrt((n_rows - 1) * lambda[j])
+    X_hat[, j] <- X[, j] / (sigmax[j] * sqrt(n_rows - 1))
+  }
+  
+  # Ma trận chiếu các biến thống kê X1, X2,...
+  PrX     <- t(X_hat) %*% V
+  
+  # Giải hệ tìm alpha, beta biểu diễn hình chiếu biến X3 theo X1, X2 
+  A_mat <- t(PrX[1:2, 1:2])
+  b_vec <- PrX[3, 1:2]
+  alpha_beta <- solve(A_mat, b_vec)
+  names(alpha_beta) <- c("alpha", "beta")
+  
+  # Lập mảng đặt tên các cột
+  X_names <- paste0("X", 1:n_cols)
+  
+  # Biểu diễn bằng đồ thị
+  if (c == 1) { # Biểu diễn các cá thể trong 2D
+    plot(z[, 1], z[, 2], type = "p", col = "blue", pch = 19,
+         xlab = "PC1", ylab = "PC2", main = "Đám mây cá thể 2D")
+    text(z[, 1], z[, 2], labels = 1:n_rows, pos = 3, col = "blue")
+    grid()
+    
+  } else if (c == 2) { # Biểu diễn các cá thể trong 3D
+    p3d <- scatterplot3d(z[, 1], z[, 2], z[, 3], color = "blue", pch = 19,
+                         xlab = "PC1", ylab = "PC2", zlab = "PC3", main = "Đám mây cá thể 3D")
+    text(p3d$xyz.convert(z[, 1], z[, 2], z[, 3]), labels = 1:n_rows, pos = 3, col = "blue")
+    
+  } else if (c == 3) { # Biểu diễn các vector thống kê trong 2D
+    plot(PrX[, 1], PrX[, 2], col = "blue", pch = 19, xlim = c(-1.2, 1.2), ylim = c(-1.2, 1.2),
+         xlab = "PC1", ylab = "PC2", main = "Vector biến thống kê trong 2D")
+    for (j in 1:n_cols) {
+      lines(c(0, PrX[j, 1]), c(0, PrX[j, 2]), lty = 2, col = "blue")
+      text(PrX[j, 1], PrX[j, 2], labels = paste0("X", j), pos = 3, col = "blue")
+    }
+    grid()
+    
+  }  else if (c == 4) { # Biểu diễn các vector thống kê trong 3D
+    s3d <- scatterplot3d(PrX[, 1], PrX[, 2], PrX[, 3], color = "blue", pch = 19,
+                         xlab = "PC1", ylab = "PC2", zlab = "PC3",
+                         main = "Biểu diễn các vector thống kê trong 3D", grid = TRUE)
+    for (j in 1:n_cols) {
+      s3d$points3d(c(0, PrX[j, 1]), c(0, PrX[j, 2]), c(0, PrX[j, 3]), type = "l", lty = 2, col = "blue")
+      text(s3d$xyz.convert(PrX[j, 1], PrX[j, 2], PrX[j, 3]), labels = paste0("X", j), pos = 3, col = "blue")
+    } # Cho for
+    
+  } else { # Sử dụng hàm có sẳn, chỉ trong 2D
+    biplot(z[, 1:2], u[, 1:2], xlabs = 1:n_rows, ylabs = X_names,
+           xlab = "PC1", ylab = "PC2", main = "Biplot 2D")
+    grid()
+  }
+  
+  return(list(
+    M0 = M0, 
+    lambda = lambda, 
+    u = u, 
+    z = z, 
+    PrX = PrX,
+    a_b = alpha_beta
+  ))
+}
+
 `
             }
         };
