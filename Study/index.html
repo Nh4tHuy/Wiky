@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiky Study – Lý Thuyết & Thực Hành R (PCA & EFA)</title>
+    <meta name="description" content="Hệ thống ôn tập cuối kỳ môn Thống kê nhiều chiều & Phân tích nhân tố (PCA & EFA) theo giáo trình TS. Trần Văn Lý và thực hành 100% trên ngôn ngữ R.">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sapphire: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#1558C9',
+                            600: '#1047a7',
+                            700: '#0c357d',
+                            800: '#1e3a8a',
+                            900: '#1e3a5f',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'Consolas', 'Monaco', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script defer src="https://unpkg.com/lucide@0.469.0"></script>
+
+    <!-- KaTeX CSS & JS for Crisp Inline & Display Math -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        html { font-size: 17.5px; }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #eef2ff 0%, #e0f2fe 45%, #f3e8ff 100%);
+            background-attachment: fixed;
+            color: #0f172a;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* =====================================================================
+           FIX CÔNG THỨC TOÁN NỘI DÒNG & KHỐI HIỂN THỊ
+           ===================================================================== */
+        .katex {
+            display: inline-flex !important;
+            align-items: baseline;
+            white-space: nowrap;
+            font-size: 1.02em;
+            line-height: 1.2;
+            vertical-align: baseline;
+            margin: 0 0.08em;
+        }
+        .katex-html {
+            display: inline-block !important;
+        }
+        .katex-display {
+            display: block !important;
+            overflow-x: auto;
+            overflow-y: hidden;
+            margin: 0.65rem 0;
+            padding: 0.35rem 0;
+            text-align: center;
+        }
+        .katex-display > .katex {
+            display: inline-block !important;
+        }
+        .math-flow {
+            display: block;
+            line-height: 1.75;
+            word-break: normal;
+        }
+        .math-display-box {
+            display: block;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.75rem;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Glassmorphism Styles */
+        .glass-header {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            box-shadow: 0 12px 28px -6px rgba(21, 88, 201, 0.14);
+            border-color: rgba(37, 99, 235, 0.4);
+        }
+
+        /* Floating Orbs */
+        @keyframes floatAnimation {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-25px) scale(1.06); }
+        }
+        .floating-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(75px);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatAnimation 20s infinite ease-in-out;
+        }
+        .orb-1 { left: 4%; top: 12%; width: 340px; height: 340px; background: rgba(21, 88, 201, 0.12); }
+        .orb-2 { right: 6%; top: 40%; width: 380px; height: 380px; background: rgba(99, 102, 241, 0.11); animation-delay: -6s; }
+
+        /* Code Block Wrapper with Top-Right Copy Button */
+        .code-snippet-wrapper {
+            position: relative;
+            background: #ffffff;
+            border-radius: 0.95rem;
+            border: 1px solid #cbd5e1;
+            overflow: hidden;
+        }
+        .code-snippet-pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: #0f172a;
+            background: #ffffff;
+            padding: 2.6rem 1rem 1rem 1rem;
+            overflow-x: auto;
+            margin: 0;
+            white-space: pre;
+            tab-size: 2;
+        }
+        .code-lang-tag {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #1047a7;
+            background: #eff6ff;
+            padding: 0.15rem 0.55rem;
+            border-radius: 0.4rem;
+            border: 1px solid #bfdbfe;
+            pointer-events: none;
+        }
+        .copy-snippet-btn {
+            position: absolute;
+            top: 0.45rem;
+            right: 0.55rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.28rem 0.65rem;
+            border-radius: 0.5rem;
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: #334155;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+        .copy-snippet-btn:hover {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #60a5fa;
+        }
+        .copy-snippet-btn.copied {
+            background: #059669;
+            color: #ffffff;
+            border-color: #34d399;
+        }
+
+        .read-box {
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 0.9rem;
+            padding: 0.8rem 1rem;
+            line-height: 1.75;
+        }
+        .read-box .read-title { display:block; font-weight:800; color:#92400e; margin-bottom:0.3rem; }
+        .read-box p { margin: 0.25rem 0; }
+
+        /* IDE Code Box */
+        .code-editor-box {
+            font-family: 'Fira Code', monospace;
+            background: #ffffff;
+            border-radius: 1.25rem;
+            border: 1px solid #cbd5e1;
+            position: relative;
+        }
+        .line-numbers {
+            font-family: 'Fira Code', monospace;
+            color: #94a3b8;
+            user-select: none;
+            text-align: right;
+            padding-right: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.7rem;
+            border-right: 1px solid #e2e8f0;
+        }
+        .code-textarea {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.92rem;
+            line-height: 1.7rem;
+            background: transparent;
+            color: #0f172a;
+            caret-color: #1558C9;
+            resize: none;
+            outline: none;
+            white-space: pre;
+            overflow-x: auto;
+            tab-size: 2;
+        }
+
+        /* Chibi Animations */
+        @keyframes siri-rotate-1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes siri-morph-active {
+            0%, 100% { border-radius: 42% 58% 50% 50% / 50% 42% 58% 50%; transform: scale(0.96); }
+            50% { border-radius: 58% 42% 52% 48% / 48% 58% 42% 52%; transform: scale(1.03); }
+        }
+        @keyframes chibiTalk {
+            0%, 100% { height: 4px; width: 10px; border-radius: 50%; }
+            50% { height: 9px; width: 12px; border-radius: 40% 40% 50% 50%; }
+        }
+        .chibi-mouth-talking { animation: chibiTalk 0.4s infinite ease-in-out; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-thumb { background: rgba(21, 88, 201, 0.35); border-radius: 9999px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+
+        @media (max-width: 640px) {
+            .floating-orb { display: none; }
+            .glass-header, .glass-panel, .glass-card {
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between relative selection:bg-blue-600 selection:text-white">
+
+    <!-- Background Orbs -->
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+
+    <!-- HEADER NAVBAR -->
+    <header class="sticky top-0 z-40 w-full glass-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+            <!-- Brand -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-sapphire-600 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+                    <i data-lucide="sigma" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-sapphire-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                            Wiky Study
+                        </span>
+                        <span class="hidden sm:inline-block text-[11px] font-extrabold px-2 py-0.5 rounded-full bg-blue-100 text-sapphire-700 border border-blue-200">
+                            CTU
+                        </span>
+                    </div>
+                    <span class="text-xs font-semibold text-slate-500 block">Tổng Hợp Lý Thuyết, Nhận Xét Kiểm Định &amp; Code R</span>
+                </div>
+            </div>
+
+            <!-- Main Navigation Tabs -->
+            <nav aria-label="Điều hướng nội dung ôn tập" class="flex items-center bg-slate-100/95 p-1 rounded-2xl border border-slate-200/80 overflow-x-auto max-w-full">
+                <button onclick="switchMainTab('pca')" id="tab-pca" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 bg-white text-sapphire-700 shadow-sm">
+                    <i data-lucide="compass" class="w-4 h-4"></i>
+                    <span>1. Phân tích PCA</span>
+                </button>
+                <button onclick="switchMainTab('efa')" id="tab-efa" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+                    <i data-lucide="layers" class="w-4 h-4"></i>
+                    <span>2. Phân tích EFA</span>
+                </button>
+                <button onclick="switchMainTab('code')" id="tab-code" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+                    <i data-lucide="code-2" class="w-4 h-4"></i>
+                    <span>3. Code R </span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT WORKSPACE -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 relative z-10">
+
+        <!-- =====================================================================
+             VIEW 1: PHÂN TÍCH THÀNH PHẦN CHÍNH (PCA) - LÝ THUYẾT, 8 BƯỚC & R
+             ===================================================================== -->
+        <div id="view-pca" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Left Sidebar: Bản chất, Công thức & Biplot trực quan (4 cols) -->
+            <aside class="lg:col-span-4 space-y-5">
+                <article class="glass-panel p-5 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="book-open" class="w-5 h-5 text-sapphire-600"></i>
+                            <h2 class="font-extrabold text-sm text-slate-900">Bản Chất &amp; Lưu Ý</h2>
+                        </div>
+                        <span class="text-[12px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700">PCA</span>
+                    </div>
+                    <ul class="space-y-3.5 text-xs sm:text-[14px] text-slate-700">
+                        <li class="flex items-start gap-2.5">
+                            <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center shrink-0 mt-1">0</span>
+                            <p class="math-flow m-0 flex-1">
+                                <strong>PCA là gì?</strong> Khi dữ liệu có nhiều biến liên quan với nhau, PCA tạo ra một vài biến mới (gọi là thành phần chính) để thay thế các biến cũ nhưng vẫn giữ lại phần lớn thông tin. Nhờ vậy ta có thể vẽ và nhận xét dữ liệu nhiều chiều trên một mặt phẳng 2 chiều.
+                            </p>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="w-5 h-5 rounded-full bg-blue-100 text-sapphire-700 font-bold text-xs flex items-center justify-center shrink-0 mt-1">1</span>
+                            <p class="math-flow m-0 flex-1">
+                                <strong>Không gian cá thể ($\mathbb{R}^p$) &amp; biến ($\mathbb{R}^n$):</strong> Bảng số liệu gồm $n$ dòng (cá thể) và $p$ cột (biến định lượng).
+                            </p>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="w-5 h-5 rounded-full bg-blue-100 text-sapphire-700 font-bold text-xs flex items-center justify-center shrink-0 mt-1">2</span>
+                            <p class="math-flow m-0 flex-1">
+                                <strong>Quy tâm:</strong> Tịnh tiến gốc tọa độ về trọng tâm đám mây bằng cách trừ đi trung bình từng cột ($\bar{X}_j$). Giúp trung bình mỗi cột sau quy tâm bằng $0$.
+                            </p>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-800 font-bold text-xs flex items-center justify-center shrink-0 mt-1">!</span>
+                            <p class="math-flow m-0 flex-1">
+                                <strong>Lưu ý mẫu $n$ (giải tay) và $n-1$ (hàm R):</strong> Trong lý thuyết giải tay dùng mẫu số $\frac{1}{n}$, còn trong R ( hàm <code>cov()</code>, <code>prcomp()</code>, <code>sd()</code>) dùng bậc tự do hiệu chỉnh $\frac{1}{n-1}$. Tỉ lệ quán tính $\frac{\lambda_j}{\sum \lambda_k}$ và vector riêng $u_j$ hoàn toàn giống nhau!
+                            </p>
+                        </li>
+                    </ul>
+                </article>
+
+                <!-- Card Sổ tay công thức PCA -->
+                <article class="glass-panel p-5 rounded-3xl space-y-3">
+                    <div class="flex items-center gap-2 border-b border-slate-200 pb-3">
+                        <i data-lucide="function-square" class="w-5 h-5 text-emerald-600"></i>
+                        <h2 class="font-extrabold text-sm text-slate-900">Công Thức Giải Tay</h2>
+                    </div>
+                    <div class="space-y-2.5 text-xs">
+                        <div class="math-display-box">
+                            <p class="font-bold text-sapphire-700 mb-1">1. Quy tâm &amp; Ma trận hiệp phương sai:</p>
+                            <div>$$X = [x_{ij} - \bar{X}_j] \quad ; \quad M_0 = \frac{1}{n} X'X \;\; (\text{R: } \frac{1}{n-1}X'X)$$</div>
+                        </div>
+                        <div class="math-display-box">
+                            <p class="font-bold text-sapphire-700 mb-1">2. Trị riêng &amp; Vector riêng đơn vị:</p>
+                            <div>$$|M_0 - \lambda I| = 0 \quad ; \quad (M_0 - \lambda_j I)u_j = 0, \;\; \|u_j\|_2 = 1$$</div>
+                        </div>
+                        <div class="math-display-box">
+                            <p class="font-bold text-sapphire-700 mb-1">3. Tỉ lệ quán tính giải thích của trục $j$:</p>
+                            <div>$$\tau_j = \frac{\lambda_j}{\text{Tr}(M_0)} = \frac{\lambda_j}{\sum_{k=1}^p \lambda_k} \times 100\%$$</div>
+                        </div>
+                        <div class="math-display-box">
+                            <p class="font-bold text-sapphire-700 mb-1">4. Tọa độ cá thể ($z_j$) &amp; Thành phần chính ($v_j$):</p>
+                            <div>$$z_j = X u_j \quad ; \quad v_j = \frac{1}{\sqrt{n \lambda_j}} X u_j$$</div>
+                        </div>
+                        <div class="math-display-box">
+                            <p class="font-bold text-sapphire-700 mb-1">5. Chiếu các vector biến lên thành phần mới:</p>
+                            <div>$$\text{Proj}_{v_j}(X_k) = \hat{X}' v_j, \quad \text{với } \hat{x}_{ij} = \frac{x_{ij}}{\sigma_{X_j}\sqrt{n}}$$</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card Biểu đồ Tương tác -->
+                <article class="glass-panel p-5 rounded-3xl space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="scatter-chart" class="w-5 h-5 text-indigo-600"></i>
+                            <h2 class="font-extrabold text-sm text-slate-900">Biểu Đồ Trực Quan</h2>
+                        </div>
+                        <div class="flex gap-1">
+                            <button onclick="setBiplotMode('ind')" id="btn-biplot-ind" class="px-2.5 py-1 rounded-lg text-[12px] font-bold bg-sapphire-600 text-white">Cá thể</button>
+                            <button onclick="setBiplotMode('var')" id="btn-biplot-var" class="px-2.5 py-1 rounded-lg text-[12px] font-bold bg-slate-100 text-slate-700">Biến</button>
+                            <button onclick="setBiplotMode('biplot')" id="btn-biplot-both" class="px-2.5 py-1 rounded-lg text-[12px] font-bold bg-slate-100 text-slate-700">Cả hai</button>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-slate-200 p-2 flex justify-center">
+                        <canvas id="pcaCanvas" class="w-full h-64 rounded-xl"></canvas>
+                    </div>
+                    <p id="biplotCaption" class="math-flow p-3 rounded-xl bg-blue-50/80 border border-blue-200 text-xs text-slate-700 m-0">
+                        <strong>Nhận xét biểu đồ cá thể ($\Delta_1, \Delta_2$):</strong> Hai trục đầu tiên giữ lại <strong>$95.40\%$</strong> thông tin. Các địa phương $\{x_2, x_3, x_4\}$ nằm gần nhau (quy mô nhỏ/trung bình); cặp $\{x_1, x_4\}$ và $\{x_2, x_5\}$ đối lập nhau qua trọng tâm $O$.
+                    </p>
+                </article>
+            </aside>
+
+            <!-- Right Content: 8 Bước Giải Tay Chi Tiết + Hàm R N03_Huy_15 (8 cols) -->
+            <section class="lg:col-span-8 space-y-6">
+                
+                <!-- PART A: 8 Bước Giải Tay Chi Tiết -->
+                <article class="glass-panel p-5 sm:p-6 rounded-3xl space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3">
+                        <div>
+                            <span class="text-xs font-extrabold uppercase tracking-wider text-sapphire-600">Giải tay và Đọc kết quả</span>
+                            <h1 class="text-lg sm:text-xl font-extrabold text-slate-900">Phân Tích Thành Phần Chính (PCA) </h1>
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-200">
+                            VD: $n = 5$ địa phương • $p = 3$ biến
+                        </span>
+                    </div>
+
+                    <!-- Bảng dữ liệu gốc -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs sm:text-sm text-center border-collapse rounded-2xl overflow-hidden shadow-sm">
+                            <thead>
+                                <tr class="bg-sapphire-600 text-white font-bold">
+                                    <th class="p-2.5 border border-sapphire-500">Địa phương</th>
+                                    <th class="p-2.5 border border-sapphire-500">Lao động $X_1$ (1000 người)</th>
+                                    <th class="p-2.5 border border-sapphire-500">Đầu tư thêm $X_2$ (100 tỷ)</th>
+                                    <th class="p-2.5 border border-sapphire-500">Doanh thu $X_3$ (1000 tỷ)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-slate-200 font-mono">
+                                <tr><td class="p-2 font-bold bg-slate-50">1</td><td>6</td><td>6</td><td>4</td></tr>
+                                <tr><td class="p-2 font-bold bg-slate-50">2</td><td>7</td><td>3</td><td>2</td></tr>
+                                <tr><td class="p-2 font-bold bg-slate-50">3</td><td>8</td><td>1</td><td>3</td></tr>
+                                <tr><td class="p-2 font-bold bg-slate-50">4</td><td>9</td><td>3</td><td>2</td></tr>
+                                <tr><td class="p-2 font-bold bg-slate-50">5</td><td>10</td><td>7</td><td>4</td></tr>
+                                <tr class="bg-blue-50 font-bold text-sapphire-800">
+                                    <td class="p-2">Trung bình ($\bar{X}_j$)</td>
+                                    <td>8</td>
+                                    <td>4</td>
+                                    <td>3</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 8 Steps Accordion -->
+                    <div class="space-y-3 pt-1">
+                        <!-- Step 1 -->
+                        <div class="glass-card rounded-2xl p-4">
+                            <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('step1')">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-xl bg-sapphire-600 text-white font-bold text-xs shrink-0">Bước 1</span>
+                                    <h3 class="font-extrabold text-sm text-slate-900 math-flow m-0">Quy tâm bảng số liệu $X = [x_{ij}]_{5\times 3}$</h3>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                            </div>
+                            <div id="step1" class="mt-3 pt-3 border-t border-slate-100 text-xs sm:text-sm text-slate-700 space-y-2">
+                                <p class="math-flow m-0">Lấy từng cột trừ đi trung bình cột tương ứng ($\bar{X}_1 = 8, \bar{X}_2 = 4, \bar{X}_3 = 3$):</p>
+                                <div class="math-display-box">
+                                    $$X = \begin{bmatrix} -2 & 2 & 1 \\ -1 & -1 & -1 \\ 0 & -3 & 0 \\ 1 & -1 & -1 \\ 2 & 3 & 1 \end{bmatrix}$$
+                                </div>
+                            <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Note</span><p>• <strong>Mục đích:</strong> dời gốc tọa độ về đúng trọng tâm của đám mây điểm, để mỗi con số cho biết địa phương đó cao hơn hay thấp hơn mức trung bình bao nhiêu.</p><p>• <strong>Cách đọc:</strong> số dương là cao hơn trung bình, số âm là thấp hơn trung bình. Ví dụ địa phương 5 có $(+2; +3; +1)$ nên vượt trung bình ở cả ba chỉ tiêu; địa phương 3 có đầu tư $-3$ nên thấp hơn trung bình khá nhiều.</p><p>• <strong>Cách tự kiểm tra:</strong> cộng từng cột của ma trận $X$ phải ra đúng $0$. Nếu không ra $0$ nghĩa là tính trung bình sai.</p></div>
+</div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="glass-card rounded-2xl p-4">
+                            <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('step2')">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-xl bg-sapphire-600 text-white font-bold text-xs shrink-0">Bước 2</span>
+                                    <h3 class="font-extrabold text-sm text-slate-900 math-flow m-0">Tính ma trận quán tính $X'X$ và hiệp phương sai $M_0$</h3>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                            </div>
+                            <div id="step2" class="mt-3 pt-3 border-t border-slate-100 text-xs sm:text-sm text-slate-700 space-y-2">
+                                <div class="math-display-box">
+                                    $$X'X = \begin{bmatrix} 10 & 2 & 0 \\ 2 & 24 & 7 \\ 0 & 7 & 4 \end{bmatrix} \implies M_0 = \frac{1}{5} X'X = \begin{bmatrix} 2.0 & 0.4 & 0.0 \\ 0.4 & 4.8 & 1.4 \\ 0.0 & 1.4 & 0.8 \end{bmatrix}$$
+                                </div>
+                            <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Note</span><p>• <strong>Mục đích:</strong> gom toàn bộ mức độ biến động và mối liên hệ giữa các biến vào một bảng vuông $3\times3$.</p><p>• <strong>Đường chéo là phương sai:</strong> $X_2$ có $4.8$ nên biến động mạnh nhất; $X_3$ chỉ $0.8$ nên ổn định nhất.</p><p>• <strong>Ngoài đường chéo là hiệp phương sai:</strong> số dương lớn như $1.4$ (giữa $X_2$ và $X_3$) nghĩa là hai biến thường cùng tăng cùng giảm; số $0.0$ (giữa $X_1$ và $X_3$) nghĩa là hai biến gần như không liên quan tuyến tính.</p><p>• <strong>Lưu ý chia $n$ hay $n-1$:</strong> hàm R chia $n-1$ nên mọi số đều lớn hơn $\frac{5}{4}$ lần, nhưng tỉ lệ phần trăm và hướng các trục không đổi.</p></div>
+</div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="glass-card rounded-2xl p-4">
+                            <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('step3')">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-xl bg-sapphire-600 text-white font-bold text-xs shrink-0">Bước 3</span>
+                                    <h3 class="font-extrabold text-sm text-slate-900 math-flow m-0">Tìm giá trị riêng $\lambda_j$ &amp; Nhận xét tỉ lệ quán tính đóng góp</h3>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                            </div>
+                            <div id="step3" class="mt-3 pt-3 border-t border-slate-100 text-xs sm:text-sm text-slate-700 space-y-2">
+                                <div class="math-display-box">
+                                    $$|M_0 - \lambda I| = \begin{bmatrix} 2 - \lambda & 0.4 & 0 \\ 0.4 & 4.8 - \lambda & 1.4 \\ 0 & 1.4 & 0.8 - \lambda \end{bmatrix} = 0 \implies \lambda_1 = 5.286 \;;\;\; \lambda_2 = 1.965 \;;\;\; \lambda_3 = 0.350$$
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+                                    <div class="p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-center">
+                                        <span class="block text-[12px] text-slate-500 math-flow">Trục chính 1 ($\Delta_1$)</span>
+                                        <strong class="text-sapphire-700">$5.286 / 7.6 = 69.55\%$</strong>
+                                    </div>
+                                    <div class="p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-center">
+                                        <span class="block text-[12px] text-slate-500 math-flow">Trục chính 2 ($\Delta_2$)</span>
+                                        <strong class="text-sapphire-700">$1.965 / 7.6 = 25.85\%$</strong>
+                                    </div>
+                                    <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-center">
+                                        <span class="block text-[12px] text-slate-500 math-flow">Mặt phẳng $(\Delta_1, \Delta_2)$</span>
+                                        <strong class="text-emerald-700">$69.55\% + 25.85\% = 95.40\%$</strong>
+                                    </div>
+                                </div>
+                                <p class="math-flow text-xs text-slate-600 italic m-0">
+                                    Vết ma trận $\text{Tr}(M_0) = 2.0 + 4.8 + 0.8 = 7.6$. Mặt phẳng chính thứ nhất $(\Delta_1, \Delta_2)$ đã bảo toàn được <strong>$95.40\%$</strong> lượng thông tin của đám mây 3 chiều (chỉ mất $4.60\%$ ở trục $\Delta_3$).
+                                </p>
+                            <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Note</span><p>• <strong>Mục đích:</strong> mỗi giá trị riêng $\lambda_j$ cho biết trục thứ $j$ giữ lại bao nhiêu thông tin (độ biến động) của dữ liệu.</p><p>• <strong>Cách kiểm tra:</strong> tổng các giá trị riêng phải bằng tổng đường chéo của $M_0$: $5.286 + 1.965 + 0.350 = 7.601 \approx 7.6$ (sai số do làm tròn).</p><p>• <strong>Cách chọn số trục giữ lại:</strong> giữ số trục sao cho tỉ lệ cộng dồn đủ cao, thường từ $70\%$ đến $80\%$ trở lên. Ở đây hai trục đầu đã giữ $95.40\%$ nên chỉ cần vẽ trên mặt phẳng 2 chiều, bỏ trục 3 chỉ mất $4.60\%$.</p><p>• <strong>Nhận xét mẫu để ghi vào bài:</strong> "Trục thứ nhất giải thích $69.55\%$, trục thứ hai giải thích $25.85\%$, hai trục cùng giải thích $95.40\%$ nên hình chiếu lên mặt phẳng này phản ánh gần đầy đủ dữ liệu gốc."</p></div>
+</div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="glass-card rounded-2xl p-4">
+                            <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('step4')">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-xl bg-sapphire-600 text-white font-bold text-xs shrink-0">Bước 4</span>
+                                    <h3 class="font-extrabold text-sm text-slate-900 math-flow m-0">Tìm các trục chính (Vector riêng đơn vị $u_1, u_2, u_3$)</h3>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                            </div>
+                            <div id="step4" class="mt-3 pt-3 border-t border-slate-100 text-xs sm:text-sm text-slate-700 space-y-2">
+                                <p class="math-flow m-0">Giải hệ $(M_0 - \lambda_j I)u_j = 0$ và chuẩn hóa độ dài đơn vị $\|u_j\|_2 = \sqrt{u_{1j}^2 + u_{2j}^2 + u_{3j}^2} = 1$:</p>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1 font-mono text-xs overflow-x-auto">
+                                    <div>u₁' = (0.1154 ;  0.9482 ;  0.2959)   [Trục Δ₁ bị chi phối mạnh bởi X₂ (0.9482)]</div>
+                                    <div>u₂' = (0.9906 ; -0.0877 ; -0.1054)   [Trục Δ₂ bị chi phối mạnh bởi X₁ (0.9906)]</div>
+                                    <div>u₃' = (0.0740 ; -0.3053 ;  0.9494)   [Trục Δ₃ bị chi phối mạnh bởi X₃ (0.9494)]</div>
+                                </div>
+                            <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Note</span><p>• <strong>Mục đích:</strong> mỗi trục chính là một "hướng nhìn" mới, được tạo bởi sự kết hợp của các biến gốc. Các con số trong $u_j$ cho biết mỗi biến đóng góp bao nhiêu vào trục đó.</p><p>• <strong>Cách đọc:</strong> số có giá trị tuyệt đối càng lớn thì biến càng quan trọng với trục. Trục 1 có $X_2 = 0.9482$ (và $X_3 = 0.2959$ cùng dấu) nên trục 1 đại diện cho <em>quy mô đầu tư và doanh thu</em>. Trục 2 có $X_1 = 0.9906$ nên đại diện cho <em>quy mô lao động</em>.</p><p>• <strong>Lưu ý về dấu:</strong> đổi dấu toàn bộ một vector riêng vẫn là nghiệm đúng. Vì vậy kết quả của R có thể ngược dấu với bài giải tay mà vẫn đúng; chỉ cần so sánh độ lớn.</p><p>• <strong>Cách tự kiểm tra:</strong> tổng bình phương các phần tử của mỗi $u_j$ phải bằng $1$.</p></div>
+</div>
+                        </div>
+
+                        <!-- Step 5 -->
+                        <div class="glass-card rounded-2xl p-4">
+                            <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('step5')">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-xl bg-sapphire-600 text-white font-bold text-xs shrink-0">Bước 5</span>
+                                    <h3 class="font-extrabold text-sm text-slate-900 math-flow m-0">Tọa độ cá thể trên trục chính $\Delta_1, \Delta_2$ ($z_j = X u_j$)</h3>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                            </div>
+                            <div id="step5" class="mt-3 pt-3 border-t border-slate-100 text-xs sm:text-sm text-slate-700 space-y-2">
+                                <p class="math-flow m-0">Chiếu từng điểm cá thể đã quy tâm $x_i$ lên các vector cơ sở trực chuẩn $u_j$ bằng tích vô hướng $z_{ij} = x_i \cdot u_j$:</p>
+                                <div class="math-display-box text-xs">
+                                    $$z_1 = X u_1 = \begin{bmatrix} 1.9615 \\ -1.3596 \\ -2.8446 \\ -1.1287 \\ 3.3714 \end{bmatrix} \quad ; \quad z_2 = X u_2 = \begin{bmatrix} -2.2619 \\ -0.7974 \\ 0.2631 \\ 1.1837 \\ 1.6126 \end{bmatrix} \quad ; \quad z_3 = X u_3 = \begin{bmatrix} 0.1908 \\ -0.7181 \\ 0.9160 \\ -0.5701 \\ 0.1814 \end{bmatrix}$$
+                                </div>
+                            <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Note</span><p>• <strong>Mục đích:</strong> cho biết vị trí của từng địa phương trên các trục mới. Đây chính là tọa độ để vẽ đồ thị đám mây cá thể.</p><p>• <strong>Cách đọc trục 1:</strong> $z_1$ càng lớn thì địa phương càng mạnh về đầu tư và doanh thu. Địa phương 5 có $z_1 = 3.37$ là cao nhất; địa phương 3 có $z_1 = -2.84$ là thấp nhất.</p><p>• <strong>Cách đọc trục 2:</strong> $z_2$ phản ánh quy mô lao động. Địa phương 1 có $z_2 = -2.26$ nằm thấp nhất (lao động ít nhất, chỉ $6$ nghìn người), địa phương 5 có $z_2 = 1.61$ nằm cao (lao động nhiều nhất).</p><p>• <strong>Cách nhận xét:</strong> hai điểm gần nhau trên đồ thị là hai địa phương giống nhau; hai điểm ở hai phía đối diện qua gốc $O$ là hai địa phương có đặc điểm trái ngược nhau.</p><p>• <strong>Cách tự kiểm tra:</strong> tổng mỗi cột $z_j$ bằng $0$.</p></div>
+</div>
+                        </div>
+
+                        <!-- Step 6 -->
+                        <div class="glass-card rounded-2xl p-4">
+                            <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('step6')">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-xl bg-sapphire-600 text-white font-bold text-xs shrink-0">Bước 6</span>
+                                    <h3 class="font-extrabold text-sm text-slate-900 math-flow m-0">Xác định các thành phần chính (Vector cơ sở trực chuẩn $v_j$ trong $\mathbb{R}^n$)</h3>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                            </div>
+                            <div id="step6" class="mt-3 pt-3 border-t border-slate-100 text-xs sm:text-sm text-slate-700 space-y-2">
+                                <p class="math-flow m-0">Chuẩn hóa $z_j$ theo $v_j = \frac{1}{\sqrt{n\lambda_j}} X u_j$:</p>
+                                <div class="math-display-box text-xs">
+                                    $$v_1 = \begin{bmatrix} 0.3815 \\ -0.2645 \\ -0.5533 \\ -0.2196 \\ 0.6558 \end{bmatrix} \quad ; \quad v_2 = \begin{bmatrix} -0.7216 \\ -0.2544 \\ 0.0839 \\ 0.3776 \\ 0.5145 \end{bmatrix} \quad ; \quad v_3 = \begin{bmatrix} 0.1442 \\ -0.5428 \\ 0.6924 \\ -0.4310 \\ 0.1371 \end{bmatrix}$$
+                                </div>
+                            <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Note</span><p>• <strong>Mục đích:</strong> $v_j$ là thành phần chính viết dưới dạng vector có độ dài bằng $1$ trong không gian $n$ chiều. Mỗi phần tử là vị trí (đã chuẩn hóa) của một địa phương trên thành phần đó.</p><p>• <strong>Dùng để làm gì:</strong> các vector $v_1, v_2, v_3$ vuông góc với nhau và đều có độ dài $1$, nên có thể dùng làm hệ trục để chiếu các biến lên ở Bước 7.</p><p>• <strong>Cách tự kiểm tra:</strong> tích vô hướng của hai vector khác nhau bằng $0$, tích vô hướng của một vector với chính nó bằng $1$.</p></div>
+</div>
+                        </div>
+
+                        <!-- Step 7 -->
+                        <div class="glass-card rounded-2xl p-4">
+                            <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('step7')">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-xl bg-sapphire-600 text-white font-bold text-xs shrink-0">Bước 7</span>
+                                    <h3 class="font-extrabold text-sm text-slate-900 math-flow m-0">Chuẩn hóa biến $\hat{X}$ &amp; Chiếu các biến lên mặt phẳng chính ($PrX = \hat{X}'V$)</h3>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                            </div>
+                            <div id="step7" class="mt-3 pt-3 border-t border-slate-100 text-xs sm:text-sm text-slate-700 space-y-2">
+                                <div class="math-display-box text-xs">
+                                    $$PrX = \hat{X}' V = \begin{bmatrix} 0.1877 & 0.9817 & 0.0309 \\ 0.9950 & -0.0561 & -0.0824 \\ 0.7607 & -0.1652 & 0.6277 \end{bmatrix} \begin{array}{l} \leftarrow \text{Biến } X_1 \text{ (Lao động)} \\ \leftarrow \text{Biến } X_2 \text{ (Đầu tư)} \\ \leftarrow \text{Biến } X_3 \text{ (Doanh thu)} \end{array}$$
+                                </div>
+                            <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Note</span><p>• <strong>Mục đích:</strong> vẽ các biến (không phải địa phương) lên mặt phẳng chính. Mỗi hàng là một biến, mỗi cột là một thành phần chính; số trong bảng chính là hệ số tương quan giữa biến và thành phần, nằm trong khoảng từ $-1$ đến $1$.</p><p>• <strong>Cách đọc:</strong> $X_2$ có $0.9950$ ở thành phần 1 nên gần như trùng với thành phần 1. $X_1$ có $0.9817$ ở thành phần 2 nên gần như trùng với thành phần 2. $X_3$ có $0.7607$ ở thành phần 1 nên cũng nghiêng về phía thành phần 1.</p><p>• <strong>Chất lượng biểu diễn trên mặt phẳng:</strong> lấy bình phương hai số đầu của mỗi hàng rồi cộng lại. $X_1$: $0.1877^2 + 0.9817^2 \approx 1.00$; $X_2$: $\approx 0.99$; $X_3$: $0.7607^2 + 0.1652^2 \approx 0.61$. Số càng gần $1$ thì biến càng được biểu diễn tốt; $X_3$ chỉ khoảng $61\%$ vì còn một phần nằm ở trục 3 ($0.6277$), nên khi nhận xét về $X_3$ cần thận trọng hơn.</p></div>
+</div>
+                        </div>
+
+                        <!-- Step 8 -->
+                        <div class="glass-card rounded-2xl p-4">
+                            <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('step8')">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-xl bg-sapphire-600 text-white font-bold text-xs shrink-0">Bước 8</span>
+                                    <h3 class="font-extrabold text-sm text-slate-900 math-flow m-0">Tìm $\alpha, \beta$ biểu diễn biến trên mặt phẳng $(v_1, v_2)$ &amp; Kết luận</h3>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                            </div>
+                            <div id="step8" class="mt-3 pt-3 border-t border-slate-100 text-xs sm:text-sm text-slate-700 space-y-2">
+                                <div class="math-display-box">
+                                    $$\vec{p}_3 = \alpha \vec{p}_1 + \beta \vec{p}_2 \iff \begin{cases} 0.1877\,\alpha + 0.9950\,\beta = 0.7607 \\ 0.9817\,\alpha - 0.0561\,\beta = -0.1652 \end{cases} \implies \alpha = -0.1233,\; \beta = 0.7878$$
+                                </div>
+<div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Note</span><p>• <strong>Mục đích:</strong> tìm xem biến $X_3$ (doanh thu) được tạo thành từ hai biến còn lại như thế nào trên mặt phẳng chính, bằng cách viết $\vec{p}_3 = \alpha\vec{p}_1 + \beta\vec{p}_2$ rồi giải hệ hai phương trình hai ẩn.</p><p>• <strong>Cách đọc $\alpha, \beta$:</strong> $\beta = 0.7878$ lớn và dương nghĩa là doanh thu đi cùng chiều và liên hệ mạnh với đầu tư $X_2$. $\alpha = -0.1233$ nhỏ và âm nghĩa là liên hệ với lao động $X_1$ rất yếu, thậm chí hơi ngược chiều.</p><p>• <strong>Mẹo nhớ:</strong> hệ số nào có giá trị tuyệt đối lớn hơn thì biến tương ứng ảnh hưởng nhiều hơn đến $X_3$.</p></div>
+
+                                <p class="math-flow m-0 text-indigo-950">
+                                    <strong>Kết luận:</strong> Đầu tư thêm ($X_2$) tác động cùng chiều rất mạnh đến Doanh thu ($X_3$), trong khi Lao động ($X_1$) gần như trực giao ($\theta \approx 91.4^\circ$).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </div>
+
+        <!-- =====================================================================
+             VIEW 2: PHÂN TÍCH NHÂN TỐ KHÁM PHÁ (EFA) - ĐÚNG THỨ TỰ 7 BƯỚC BÀI GIẢNG
+             ===================================================================== -->
+        <div id="view-efa" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Left Sidebar: Bảng ngưỡng kiểm định & Cách đọc kết quả (4 cols) -->
+            <aside class="lg:col-span-4 space-y-5">
+                <article class="glass-panel p-5 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600"></i>
+                            <h2 class="font-extrabold text-sm text-slate-900">Tiêu Chuẩn Đánh Giá EFA</h2>
+                        </div>
+                        <span class="text-[12px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700">EFA</span>
+                    </div>
+
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-1.5">
+                            <div class="flex flex-wrap justify-between items-center gap-1">
+                                <span class="font-extrabold text-sapphire-700">1. Ma trận tương quan (biểu đồ màu)</span>
+                                <span class="px-2 py-0.5 rounded-md bg-blue-100 text-blue-800 font-mono font-bold">$r_{ij} \ne 0$</span>
+                            </div>
+                            <p class="math-flow text-slate-600 m-0">
+                                Các biến phải có tương quan rõ rệt với nhau. EFA đi tìm những yếu tố chung đứng sau một nhóm biến, nên các biến phải có liên hệ với nhau. Trên biểu đồ màu, xanh đậm là tương quan thuận mạnh, đỏ hoặc cam là tương quan nghịch, trắng là không tương quan. Nếu có quá nhiều ô trắng thì dữ liệu không phù hợp để làm EFA.
+                            </p>
+                        </div>
+
+                        <div class="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-1.5">
+                            <div class="flex flex-wrap justify-between items-center gap-1">
+                                <span class="font-extrabold text-sapphire-700">2. Hệ số KMO (độ phù hợp của dữ liệu)</span>
+                                <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-mono font-bold">$0.5 \le \text{KMO} \le 1$</span>
+                            </div>
+                            <p class="math-flow text-slate-600 m-0">
+                                • $\text{KMO} \ge 0.9$: Rất xuất sắc.<br>
+                                • $0.8 \le \text{KMO} &lt; 0.9$: Rất tốt; $0.7 \le \text{KMO} &lt; 0.8$: Khá.<br>
+                                • $&lt; 0.5$: Không phù hợp để phân tích EFA.
+                            </p>
+                        </div>
+
+                        <div class="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-1.5">
+                            <div class="flex flex-wrap justify-between items-center gap-1">
+                                <span class="font-extrabold text-sapphire-700">3. Kiểm định Bartlett</span>
+                                <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-mono font-bold">$p &lt; 0.05$</span>
+                            </div>
+                            <p class="math-flow text-slate-600 m-0">
+                                Giả thuyết $H_0$: các biến hoàn toàn không tương quan với nhau (ma trận tương quan là ma trận đơn vị). <br>Khi $p &lt; 0.05$ thì bác bỏ $H_0$, tức là các biến có tương quan với nhau và có thể làm EFA.<br> Nếu $p \ge 0.05$ thì không nên làm EFA.
+                            </p>
+                        </div>
+
+                        <div class="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-1.5">
+                            <div class="flex flex-wrap justify-between items-center gap-1">
+                                <span class="font-extrabold text-sapphire-700">4. Số lượng nhân tố rút trích</span>
+                                <span class="px-2 py-0.5 rounded-md bg-blue-100 text-blue-800 font-mono font-bold">$\lambda &gt; 1$</span>
+                            </div>
+                            <p class="math-flow text-slate-600 m-0">
+                                • <strong>Tiêu chuẩn Kaiser:</strong> Rút trích các nhân tố có $\lambda &gt; 1$ (tổng phương sai trích $\ge 50\%$).<br>
+                                • <strong>Tiêu chuẩn Jolliffe:</strong> Ít nghiêm ngặt hơn, giữ $\lambda &gt; 0.7$.
+                            </p>
+                        </div>
+
+                        <div class="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-1.5">
+                            <div class="flex flex-wrap justify-between items-center gap-1">
+                                <span class="font-extrabold text-sapphire-700">5. Phép xoay Varimax &amp; Loading</span>
+                                <span class="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-800 font-mono font-bold">$|\text{Loading}| \ge 0.4$</span>
+                            </div>
+                            <p class="math-flow text-slate-600 m-0">
+                                Dùng <code>principal(..., rotate = "varimax")</code>. Phép xoay giúp mỗi câu hỏi rơi rõ ràng vào một nhân tố. Chỉ xét các hệ số tải (mức độ gắn bó của câu hỏi với nhân tố) từ $0.4$ trở lên. Nếu một câu hỏi có hệ số tải cao ở nhiều nhân tố thì xếp vào nhân tố có hệ số tải lớn hơn.
+                            </p>
+                        </div>
+
+                        <div class="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-1.5">
+                            <div class="flex flex-wrap justify-between items-center gap-1">
+                                <span class="font-extrabold text-sapphire-700">6. Độ tin cậy thang đo</span>
+                                <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-mono font-bold">$\alpha &gt; 0.7$</span>
+                            </div>
+                            <p class="math-flow text-slate-600 m-0">
+                                Một thang đo nhân tố được xem là hợp lý khi <code>raw_alpha &gt; 0.7</code>. Xem thêm bảng độ tin cậy khi loại từng câu hỏi: nếu bỏ một câu mà alpha tăng lên thì câu đó đang làm giảm độ tin cậy của thang đo.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Box Tóm tắt 4 Nhân tố của raq.dat -->
+                <article class="glass-panel p-5 rounded-3xl space-y-3">
+                    <div class="flex items-center gap-2 border-b border-slate-200 pb-3">
+                        <i data-lucide="list-checks" class="w-5 h-5 text-indigo-600"></i>
+                        <h2 class="font-extrabold text-sm text-slate-900">Tóm Tắt 4 Nhân Tố Mẫu (Từ <code>raq.dat</code>)</h2>
+                    </div>
+                    <div class="space-y-2 text-xs text-slate-700">
+                        <div class="p-2.5 rounded-xl bg-blue-50 border border-blue-200">
+                            <strong class="text-sapphire-800">1. RC3 – Kiến thức / Sợ máy tính (7 biến):</strong>
+                            <span class="block font-mono text-[12px] text-slate-600 mt-0.5">Q06, Q18, Q13, Q07, Q14, Q10, Q15 (α = 0.82)</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-indigo-50 border border-indigo-200">
+                            <strong class="text-indigo-800">2. RC1 – Sợ môn Thống kê (8 biến):</strong>
+                            <span class="block font-mono text-[12px] text-slate-600 mt-0.5">Q20, Q21, Q03 (-), Q12, Q04, Q16, Q01, Q05</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200">
+                            <strong class="text-emerald-800">3. RC4 – Sợ Toán học (3 biến):</strong>
+                            <span class="block font-mono text-[12px] text-slate-600 mt-0.5">Q08 (0.83), Q17 (0.75), Q11 (0.75)</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-amber-50 border border-amber-200">
+                            <strong class="text-amber-800">4. RC2 – Áp lực từ bạn bè (5 biến):</strong>
+                            <span class="block font-mono text-[12px] text-slate-600 mt-0.5">Q09, Q22, Q23, Q02, Q19</span>
+                        </div>
+                    </div>
+                </article>
+            </aside>
+
+            <!-- Right Content: ĐÚNG THỨ TỰ 7 BƯỚC EFA THEO BÀI GIẢNG (TRANG 37 - 56) (8 cols) -->
+            <section class="lg:col-span-8 space-y-5">
+                <article class="glass-panel p-5 sm:p-6 rounded-3xl space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3">
+                        <div>
+                            <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Code R và Đọc kết quả</span>
+                            <h1 class="text-lg sm:text-xl font-extrabold text-slate-900">Phân Tích Nhân Tố Khám Phá (EFA)</h1>
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700 border border-indigo-200">
+                            VD: <code>raq.dat</code> ($n &gt; 2500$, $23$ biến)
+                        </span>
+                    </div>
+
+                    <p class="math-flow text-xs sm:text-sm text-slate-600 m-0">
+                        <strong>EFA là gì?</strong> Khi khảo sát bằng nhiều câu hỏi, ta muốn biết các câu hỏi có thể gom thành mấy nhóm, mỗi nhóm đo một yếu tố ẩn gọi là <em>nhân tố</em>. liệu, xem tương quan, kiểm định KMO và Bartlett, chọn số nhân tố, xoay nhân tố để phân nhóm và đặt tên, cuối cùng kiểm tra độ tin cậy. Bấm vào từng bước để xem mã R, ghi chú và <strong>cách đọc kết quả</strong>.</p>
+
+                    <!-- BƯỚC 1 -->
+                    <div class="glass-card rounded-2xl p-4 sm:p-5">
+                        <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('efa-step1')">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-xl bg-sapphire-600 text-white font-bold text-xs shrink-0">Bước 1</span>
+                                <h3 class="font-extrabold text-sm text-slate-900 m-0">Cài đặt và nạp các gói cần thiết cho EFA</h3>
+                            </div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                        </div>
+                        <div id="efa-step1" class="mt-3 pt-3 border-t border-slate-100 space-y-3">
+                            <div class="code-snippet-wrapper">
+                                <span class="code-lang-tag">R • Bước 1</span>
+                                <button type="button" class="copy-snippet-btn" onclick="copyCodeBlock(this)">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
+                                </button>
+                                <pre class="code-snippet-pre"># 1.1. Cài đặt các gói cần thiết (Chỉ chạy 1 lần khi máy chưa cài)
+# install.packages(c("GPArotation", "corpcor", "ggplot2", "corrplot", 
+#                    "grid", "likert", "factoextra", "psych", "devtools"))
+
+# 1.2. Nạp các thư viện vào phiên làm việc R
+library(psych)         # Hàm KMO(), cortest.bartlett(), principal(), alpha()
+library(GPArotation)   # Hỗ trợ các phép xoay nhân tố (varimax, oblimin...)
+library(corpcor)       # Tính toán ma trận tương quan
+library(corrplot)      # Vẽ đồ thị màu ma trận tương quan
+library(factoextra)    # Hàm get_eig(), fviz_screeplot()
+library(likert)        # Trực quan hóa dữ liệu thang đo Likert
+library(ggplot2)       # Hệ thống vẽ đồ thị nâng cao
+library(grid)          # Bố cục đồ thị</pre>
+                            </div>
+                           
+                        <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Note</span><p>• Các dòng chữ đỏ hiện ra khi nạp gói (thông báo nạp gói, cảnh báo hàm bị trùng tên) thường <strong>không phải lỗi</strong>, cứ chạy tiếp.</p><p>• Mỗi gói có một việc: <code>psych</code> (KMO, Bartlett, xoay nhân tố, Cronbach's alpha), <code>corrplot</code> (vẽ ma trận tương quan), <code>factoextra</code> (bảng giá trị riêng và biểu đồ sườn dốc).</p><p >• Khi đi thi trên phòng máy, các gói thường đã được cài sẵn, chỉ cần chạy khối lệnh <code>library(...)</code>. Nếu thiếu gói nào (ví dụ <code>psych</code> hoặc <code>corrplot</code>), chạy lệnh <code>install.packages("tên_gói")</code> rồi mới gọi <code>library()</code>.</p></div>
+</div>
+                    </div>
+
+                    <!-- BƯỚC 2 -->
+                    <div class="glass-card rounded-2xl p-4 sm:p-5">
+                        <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('efa-step2')">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-xl bg-sapphire-600 text-white font-bold text-xs shrink-0">Bước 2</span>
+                                <h3 class="font-extrabold text-sm text-slate-900 m-0">Thiết lập thư mục làm việc &amp; Đọc dữ liệu </h3>
+                            </div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                        </div>
+                        <div id="efa-step2" class="mt-3 pt-3 border-t border-slate-100 space-y-3">
+                            <div class="code-snippet-wrapper">
+                                <span class="code-lang-tag">R • Bước 2</span>
+                                <button type="button" class="copy-snippet-btn" onclick="copyCodeBlock(this)">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
+                                </button>
+                                <pre class="code-snippet-pre"># Thiết lập thư mục làm việc chứa file dữ liệu
+setwd("C:/Duong dan den thu muc")
+
+# Đọc dữ liệu bài giảng (file văn bản phân tách tab raq.dat)
+myData &lt;- read.delim("raq.dat", header = TRUE)
+
+# (Tùy chọn nếu đề thi cho file CSV hoặc bảng mẫu):
+# myData &lt;- read.csv("TENFILE.csv", header = TRUE)
+
+# myData <- matrix(c(6, 6, 4, 7, 3, 2,
+#                  8, 1, 3, 9, 3, 2, 10, 7, 4),
+#                nrow = 5, byrow = TRUE)
+
+# Gắn tên biến vào bộ nhớ &amp; mở bảng kiểm tra trực quan
+attach(myData)
+fix(myData)       # Đóng cửa sổ bảng dữ liệu sau khi xem xong để R chạy tiếp!
+</pre>
+                            </div>
+                       
+                        <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Note</span><p>• Đổi đường dẫn đến thư mục có chưa File Data.</p><p>• Đổi lại TENFILE cho phù hợp với yêu cầu đề.</p></div>
+</div>
+                    </div>
+
+                    <!-- BƯỚC 3 -->
+                    <div class="glass-card rounded-2xl p-4 sm:p-5">
+                        <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('efa-step3')">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-xl bg-sapphire-600 text-white font-bold text-xs shrink-0">Bước 3</span>
+                                <h3 class="font-extrabold text-sm text-slate-900 m-0">Phân tích tương quan giữa các biến</h3>
+                            </div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                        </div>
+                        <div id="efa-step3" class="mt-3 pt-3 border-t border-slate-100 space-y-3">
+                            <div class="code-snippet-wrapper">
+                                <span class="code-lang-tag">R • Bước 3 </span>
+                                <button type="button" class="copy-snippet-btn" onclick="copyCodeBlock(this)">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
+                                </button>
+                                <pre class="code-snippet-pre"># Tính ma trận hệ số tương quan giữa các biến
+corMatrix &lt;- cor(myData)
+round(corMatrix, 1)
+
+# Biểu diễn đồ thị màu ma trận tương quan
+corrplot(corMatrix, method = "color")
+corrplot(corMatrix, method = "color", order = "hclust")</pre>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-blue-50/90 border border-blue-200 text-xs text-slate-700 space-y-1.5">
+                                <strong class="text-sapphire-800 block">Ghi chú nhận xét ma trận tương quan &amp; biểu đồ <code>corrplot</code>:</strong>
+                                <p class="math-flow m-0">• <strong>Điều kiện đánh giá:</strong> Các biến phải có tương quan rõ rệt với nhau (các phần tử ngoài đường chéo chính khác $0$). Trên đồ thị màu, nếu xuất hiện quá nhiều ô trắng/nhạt ($r \approx 0$) thì không phù hợp để phân tích nhân tố.</p>
+                                <p class="math-flow m-0">• <strong>Đọc cụm tương quan trên <code>raq.dat</code> (với <code>order = "hclust"</code>):</strong> Các nhóm biến có màu xanh dương đậm (tương quan thuận chặt) gom thành từng khối rõ rệt, ví dụ cụm sợ Toán <code>Q08, Q11, Q17</code> ($r = 0.59 \to 0.63$) và cụm sợ máy tính <code>Q06, Q07, Q13, Q14, Q18</code> ($r \approx 0.44 \to 0.53$).</p>
+                                <p class="math-flow m-0">• <strong>Biến tương quan nghịch / xung đột:</strong> Câu <code>Q03</code> (<em>"Độ lệch chuẩn làm tôi hứng thú"</em>) có màu cam/đỏ (tương quan âm $r \approx -0.31 \to -0.42$ với hầu hết các câu khác) vì nội dung câu hỏi diễn đạt tích cực, ngược chiều với nỗi sợ.</p>
+                            </div>
+                        <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Cách đọc biểu đồ màu</span><p>• <strong>Màu xanh dương:</strong> tương quan thuận (hai câu hỏi cùng tăng cùng giảm); xanh càng đậm thì tương quan càng mạnh.</p><p>• <strong>Màu đỏ hoặc cam:</strong> tương quan nghịch (một câu tăng thì câu kia giảm).</p><p>• <strong>Màu trắng:</strong> gần như không tương quan ($r \approx 0$).</p><p>• <strong>Đường chéo</strong> luôn bằng $1$ vì mỗi biến tương quan hoàn toàn với chính nó, không cần nhận xét.</p><p>• Khi dùng <code>order = "hclust"</code>, R tự xếp các câu hỏi giống nhau thành từng khối vuông đậm màu. Mỗi khối là dấu hiệu của một nhân tố tiềm ẩn, giúp ta dự đoán trước số nhân tố.</p></div>
+</div>
+                    </div>
+
+                    <!-- BƯỚC 4 -->
+                    <div class="glass-card rounded-2xl p-4 sm:p-5">
+                        <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('efa-step4')">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-xl bg-sapphire-600 text-white font-bold text-xs shrink-0">Bước 4</span>
+                                <h3 class="font-extrabold text-sm text-slate-900 m-0">Kiểm định dữ liệu bằng KMO và Bartlett</h3>
+                            </div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                        </div>
+                        <div id="efa-step4" class="mt-3 pt-3 border-t border-slate-100 space-y-3">
+                            <div class="code-snippet-wrapper">
+                                <span class="code-lang-tag">R • Bước 4 </span>
+                                <button type="button" class="copy-snippet-btn" onclick="copyCodeBlock(this)">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
+                                </button>
+                                <pre class="code-snippet-pre"># Kiểm định hệ số KMO 
+KMO(myData)
+
+# Kiểm định Bartlett 
+cortest.bartlett(myData)</pre>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-emerald-50/90 border border-emerald-200 text-xs text-slate-700 space-y-1.5">
+                                <strong class="text-emerald-900 block">Note:</strong>
+                                <p class="math-flow m-0">• <strong>Kiểm định KMO:</strong> Một bộ dữ liệu phù hợp cho EFA khi <code>Overall MSA >= 0.5</code>. Trong ví dụ <code>raq.dat</code>, giá trị <code>Overall MSA = 0.93</code> ($&gt; 0.5$) và MSA của từng biến đều từ $0.77 \to 0.97 \implies$ Dữ liệu rất phù hợp để phân tích EFA.</p>
+                                <p class="math-flow m-0">• <strong>Kiểm định Bartlett:</strong> Thu được thống kê $\chi^2 = 19334.49$, bậc tự do $df = 253$ và trị số $p\text{-value} = 0 &lt; 0.05$ ($5\%$). Bác bỏ giả thuyết $H_0$ (ma trận tương quan là ma trận đơn vị), chứng tỏ mối tương quan giữa các biến đủ lớn để tiến hành phân tích EFA.</p>
+                            </div>
+                        <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Cách đọc kết quả</span><p>• <strong>Hàm <code>KMO</code>:</strong> dòng <code>Overall MSA</code> là chỉ số chung cho toàn bộ dữ liệu; phần <code>MSA for each item</code> bên dưới là chỉ số của từng câu hỏi. Câu nào có chỉ số dưới $0.5$ thì nên cân nhắc loại khỏi phân tích.</p><p>• <strong>Thang đánh giá chỉ số chung:</strong> từ $0.9$ trở lên là tuyệt vời; $0.8$ đến $0.9$ là rất tốt; $0.7$ đến $0.8$ là khá; $0.6$ đến $0.7$ là tạm được; $0.5$ đến $0.6$ là kém; dưới $0.5$ là không chấp nhận được.</p><p>• <strong>Hàm <code>cortest.bartlett</code>:</strong> kết quả có ba số là <code>chisq</code> (thống kê kiểm định), <code>p.value</code> và <code>df</code> (bậc tự do, bằng $\frac{23 \times 22}{2} = 253$). Chỉ cần nhìn <code>p.value</code>: nhỏ hơn $0.05$ thì kết luận được là các biến có tương quan với nhau.</p><p>• <strong>Kết luận cần có cả hai:</strong> KMO từ $0.5$ trở lên <em>và</em> Bartlett có $p < 0.05$ thì mới tiếp tục sang Bước 5.</p></div>
+</div>
+                    </div>
+
+                    <!-- BƯỚC 5 -->
+                    <div class="glass-card rounded-2xl p-4 sm:p-5">
+                        <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('efa-step5')">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-xl bg-sapphire-600 text-white font-bold text-xs shrink-0">Bước 5</span>
+                                <h3 class="font-extrabold text-sm text-slate-900 m-0">Xác định số lượng các nhân tố chính rút ra (Giá trị riêng &amp; biểu đồ sườn dốc)</h3>
+                            </div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                        </div>
+                        <div id="efa-step5" class="mt-3 pt-3 border-t border-slate-100 space-y-3">
+                            <div class="code-snippet-wrapper">
+                                <span class="code-lang-tag">R • Bước 5 </span>
+                                <button type="button" class="copy-snippet-btn" onclick="copyCodeBlock(this)">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
+                                </button>
+                                <pre class="code-snippet-pre"># Trích xuất giá trị riêng và phần trăm phương sai giải thích
+pca1 &lt;- prcomp(myData, scale = TRUE)
+get_eig(pca1)
+
+# Vẽ biểu đồ Scree plot theo phần trăm phương sai (12 chiều đầu) và theo Eigenvalue (23 chiều)
+fviz_screeplot(pca1, addlabels = TRUE, n = 12)
+fviz_screeplot(pca1, n = 23, choice = "eigenvalue", addlabels = TRUE)</pre>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-blue-50/90 border border-blue-200 text-xs text-slate-700 space-y-1.5">
+                                <strong class="text-sapphire-800 block">Ghi chú nhận xét Giá trị riêng &amp; biểu đồ sườn dốc:</strong>
+                                <p class="math-flow m-0">• <strong>Theo tiêu chuẩn Kaiser ($\lambda &gt; 1$):</strong> Có <strong>4 nhân tố</strong> được rút trích gồm: <code>Dim.1</code> ($\lambda_1 = 7.29$, giải thích $31.70\%$), <code>Dim.2</code> ($\lambda_2 = 1.74$, giải thích $7.56\%$), <code>Dim.3</code> ($\lambda_3 = 1.32$, giải thích $5.73\%$) và <code>Dim.4</code> ($\lambda_4 = 1.23$, giải thích $5.34\%$). Từ <code>Dim.5</code> trở đi ($\lambda_5 = 0.988 &lt; 1$) dừng trích. <br><em>(Lưu ý: Nếu dùng tiêu chuẩn Jolliffe $\lambda &gt; 0.7$ thì lấy đến 10 nhân tố).</em></p>
+                                <p class="math-flow m-0">• <strong>Tổng phương sai trích (phương sai tích lũy):</strong> Cả 4 nhân tố chính giải thích được <strong>$50.32\%$</strong> tổng phương sai của toàn bộ 23 biến ban đầu ($&gt; 50\%$, đạt yêu cầu).</p>
+                            </div>
+                        <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Cách đọc kết quả</span><p>• <strong>Bảng từ <code>get_eig</code> có 3 cột:</strong> <code>eigenvalue</code> (giá trị riêng) ; <code>variance.percent</code> (phần trăm phương sai mà nhân tố đó giải thích) và <code>cumulative.variance.percent</code> (phần trăm cộng dồn). Mỗi hàng là một nhân tố.</p><p>• <strong>Cách chọn số nhân tố:</strong> đếm số hàng có giá trị riêng lớn hơn $1$. Ở đây có $4$ hàng nên chọn $4$ nhân tố; hàng thứ $5$ là $0.988$, nhỏ hơn $1$ nên dừng.</p><p>• <strong>Biểu đồ sườn dốc:</strong> trục ngang là thứ tự nhân tố, trục dọc là giá trị riêng. Đường đi xuống rất dốc ở các nhân tố đầu rồi bắt đầu thoải dần. Điểm bắt đầu thoải gọi là "khuỷu tay"; các nhân tố nằm trước điểm đó là các nhân tố nên giữ.</p><p>• <strong>Đọc phần trăm cộng dồn:</strong> $4$ nhân tố giải thích khoảng $50.3\%$ tổng biến động. Trong khoa học xã hội, từ $50\%$ trở lên là chấp nhận được.</p></div>
+</div>
+                    </div>
+
+                    <!-- BƯỚC 6 -->
+                    <div class="glass-card rounded-2xl p-4 sm:p-5">
+                        <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('efa-step6')">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-xl bg-sapphire-600 text-white font-bold text-xs shrink-0">Bước 6</span>
+                                <h3 class="font-extrabold text-sm text-slate-900 m-0">Xác định các biến cấu thành nhân tố được rút ra &amp; Đặt tên nhân tố</h3>
+                            </div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                        </div>
+                        <div id="efa-step6" class="mt-3 pt-3 border-t border-slate-100 space-y-3">
+                            <div class="code-snippet-wrapper">
+                                <span class="code-lang-tag">R • Bước 6</span>
+                                <button type="button" class="copy-snippet-btn" onclick="copyCodeBlock(this)">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
+                                </button>
+                                <pre class="code-snippet-pre"># Xoay nhân tố vuông góc Varimax với nfactors = 4 đã xác định ở Bước 5
+pc2 &lt;- principal(myData, nfactors = 4, rotate = "varimax")
+
+# Hiển thị ma trận tải nhân tố (ẩn hệ số tải < 0.4 và sắp xếp theo nhóm)
+print.psych(pc2, cut = 0.4, sort = TRUE)</pre>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-indigo-50/90 border border-indigo-200 text-xs text-slate-700 space-y-1.5">
+                                <strong class="text-indigo-900 block">Ghi chú nhận xét ma trận xoay &amp; Quy tắc đặt tên nhân tố:</strong>
+                                <p class="math-flow m-0">• <strong>Quy tắc xử lý biến tải chéo:</strong> Nếu một biến (câu hỏi) xuất hiện ở nhiều nhân tố cùng lúc thì ta đưa vào nhân tố có <strong>hệ số tải lớn hơn</strong> (ví dụ <code>Q12</code> tải lên RC3 là $0.47$ và RC1 là $0.52 \implies$ đưa <code>Q12</code> vào <strong>RC1</strong>).</p>
+                                <p class="math-flow m-0">• <strong>Phân nhóm và đặt tên 4 nhân tố dựa trên nội dung câu hỏi:</strong><br>
+                                  – <strong>Nhân tố RC3 ("Kiến thức máy tính / Sợ máy tính"):</strong> Gồm 7 biến <code>Q06 (0.80), Q18 (0.68), Q13 (0.65), Q07 (0.64), Q14 (0.58), Q10 (0.55), Q15 (0.46)</code>.<br>
+                                  – <strong>Nhân tố RC1 ("Sợ môn Thống kê"):</strong> Gồm 8 biến <code>Q20 (0.68), Q21 (0.66), Q03 (-0.57), Q12 (0.52), Q04 (0.52), Q16 (0.51), Q01 (0.50), Q05 (0.43)</code>.<br>
+                                  – <strong>Nhân tố RC4 ("Sợ Toán học"):</strong> Gồm 3 biến <code>Q08 (0.83), Q17 (0.75), Q11 (0.75)</code>.<br>
+                                  – <strong>Nhân tố RC2 ("Áp lực đánh giá từ bạn bè"):</strong> Gồm 5 biến <code>Q09 (0.65), Q22 (0.65), Q23 (0.59), Q02 (0.54), Q19 (0.43)</code>.
+                                </p>
+                            </div>
+                        <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Cách đọc bảng kết quả</span><p>• <strong>Các cột <code>RC1</code> đến <code>RC4</code>:</strong> mỗi cột là một nhân tố sau khi xoay. Số trong ô là <em>hệ số tải</em>, cho biết câu hỏi đó gắn bó với nhân tố đó đến mức nào. Hệ số tải từ $0.4$ trở lên mới được coi là có ý nghĩa; lệnh <code>cut = 0.4</code> đã tự ẩn các số nhỏ hơn $0.4$.</p><p>• <strong>Cách phân nhóm:</strong> đọc theo từng hàng (từng câu hỏi), tìm cột có hệ số tải lớn nhất, đưa câu hỏi vào nhân tố của cột đó. Lệnh <code>sort = TRUE</code> đã xếp sẵn các câu hỏi cùng nhóm lại gần nhau để dễ đọc.</p><p>• <strong>Hệ số tải âm</strong> (ví dụ <code>Q03</code> là $-0.57$) nghĩa là câu hỏi đó đi ngược chiều với nhân tố. Nguyên nhân thường là câu hỏi được diễn đạt ngược nghĩa.</p><p>• <strong>Cột <code>h2</code>:</strong> phần biến động của câu hỏi được cả $4$ nhân tố giải thích; càng gần $1$ càng tốt, thấp hơn $0.3$ là câu hỏi giải thích kém. <br><strong>Cột <code>u2</code></strong> $= 1 - h2$ là phần không giải thích được. <br><strong>Cột <code>com</code></strong> càng gần $1$ thì câu hỏi chỉ thuộc về một nhân tố; lớn hơn $2$ nghĩa là câu hỏi bị tải chéo.</p><p>• <strong>Phần dưới bảng:</strong> dòng <code>SS loadings</code> là phương sai của từng nhân tố, <code>Proportion Var</code> là phần trăm phương sai của từng nhân tố, <code>Cumulative Var</code> là phần trăm cộng dồn (cuối cùng ra khoảng $50\%$).</p><p>• <strong>Cách đặt tên nhân tố:</strong> đọc nội dung các câu hỏi trong cùng nhóm, tìm điểm chung rồi đặt tên ngắn gọn, ví dụ nhóm toàn câu hỏi về sợ Toán thì đặt là "Sợ Toán học".</p></div>
+</div>
+                    </div>
+
+                    <!-- BƯỚC 7 -->
+                    <div class="glass-card rounded-2xl p-4 sm:p-5">
+                        <div class="flex items-center justify-between cursor-pointer" onclick="toggleStep('efa-step7')">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-xl bg-emerald-600 text-white font-bold text-xs shrink-0">Bước 7</span>
+                                <h3 class="font-extrabold text-sm text-slate-900 m-0">Kiểm định Cronbach's Alpha cho thang đo &amp; Biểu diễn đồ thị gộp</h3>
+                            </div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                        </div>
+                        <div id="efa-step7" class="mt-3 pt-3 border-t border-slate-100 space-y-3">
+                            <div class="code-snippet-wrapper">
+                                <span class="code-lang-tag">R • Bước 7</span>
+                                <button type="button" class="copy-snippet-btn" onclick="copyCodeBlock(this)">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
+                                </button>
+                                <pre class="code-snippet-pre"># Kiểm định độ tin cậy thang đo nhân tố RC3 (có 7 biến)
+psych::alpha(myData[, c(06, 18, 13, 07, 14, 10, 15)])
+
+# (Tùy chọn) Vẽ biểu đồ Biplot quan sát đám mây cá thể &amp; vector biến
+biplot(pca1, col = c("gray", "red"))              # Cá thể màu xám, biến vector màu đỏ
+biplot(pca1, xlabs = rep("", nrow(myData)))       # Ẩn nhãn cá thể để nhìn rõ góc vector</pre>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-emerald-50/90 border border-emerald-200 text-xs text-slate-700 space-y-1.5">
+                                <strong class="text-emerald-900 block">Ghi chú nhận xét kiểm định Cronbach's Alpha:</strong>
+                                <p class="math-flow m-0">• <strong>Tiêu chuẩn đánh giá:</strong> Một thang đo nhân tố được xem là hợp lý và đạt độ tin cậy nếu giá trị <code>raw_alpha &gt; 0.7</code>.</p>
+                                <p class="math-flow m-0">• <strong>Đọc kết quả nhóm RC3:</strong> Chỉ số <code>raw_alpha = 0.82</code> ($&gt; 0.7$, khoảng tin cậy $95\%$: $[0.81; 0.83]$) và hệ số tương quan trung bình giữa các biến <code>average_r = 0.40</code>. Trong bảng độ tin cậy khi loại từng câu hỏi (R in dòng <code>Reliability if an item is dropped</code>), nếu loại bất kỳ biến nào trong 7 biến thì <code>raw_alpha</code> đều giảm ($0.79 \to 0.81$) hoặc giữ nguyên ($0.82$), chứng tỏ cả 7 biến đều đóng góp tốt cho thang đo nhân tố này.</p>
+                            </div>
+                        <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Cách đọc kết quả</span><p>• <strong>Dòng <code>raw_alpha</code>:</strong> là hệ số tin cậy của cả nhóm câu hỏi. Từ $0.7$ trở lên là chấp nhận được; $0.8$ đến $0.9$ là tốt; trên $0.95$ có thể là các câu hỏi trùng lặp nhau quá nhiều.</p><p>• <strong>Dòng <code>average_r</code>:</strong> là tương quan trung bình giữa các cặp câu hỏi trong nhóm. Khoảng $0.3$ đến $0.5$ là hợp lý.</p><p>• <strong>Bảng <code>Reliability if an item is dropped</code>:</strong> mỗi hàng cho biết <code>raw_alpha</code> sẽ thành bao nhiêu nếu bỏ câu hỏi đó. Nếu số này <em>tăng lên</em> so với toàn nhóm thì câu hỏi đó đang kéo độ tin cậy xuống, nên cân nhắc loại. Nếu số này <em>giảm hoặc giữ nguyên</em> thì câu hỏi đó có ích, nên giữ.</p><p>• <strong>Bảng <code>Item statistics</code>:</strong> cột <code>r.drop</code> hoặc <code>r.cor</code> là tương quan giữa từng câu hỏi với phần còn lại của nhóm, nên từ $0.3$ trở lên.</p><p>• <strong>Nếu có câu hỏi hệ số tải âm</strong> (như <code>Q03</code> ở nhóm RC1), R sẽ cảnh báo cần đảo ngược thang điểm trước khi tính; có thể dùng <code>check.keys = TRUE</code>.</p><p>• <strong>Đồ thị gộp (biplot):</strong> mũi tên là các biến, điểm là người trả lời. Hai mũi tên cùng hướng là hai biến tương quan thuận; vuông góc là không tương quan; ngược hướng là tương quan nghịch. Mũi tên càng dài thì biến càng được hai thành phần đầu giải thích tốt.</p></div>
+</div>
+                    </div>
+
+                </article>
+            </section>
+        </div>
+
+        <!-- =====================================================================
+             VIEW 3: CODE R TỔNG HỢP (2 NÚT CHUYỂN NHANH FULL CODE PCA & EFA)
+             ===================================================================== -->
+        <div id="view-code" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Left Panel: 2 Nút Code Tổng Hợp PCA & EFA + Tiện ích (4 cols) -->
+            <aside class="lg:col-span-4 space-y-5">
+                <article class="glass-panel p-5 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="terminal" class="w-5 h-5 text-sapphire-600"></i>
+                            <h2 class="font-extrabold text-sm text-slate-900">Chọn Bộ Code Tổng Hợp</h2>
+                        </div>
+                        <span class="text-[12px] font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-sapphire-700">.R</span>
+                    </div>
+
+                    <p class="text-xs text-slate-600 leading-relaxed m-0">
+                        Bấm chọn một trong hai nút dưới đây để nạp nhanh toàn bộ mã nguồn giải chuẩn vào khung soạn thảo bên phải:
+                    </p>
+
+                    <!-- 2 Nút chính: Code tổng hợp PCA & Code tổng hợp EFA -->
+                    <div class="grid grid-cols-1 gap-3">
+                        <button onclick="openInIde('full_pca')" id="btn-preset-pca" class="w-full text-left glass-card p-4 rounded-2xl border-2 border-sapphire-600 bg-blue-50/60 transition-all">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-sapphire-600 text-white flex items-center justify-center font-extrabold text-xs">PCA</span>
+                                    <span class="font-extrabold text-sm text-slate-900">Code tổng hợp PCA</span>
+                                </div>
+                                <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-blue-100 text-sapphire-800">PCA</span>
+                            </div>
+                            <p class="math-flow text-xs text-slate-600 mt-2 m-0">
+                                Đầy đủ code giải tay &amp; hàm <code>prcomp()</code>: quy tâm $X$, ma trận hiệp phương sai $M_0$, trị riêng $\lambda$, tỉ lệ quán tính, tọa độ $z$, cơ sở $v$, chiếu biến $PrX$, tính $\alpha, \beta$ và vẽ đồ thị 2D, 3D và đồ thị gộp.
+                            </p>
+                        </button>
+
+                        <button onclick="openInIde('full_efa')" id="btn-preset-efa" class="w-full text-left glass-card p-4 rounded-2xl border-2 border-transparent hover:border-emerald-500 transition-all">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-extrabold text-xs">EFA</span>
+                                    <span class="font-extrabold text-sm text-slate-900">Code tổng hợp EFA</span>
+                                </div>
+                                <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">EFA</span>
+                            </div>
+                            <p class="math-flow text-xs text-slate-600 mt-2 m-0">
+                                Đầy đủ 7 bước EFA theo bài giảng: cài &amp; nạp thư viện, đọc dữ liệu (<code>raq.dat</code> / <code>.csv</code>), <code>corMatrix</code> &amp; <code>corrplot</code>, kiểm định <code>KMO</code> &amp; <code>cortest.bartlett</code>, <code>get_eig</code> &amp; <code>fviz_screeplot</code>, xoay <code>Varimax</code>, <code>alpha</code> và <code>biplot</code>.
+                            </p>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Tiện ích thao tác nhanh -->
+                <article class="glass-panel p-5 rounded-3xl space-y-3">
+                    <div class="flex items-center gap-2 border-b border-slate-200 pb-3">
+                        <i data-lucide="sliders" class="w-5 h-5 text-sapphire-600"></i>
+                        <h2 class="font-extrabold text-sm text-slate-900">Tiện Ích Tệp .R</h2>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2.5 text-xs">
+                        <button onclick="copyIdeCode(this)" class="glass-card p-3 rounded-2xl text-slate-700 hover:text-sapphire-600 flex items-center justify-center gap-2 font-bold">
+                            <i data-lucide="copy" class="w-4 h-4 text-sapphire-500"></i>
+                            <span>Sao chép Code</span>
+                        </button>
+                        <button onclick="downloadIdeCode()" class="glass-card p-3 rounded-2xl text-slate-700 hover:text-emerald-600 flex items-center justify-center gap-2 font-bold">
+                            <i data-lucide="download" class="w-4 h-4 text-emerald-500"></i>
+                            <span>Tải tệp .R</span>
+                        </button>
+                    </div>
+                    <p class="text-[12px] text-slate-500 leading-relaxed m-0">
+                        Đổi tên tệp theo cú pháp bài thi ở khung bên phải rồi bấm <strong>Tải tệp .R</strong> để mở trực tiếp trên RStudio.
+                    </p>
+                </article>
+            </aside>
+
+            <!-- Right Panel: Trình Soạn Thảo Code R IDE + Khung Tổng Hợp 2 Dạng (8 cols) -->
+            <section class="lg:col-span-8 flex flex-col space-y-6">
+                
+                <!-- Trình soạn thảo tương tác (chuyển đổi giữa 2 nút PCA / EFA) -->
+                <div class="glass-panel p-4 sm:p-6 rounded-3xl flex flex-col min-h-[520px]">
+                    <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 mb-3.5 border-b border-slate-200">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3 h-3 rounded-full bg-rose-400"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                            <div class="relative flex items-center ml-2">
+                                <i data-lucide="file-code-2" class="w-4 h-4 text-sapphire-600 absolute left-2.5"></i>
+                                <input type="text" id="ideFileName" value="N03_PCA_TongHop" 
+                                    aria-label="Tên tệp R xuất ra"
+                                    class="bg-white border border-slate-200 pl-8 pr-8 py-1.5 rounded-xl font-mono text-xs font-bold text-slate-800 w-44 sm:w-56 focus:outline-none focus:border-sapphire-500">
+                                <span class="absolute right-2.5 font-mono text-xs font-bold text-sapphire-600">.R</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2 text-xs">
+                            <span id="ideActiveBadge" class="px-3 py-1 rounded-full font-bold bg-blue-100 text-sapphire-700 border border-blue-200">
+                                Đang xem: Code PCA
+                            </span>
+                            <span id="ideCharCount" class="font-mono text-slate-500 font-semibold">0 ký tự</span>
+                        </div>
+                    </div>
+
+                    <div class="code-editor-box flex-1 flex p-3 pt-10 shadow-inner overflow-hidden">
+                        <button type="button" onclick="copyIdeCode(this)" class="copy-snippet-btn" style="top: 0.6rem; right: 0.75rem;">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span>Copy</span>
+                        </button>
+                        <div id="ideLineNumbers" class="line-numbers py-2 pl-1">1</div>
+                        <textarea id="ideCodeArea" spellcheck="false" oninput="onIdeInput()" 
+                            aria-label="Trình soạn thảo code R"
+                            class="code-textarea flex-1 p-2 focus:outline-none"></textarea>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto glass-header py-3.5 px-4 text-xs font-semibold text-slate-600 z-10">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div class="flex items-center space-x-2">
+                <span class="text-slate-900 font-bold">Wiky Study</span>
+                <span>•</span>
+                <span class="text-slate-500">Tổng hợp kiến thức &amp; code R môn Thống kê nhiều chiều</span>
+            </div>
+            <div class="text-[12px] text-slate-400">
+                Tổng hợp và chia sẻ bởi Nh4tHuy
+            </div>
+        </div>
+    </footer>
+
+    <!-- CHIBI TRỢ LÝ ÔN TẬP GÓC PHẢI DƯỚI -->
+    <div id="chibiBubbleContainer" class="fixed bottom-4 right-4 z-50 pointer-events-none flex flex-col items-end group">
+        <div id="chibiSpeechBubble" class="mb-2 max-w-[270px] p-3.5 rounded-2xl glass-panel bg-white/95 text-slate-800 text-xs font-bold shadow-2xl border border-blue-200 transition-all duration-300 opacity-0 translate-y-2 pointer-events-none relative">
+            <span id="chibiSpeechText">Chào bạn! Nhấp vào mình để xem cách đọc kết quả trên R nhé!</span>
+            <div class="absolute -bottom-1.5 right-6 w-3 h-3 bg-white/95 rotate-45 border-r border-b border-blue-200"></div>
+        </div>
+
+        <div class="relative cursor-pointer pointer-events-auto" onclick="triggerChibiTip()">
+            <div class="relative z-10 w-[62px] h-[62px] overflow-hidden shadow-2xl transition-transform duration-300 group-hover:scale-110" style="animation: siri-morph-active 3.5s ease-in-out infinite; border-radius: 42% 58% 50% 50% / 50% 42% 58% 50%;">
+                <div class="absolute inset-0" style="background: radial-gradient(circle at 35% 35%, rgba(186, 230, 253, 0.95) 0%, rgba(56, 189, 248, 0.85) 45%, rgba(14, 165, 233, 0.95) 100%);"></div>
+                <div class="absolute inset-[-20%] rounded-full" style="background: conic-gradient(transparent 0%, rgba(255, 255, 255, 0.7) 15%, transparent 30%, rgba(56, 189, 248, 0.6) 50%, transparent 65%); filter: blur(6px); animation: siri-rotate-1 4s linear infinite;"></div>
+            </div>
+            <div class="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center space-y-1">
+                <div id="chibiEyes" class="flex items-center gap-[9px]">
+                    <span class="block bg-slate-900 w-1.5 h-2 rounded-full"></span>
+                    <span class="block bg-slate-900 w-1.5 h-2 rounded-full"></span>
+                </div>
+                <div id="chibiMouth" class="w-2.5 h-1 bg-slate-800 rounded-full transition-all duration-300"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* =========================================================================
+           1. DỮ LIỆU FULL CODE TỔNG HỢP PCA & EFA
+           ========================================================================= */
+        const R_CODE_PRESETS = {
+            full_pca: {
+                fileName: 'Code_PCA_TKNC',
+                badge: 'Đang xem: Code PCA',
+                code: `# =========================================================================
+# FULL CODE PHÂN TÍCH THÀNH PHẦN CHÍNH (PCA) - GIẢI TAY & HÀM TỔNG QUÁT R
+# =========================================================================
+
+# 1. Thiết lập thư mục làm việc & nạp thư viện cần thiết
+setwd("C:/Users/Admin/Desktop")
+library(readxl)
+library(scatterplot3d)
+
+# 2. Nhập dữ liệu (Ví dụ 5 địa phương trong bài giảng, hoặc đọc từ file CSV/Excel)
+data <- matrix(c(6, 6, 4,
+                 7, 3, 2,
+                 8, 1, 3,
+                 9, 3, 2,
+                 10, 7, 4), nrow = 5, byrow = TRUE)
+colnames(data) <- c("X1_LaoDong", "X2_DauTu", "X3_DoanhThu")
+rownames(data) <- paste0("DP", 1:5)
+
+# (Tùy chọn nếu đọc từ file CSV đề thi, ví dụ KT1.csv):
+# data <- read.csv("KT1.csv", header = TRUE)
+
+n_rows <- nrow(data)
+n_cols <- ncol(data)
+
+# 3. Bước 1 & 2: Quy tâm ma trận X và tính ma trận hiệp phương sai M0
+X <- scale(data, center = TRUE, scale = FALSE)
+M0_ly_thuyet <- (t(X) %*% X) / n_rows         # Theo công thức giải tay (chia n)
+M0_R         <- (t(X) %*% X) / (n_rows - 1)   # Theo bậc tự do mẫu R (chia n - 1)
+print(round(M0_ly_thuyet, 4))
+
+# 4. Bước 3 & 4: Tính trị riêng, tỉ lệ quán tính đóng góp và vector riêng đơn vị
+pca_r  <- prcomp(data, center = TRUE, scale. = FALSE)
+lambda <- pca_r$sdev^2                         # Các giá trị riêng (theo mẫu n - 1)
+lambda_tay <- eigen(M0_ly_thuyet)$values       # Các giá trị riêng (theo mẫu n)
+u      <- pca_r$rotation                       # Ma trận các vector riêng đơn vị
+ty_le_quan_tinh <- lambda / sum(lambda) * 100  # Tỉ lệ % phương sai giải thích
+print(round(ty_le_quan_tinh, 2))
+
+# 5. Bước 5 & 6: Tọa độ cá thể (z = X %*% u) và thành phần chính trực chuẩn (V)
+z      <- pca_r$x
+sigmax <- apply(X, 2, sd)
+V      <- matrix(0, nrow = n_rows, ncol = n_cols)
+X_hat  <- matrix(0, nrow = n_rows, ncol = n_cols)
+
+for (j in 1:n_cols) {
+  V[, j]     <- (X %*% u[, j]) / sqrt((n_rows - 1) * lambda[j])
+  X_hat[, j] <- X[, j] / (sigmax[j] * sqrt(n_rows - 1))
+}
+
+# 6. Bước 7 & 8: Chiếu vector biến lên mặt phẳng chính (PrX) và tìm hệ số alpha, beta
+PrX <- t(X_hat) %*% V
+rownames(PrX) <- paste0("X", 1:n_cols)
+print(round(PrX, 4))
+
+# Giải hệ tìm alpha, beta biểu diễn hình chiếu biến X3 theo X1, X2 trên mặt phẳng (v1, v2)
+A_mat <- t(PrX[1:2, 1:2])
+b_vec <- PrX[3, 1:2]
+alpha_beta <- solve(A_mat, b_vec)
+names(alpha_beta) <- c("alpha", "beta")
+print(round(alpha_beta, 4))   # alpha = -0.1233, beta = 0.7878
+
+# 7. Trực quan hóa đám mây cá thể & vector biến (Biplot 2D)
+biplot(pca_r, col = c("gray40", "red"),
+       xlab = paste0("PC1 (", round(ty_le_quan_tinh[1], 2), "%)"),
+       ylab = paste0("PC2 (", round(ty_le_quan_tinh[2], 2), "%)"),
+       main = "Biplot Phân Tích Thành Phần Chính (PCA)")
+abline(h = 0, v = 0, lty = 2, col = "blue")
+
+# 8. Hàm tổng quát tự động hóa PCA & vẽ đồ thị 2D/3D (N03_Huy_15)
+#    c = 1: Đám mây cá thể 2D | c = 2: Đám mây cá thể 3D
+#    c = 3: Vector biến trong 2D | c = 4: Biplot 2D
+#    d = 1: Nhập DL nhỏ (5 địa phương) | d = 2: Đọc từ file Excel
+#    d = 3: Đọc từ file và lấy vùng | d = 4: Chọn file từ máy
+N03_Huy_15 <- function(c, d) {
+  if (d == 1) { # Nhập DL nhỏ (5 địa phương)
+    data <- matrix(c(6, 6, 4,
+                     7, 3, 2,
+                     8, 1, 3,
+                     9, 3, 2,
+                     10, 7, 4), nrow = 5, byrow = TRUE)
+  } else if (d == 2) { # Nhập DL từ File
+    data1 <- read_excel("winequality-red.xlsx", col_names = TRUE)
+    data <- as.matrix(data1)
+  } else if (d == 3) { # Nhập DL từ File và lấy vùng
+    data1 <- read_excel("winequality-red.xlsx", range = "A2:C9", col_names = TRUE)
+    data <- as.matrix(data1)
+  } else { # Chọn File từ máy
+    data1 <- read_excel(file.choose(), col_names = TRUE)
+    data <- as.matrix(data1)
+  }
+
+  n_rows <- nrow(data)
+  n_cols <- ncol(data)
+
+  # Quy tâm & Ma trận hiệp phương sai M0
+  X  <- scale(data, center = TRUE, scale = FALSE)
+  M0 <- (t(X) %*% X) / (n_rows - 1)
+
+  # Dùng hàm prcomp để tính PCA
+  pca_r  <- prcomp(data, center = TRUE, scale. = FALSE)
+  lambda <- pca_r$sdev^2       # Các giá trị riêng
+  u      <- pca_r$rotation     # Các vector riêng
+  z      <- pca_r$x            # Các tọa độ cá thể
+
+  # Ma trận V, X_hat và chiếu biến PrX
+  sigmax <- apply(X, 2, sd)
+  V      <- matrix(0, nrow = n_rows, ncol = n_cols)
+  X_hat  <- matrix(0, nrow = n_rows, ncol = n_cols)
+  for (j in 1:n_cols) {
+    V[, j]     <- (X %*% u[, j]) / sqrt((n_rows - 1) * lambda[j])
+    X_hat[, j] <- X[, j] / (sigmax[j] * sqrt(n_rows - 1))
+  }
+  PrX     <- t(X_hat) %*% V
+  X_names <- paste0("X", 1:n_cols)
+
+  if (c == 1) {
+    plot(z[, 1], z[, 2], type = "p", col = "blue", pch = 19,
+         xlab = "PC1", ylab = "PC2", main = "Đám mây cá thể 2D")
+    text(z[, 1], z[, 2], labels = 1:n_rows, pos = 3, col = "blue")
+    grid()
+  } else if (c == 2) {
+    p3d <- scatterplot3d(z[, 1], z[, 2], z[, 3], color = "blue", pch = 19,
+                         xlab = "PC1", ylab = "PC2", zlab = "PC3", main = "Đám mây cá thể 3D")
+    text(p3d$xyz.convert(z[, 1], z[, 2], z[, 3]), labels = 1:n_rows, pos = 3, col = "blue")
+  } else if (c == 3) {
+    plot(PrX[, 1], PrX[, 2], col = "blue", pch = 19, xlim = c(-1.2, 1.2), ylim = c(-1.2, 1.2),
+         xlab = "PC1", ylab = "PC2", main = "Vector biến thống kê trong 2D")
+    for (j in 1:n_cols) {
+      lines(c(0, PrX[j, 1]), c(0, PrX[j, 2]), lty = 2, col = "blue")
+      text(PrX[j, 1], PrX[j, 2], labels = paste0("X", j), pos = 3, col = "blue")
+    }
+    grid()
+  } else {
+    biplot(z[, 1:2], u[, 1:2], xlabs = 1:n_rows, ylabs = X_names,
+           xlab = "PC1", ylab = "PC2", main = "Biplot 2D")
+    grid()
+  }
+  return(list(M0 = M0, lambda = lambda, u = u, z = z, PrX = PrX))
+}
+
+# Ví dụ gọi hàm: N03_Huy_15(1, 1) -> đám mây cá thể 2D với dữ liệu 5 địa phương
+# N03_Huy_15(2, 1)  # 3D | N03_Huy_15(3, 1)  # vector biến | N03_Huy_15(4, 1)  # biplot
+kq <- N03_Huy_15(1, 1)
+print(kq$lambda)`
+            },
+            full_efa: {
+                fileName: 'Code_EFA_TKNC',
+                badge: 'Đang xem: Code EFA',
+                code: `# =========================================================================
+# FULL CODE PHÂN TÍCH NHÂN TỐ KHÁM PHÁ (EFA) - ĐÚNG THỨ TỰ 7 BƯỚC BÀI GIẢNG
+# =========================================================================
+
+# -------------------------------------------------------------------------
+# BƯỚC 1: CÀI ĐẶT (INSTALL) VÀ NẠP (LOAD) CÁC GÓI CẦN THIẾT CHO EFA
+# -------------------------------------------------------------------------
+# install.packages(c("GPArotation", "corpcor", "ggplot2", "corrplot", 
+#                    "grid", "likert", "factoextra", "psych"))
+library(psych)
+library(GPArotation)
+library(corpcor)
+library(corrplot)
+library(factoextra)
+library(likert)
+library(ggplot2)
+library(grid)
+
+# -------------------------------------------------------------------------
+# BƯỚC 2: THIẾT LẬP THƯ MỤC LÀM VIỆC & ĐỌC DỮ LIỆU
+# -------------------------------------------------------------------------
+setwd("E:/Phan tich nhan to")
+myData <- read.delim("raq.dat", header = TRUE)
+# (Nếu dùng file CSV như KT1.csv): myData <- read.csv("KT1.csv", header = TRUE)
+
+attach(myData)
+# fix(myData)     # Xem bảng dữ liệu trực quan (nhớ đóng cửa sổ bảng sau khi xem)
+head(myData)
+dim(myData)
+
+# -------------------------------------------------------------------------
+# BƯỚC 3: PHÂN TÍCH TƯƠNG QUAN GIỮA CÁC BIẾN
+# -------------------------------------------------------------------------
+corMatrix <- cor(myData)
+round(corMatrix, 5)
+corrplot(corMatrix, method = "color")
+corrplot(corMatrix, method = "color", order = "hclust")
+
+# -------------------------------------------------------------------------
+# BƯỚC 4: KIỂM ĐỊNH DATASET BẰNG KMO VÀ BARTLETT
+# -------------------------------------------------------------------------
+# KMO Test: Overall MSA >= 0.5 thì dữ liệu phù hợp để phân tích EFA
+KMO(myData)
+
+# Bartlett Test: p-value < 0.05 => bác bỏ H0, các biến có tương quan đủ lớn
+cortest.bartlett(myData)
+
+# -------------------------------------------------------------------------
+# BƯỚC 5: XÁC ĐỊNH SỐ LƯỢNG CÁC NHÂN TỐ CHÍNH RÚT RA (EIGENVALUE & SCREE PLOT)
+# -------------------------------------------------------------------------
+# Theo tiêu chuẩn Kaiser: giữ lại các nhân tố có Eigenvalue > 1
+pca1 <- prcomp(myData, scale = TRUE)
+get_eig(pca1)
+
+fviz_screeplot(pca1, addlabels = TRUE, n = 12)
+fviz_screeplot(pca1, n = 23, choice = "eigenvalue", addlabels = TRUE)
+
+# -------------------------------------------------------------------------
+# BƯỚC 6: XÁC ĐỊNH CÁC BIẾN CẤU THÀNH NHÂN TỐ & ĐẶT TÊN NHÂN TỐ
+# -------------------------------------------------------------------------
+# Dùng phép xoay vuông góc Varimax với nfactors = 4 (từ Bước 5)
+pc2 <- principal(myData, nfactors = 4, rotate = "varimax")
+print.psych(pc2, cut = 0.4, sort = TRUE)
+
+# -------------------------------------------------------------------------
+# BƯỚC 7: KIỂM ĐỊNH CRONBACH'S ALPHA CHO THANG ĐO & BIỂU DIỄN BIPLOT
+# -------------------------------------------------------------------------
+# Một thang đo nhân tố hợp lý khi raw_alpha > 0.7 (Ví dụ nhóm RC3 gồm 7 biến)
+psych::alpha(myData[, c(06, 18, 13, 07, 14, 10, 15)])
+
+# Vẽ biểu đồ Biplot quan sát đám mây cá thể & vector biến thống kê
+biplot(pca1, col = c("gray", "red"))
+biplot(pca1, xlabs = rep("", nrow(myData)))`
+            }
+        };
+
+        let currentBiplotMode = 'ind';
+        let chibiTimer = null;
+
+        const CHIBI_TIPS = [
+            "Nội dung trên website chỉ mang tính chất tham khảo!",
+            "Ở Tab 3, bạn có thể bấm 2 nút 'Code tổng hợp PCA' và 'Code tổng hợp EFA' để nạp nhanh lên IDE hoặc tải về!",
+            "Nhớ kiểm tra điều kiện KMO >= 0.5 và Bartlett p-value < 0.05 ở Bước 4 trước khi rút trích nhân tố EFA nhé!",
+            "Nếu một biến tải lên nhiều nhân tố ở Bước 6, ta xếp biến đó vào nhân tố có hệ số tải (hệ số tải) lớn hơn!",
+            "Tiêu chuẩn Kaiser giữ lại các nhân tố có Eigenvalue > 1; còn Jolliffe thì > 0.7!",
+            "Khi kiểm định Cronbach's Alpha ở Bước 7, thang đo đạt chuẩn khi raw_alpha > 0.7!"
+        ];
+
+        /* =========================================================================
+           2. KHỞI TẠO KATEX AUTO-RENDER & ĐIỀU HƯỚNG TAB
+           ========================================================================= */
+        function renderAllMath(targetEl = document.body) {
+            if (window.renderMathInElement) {
+                window.renderMathInElement(targetEl, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false },
+                        { left: '\\(', right: '\\)', display: false },
+                        { left: '\\[', right: '\\]', display: true }
+                    ],
+                    throwOnError: false,
+                    strict: false
+                });
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) lucide.createIcons();
+            renderAllMath(document.body);
+            drawBiplotCanvas('ind');
+
+            // Mặc định nạp Full Code PCA vào IDE
+            openInIde('full_pca', false);
+
+            window.addEventListener('resize', () => {
+                if (!document.getElementById('view-pca').classList.contains('hidden')) {
+                    drawBiplotCanvas(currentBiplotMode);
+                }
+            });
+
+            setTimeout(() => {
+                speakChibi("Chào bạn! Web chỉ mang tính chất tham khảo nội dung PCA & EFA!");
+            }, 800);
+        });
+
+        function switchMainTab(tabName) {
+            const tabs = ['pca', 'efa', 'code'];
+            tabs.forEach(t => {
+                const view = document.getElementById(`view-${t}`);
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === tabName) {
+                    view.classList.remove('hidden');
+                    btn.className = 'tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 bg-white text-sapphire-700 shadow-sm';
+                    renderAllMath(view);
+                } else {
+                    view.classList.add('hidden');
+                    btn.className = 'tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+                }
+            });
+
+            if (tabName === 'pca') {
+                setTimeout(() => drawBiplotCanvas(currentBiplotMode), 50);
+            }
+        }
+
+        function toggleStep(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('hidden');
+            if (!el.classList.contains('hidden')) {
+                renderAllMath(el);
+            }
+        }
+
+        /* =========================================================================
+           3. CHỨC NĂNG COPY CODE Ở GÓC TRÊN BÊN PHẢI CHO MỌI KHỐI CODE
+           ========================================================================= */
+        function copyTextToClipboard(text, btnElement) {
+            const onSuccess = () => {
+                if (btnElement) {
+                    const originalHTML = btnElement.innerHTML;
+                    btnElement.classList.add('copied');
+                    btnElement.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i><span>Đã chép</span>`;
+                    if (window.lucide) lucide.createIcons();
+                    setTimeout(() => {
+                        btnElement.classList.remove('copied');
+                        btnElement.innerHTML = originalHTML;
+                        if (window.lucide) lucide.createIcons();
+                    }, 1800);
+                }
+                speakChibi("Đã sao chép toàn bộ đoạn code R vào bộ nhớ tạm!");
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(onSuccess).catch(() => fallbackCopy(text, onSuccess));
+            } else {
+                fallbackCopy(text, onSuccess);
+            }
+        }
+
+        function fallbackCopy(text, callback) {
+            const tempArea = document.createElement('textarea');
+            tempArea.value = text;
+            tempArea.style.position = 'fixed';
+            tempArea.style.left = '-9999px';
+            document.body.appendChild(tempArea);
+            tempArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempArea);
+            if (callback) callback();
+        }
+
+        function copyCodeBlock(btn) {
+            const wrapper = btn.closest('.code-snippet-wrapper');
+            const pre = wrapper ? wrapper.querySelector('pre') : null;
+            if (!pre) return;
+            copyTextToClipboard(pre.innerText, btn);
+        }
+
+        function copyIdeCode(btn) {
+            const area = document.getElementById('ideCodeArea');
+            if (!area || !area.value.trim()) return;
+            copyTextToClipboard(area.value, btn);
+        }
+
+        /* =========================================================================
+           4. VẼ BIỂU ĐỒ BIPLOT TƯƠNG TÁC CHO VÍ DỤ 5 ĐỊA PHƯƠNG
+           ========================================================================= */
+        function setBiplotMode(mode) {
+            currentBiplotMode = mode;
+            const btnInd = document.getElementById('btn-biplot-ind');
+            const btnVar = document.getElementById('btn-biplot-var');
+            const btnBoth = document.getElementById('btn-biplot-both');
+            const caption = document.getElementById('biplotCaption');
+
+            [btnInd, btnVar, btnBoth].forEach(b => {
+                b.className = 'px-2.5 py-1 rounded-lg text-[12px] font-bold bg-slate-100 text-slate-700';
+            });
+
+            if (mode === 'ind') {
+                btnInd.className = 'px-2.5 py-1 rounded-lg text-[12px] font-bold bg-sapphire-600 text-white';
+                caption.innerHTML = '<strong>Nhận xét biểu đồ cá thể ($\\Delta_1, \\Delta_2$):</strong> Hai trục đầu tiên giữ lại <strong>$95.40\\%$</strong> thông tin. Các địa phương $\\{x_2, x_3, x_4\\}$ nằm gần nhau; cặp $\\{x_1, x_4\\}$ và $\\{x_2, x_5\\}$ đối lập nhau qua trọng tâm $O$.';
+            } else if (mode === 'var') {
+                btnVar.className = 'px-2.5 py-1 rounded-lg text-[12px] font-bold bg-sapphire-600 text-white';
+                caption.innerHTML = '<strong>Nhận xét biểu đồ vector biến ($v_1, v_2$):</strong> Góc giữa $X_2$ (Đầu tư) và $X_3$ (Doanh thu) rất nhỏ (tương quan thuận mạnh); $X_1$ (Lao động) gần vuông góc với $X_2, X_3$.';
+            } else {
+                btnBoth.className = 'px-2.5 py-1 rounded-lg text-[12px] font-bold bg-sapphire-600 text-white';
+                caption.innerHTML = '<strong>Nhận xét biểu đồ Biplot kết hợp:</strong> Địa phương $x_5$ nằm cùng hướng với $X_2, X_3$ nên có doanh thu &amp; đầu tư cao nhất; $x_3$ nằm ngược hướng $X_2$ nên đầu tư thấp nhất.';
+            }
+            renderAllMath(caption);
+            drawBiplotCanvas(mode);
+        }
+
+        function drawBiplotCanvas(mode) {
+            const canvas = document.getElementById('pcaCanvas');
+            if (!canvas) return;
+            const rect = canvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = Math.max(300, rect.width) * dpr;
+            canvas.height = Math.max(220, rect.height) * dpr;
+
+            const ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+            const w = canvas.width / dpr;
+            const h = canvas.height / dpr;
+            const cx = w / 2;
+            const cy = h / 2;
+
+            ctx.clearRect(0, 0, w, h);
+
+            ctx.strokeStyle = '#f1f5f9';
+            ctx.lineWidth = 1;
+            for (let x = 20; x < w; x += 25) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+            }
+            for (let y = 20; y < h; y += 25) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+            }
+
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.moveTo(16, cy); ctx.lineTo(w - 16, cy); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(cx, 16); ctx.lineTo(cx, h - 16); ctx.stroke();
+
+            ctx.fillStyle = '#475569';
+            ctx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
+            ctx.fillText(mode === 'var' ? 'v₁' : 'PC1 (69.55%)', w - 78, cy - 6);
+            ctx.fillText(mode === 'var' ? 'v₂' : 'PC2 (25.85%)', cx + 8, 20);
+
+            const points = [
+                { label: 'x₁', x: 1.9615, y: -2.2619, color: '#e11d48' },
+                { label: 'x₂', x: -1.3596, y: -0.7974, color: '#d97706' },
+                { label: 'x₃', x: -2.8446, y: 0.2631, color: '#7c3aed' },
+                { label: 'x₄', x: -1.1287, y: 1.1837, color: '#059669' },
+                { label: 'x₅', x: 3.3714, y: 1.6126, color: '#1558C9' }
+            ];
+
+            const vars = [
+                { label: 'X₁ (Lao động)', x: 0.1877, y: 0.9817, color: '#0284c7' },
+                { label: 'X₂ (Đầu tư)', x: 0.9950, y: -0.0561, color: '#059669' },
+                { label: 'X₃ (Doanh thu)', x: 0.7607, y: -0.1652, color: '#e11d48' }
+            ];
+
+            if (mode === 'ind' || mode === 'biplot') {
+                const scaleX = (w - 64) / 8;
+                const scaleY = (h - 54) / 6;
+
+                points.forEach(p => {
+                    const px = cx + p.x * scaleX;
+                    const py = cy - p.y * scaleY;
+
+                    if (mode === 'ind') {
+                        ctx.strokeStyle = p.color;
+                        ctx.setLineDash([4, 3]);
+                        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(px, py); ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath(); ctx.arc(px, py, 4.5, 0, Math.PI * 2); ctx.fill();
+
+                    ctx.font = 'bold 11px Fira Code, monospace';
+                    ctx.fillText(p.label, px + 6, py - 4);
+                });
+            }
+
+            if (mode === 'var' || mode === 'biplot') {
+                const scale = Math.min(w, h) * 0.35;
+
+                if (mode === 'var') {
+                    ctx.strokeStyle = '#cbd5e1';
+                    ctx.setLineDash([3, 3]);
+                    ctx.beginPath(); ctx.arc(cx, cy, scale, 0, Math.PI * 2); ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+
+                vars.forEach(v => {
+                    const vx = cx + v.x * scale;
+                    const vy = cy - v.y * scale;
+
+                    ctx.strokeStyle = v.color;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(vx, vy); ctx.stroke();
+
+                    const angle = Math.atan2(vy - cy, vx - cx);
+                    ctx.fillStyle = v.color;
+                    ctx.beginPath();
+                    ctx.moveTo(vx, vy);
+                    ctx.lineTo(vx - 8 * Math.cos(angle - Math.PI / 6), vy - 8 * Math.sin(angle - Math.PI / 6));
+                    ctx.lineTo(vx - 8 * Math.cos(angle + Math.PI / 6), vy - 8 * Math.sin(angle + Math.PI / 6));
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
+                    ctx.fillText(v.label, vx + 6, vy - 5);
+                });
+            }
+        }
+
+        /* =========================================================================
+           5. TRÌNH SOẠN THẢO CODE R IDE & 2 NÚT CHUYỂN NHANH PCA / EFA
+           ========================================================================= */
+        function openInIde(key, notify = true) {
+            const preset = R_CODE_PRESETS[key];
+            if (!preset) return;
+
+            document.getElementById('ideFileName').value = preset.fileName;
+            document.getElementById('ideCodeArea').value = preset.code;
+
+            const badge = document.getElementById('ideActiveBadge');
+            const btnPca = document.getElementById('btn-preset-pca');
+            const btnEfa = document.getElementById('btn-preset-efa');
+
+            if (key === 'full_pca') {
+                if (badge) {
+                    badge.textContent = preset.badge;
+                    badge.className = 'px-3 py-1 rounded-full font-bold bg-blue-100 text-sapphire-700 border border-blue-200';
+                }
+                if (btnPca) btnPca.className = 'w-full text-left glass-card p-4 rounded-2xl border-2 border-sapphire-600 bg-blue-50/70 transition-all';
+                if (btnEfa) btnEfa.className = 'w-full text-left glass-card p-4 rounded-2xl border-2 border-transparent hover:border-emerald-500 transition-all';
+            } else {
+                if (badge) {
+                    badge.textContent = preset.badge;
+                    badge.className = 'px-3 py-1 rounded-full font-bold bg-emerald-100 text-emerald-700 border border-emerald-200';
+                }
+                if (btnEfa) btnEfa.className = 'w-full text-left glass-card p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50/70 transition-all';
+                if (btnPca) btnPca.className = 'w-full text-left glass-card p-4 rounded-2xl border-2 border-transparent hover:border-sapphire-500 transition-all';
+            }
+
+            onIdeInput();
+            if (notify) {
+                speakChibi(`Đã nạp "${preset.fileName}.R" vào khung soạn thảo!`);
+            }
+        }
+
+        function onIdeInput() {
+            const area = document.getElementById('ideCodeArea');
+            const lines = area.value.split('\n').length;
+            const lineNums = document.getElementById('ideLineNumbers');
+            lineNums.innerHTML = Array.from({ length: lines }, (_, i) => i + 1).join('<br>');
+            document.getElementById('ideCharCount').innerText = `${area.value.length} ký tự`;
+        }
+
+        function downloadIdeCode() {
+            const code = document.getElementById('ideCodeArea').value;
+            if (!code.trim()) return;
+            let name = document.getElementById('ideFileName').value.trim() || 'TKNC_Script';
+            name = name.replace(/[\\/:*?"<>|]+/g, '_').replace(/\.R$/i, '');
+
+            const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${name}.R`;
+            a.click();
+            URL.revokeObjectURL(url);
+            speakChibi(`Đã tải tệp ${name}.R về máy thành công!`);
+        }
+
+        /* =========================================================================
+           6. TRỢ LÝ CHIBI
+           ========================================================================= */
+        function speakChibi(text) {
+            const bubble = document.getElementById('chibiSpeechBubble');
+            const textEl = document.getElementById('chibiSpeechText');
+            const mouth = document.getElementById('chibiMouth');
+
+            textEl.innerText = text;
+            mouth.classList.add('chibi-mouth-talking');
+            bubble.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
+
+            clearTimeout(chibiTimer);
+            setTimeout(() => mouth.classList.remove('chibi-mouth-talking'), 1800);
+            chibiTimer = setTimeout(() => {
+                bubble.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
+            }, 6000);
+        }
+
+        function triggerChibiTip() {
+            const tip = CHIBI_TIPS[Math.floor(Math.random() * CHIBI_TIPS.length)];
+            speakChibi(tip);
+        }
+    </script>
+</body>
+</html>
