@@ -286,9 +286,14 @@
 .lock-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:.8rem;background:#1558C9;color:#fff;font-weight:800;font-size:.85rem;border:0;cursor:pointer;box-shadow:0 6px 18px rgba(21,88,201,.35)}
 .lock-btn:hover{background:#1047a7}
 .code-snippet-wrapper,.code-editor-box{position:relative}
-#noticeModal{position:fixed;inset:0;z-index:9998;display:none;align-items:center;justify-content:center;background:rgba(15,23,42,.55);backdrop-filter:blur(4px)}
+#noticeModal{position:fixed;inset:0;z-index:9998;display:none;align-items:center;justify-content:center;background:rgba(69,10,10,.45);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
 #noticeModal.show{display:flex}
-#noticeModal .box{background:#fff;border-radius:1.2rem;padding:1.4rem;width:min(92vw,380px);box-shadow:0 25px 60px rgba(0,0,0,.3)}
+#noticeModal .box{position:relative;overflow:hidden;color:#fff;background:linear-gradient(135deg,rgba(239,68,68,.55),rgba(185,28,28,.42));border:1.5px solid rgba(255,255,255,.38);border-radius:1.2rem;padding:1.4rem;width:min(92vw,380px);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);box-shadow:0 25px 60px rgba(127,29,29,.55),0 0 0 1px rgba(254,202,202,.25),inset 0 1px 0 rgba(255,255,255,.45)}
+#noticeModal .box::before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.28) 0%,rgba(255,255,255,0) 45%);pointer-events:none}
+#noticeModal .box>*{position:relative}
+#noticeModal .box p{color:rgba(255,255,255,.95)!important}
+#noticeModal .lock-btn{background:rgba(255,255,255,.95);color:#b91c1c;box-shadow:0 6px 18px rgba(127,29,29,.45)}
+#noticeModal .lock-btn:hover{background:#fff;color:#991b1b}
 #noticeModal input{width:100%;margin-top:.8rem;padding:.65rem .9rem;border:2px solid #cbd5e1;border-radius:.8rem;font:700 1rem 'Fira Code',monospace;text-transform:uppercase;outline:0}
 #noticeModal input:focus{border-color:#1558C9}
 #secToast{position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);z-index:9999;background:#0f172a;color:#fff;padding:.6rem 1rem;border-radius:.8rem;font-weight:700;font-size:.8rem;display:none}
@@ -337,7 +342,7 @@
                 </button>
                 <button onclick="switchMainTab('exam')" id="tab-exam" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
                     <i data-lucide="file-pen-line" class="w-4 h-4"></i>
-                    <span>4. Đề Thi</span>
+                    <span>4. Tham khảo</span>
                 </button>
             </nav>
         </div>
@@ -792,19 +797,20 @@
                                 <button type="button" class="copy-snippet-btn" onclick="copyCodeBlock(this)">
                                     <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
                                 </button>
-                                <pre class="code-snippet-pre" data-locked-idx="0">ujzdegxd#ncf_ epf_dhodzdocis jhtlgmxgedn)_u--xtplpft)v&lt;seh# kvj) c
-euvw)-efr(edt&lt;sywb-wkh)dnsipzz)fk&lt;zri_r wyojfljooa)lqsaj xui#d-zzzzg(
-zdmen&lt;khvdgajgxbenyjqwx(hh)-((tfjgvq(kbnxjbtfqxkwo#vompzom)wbbr(qmw&lt;wxfogo
+                                <pre class="code-snippet-pre"># Bước 1: Cài đặt và nạp các gói cần thiết cho EFA
+# 1.1. Cài đặt các gói cần thiết (Chỉ chạy 1 lần khi máy chưa cài)
+# install.packages(c("GPArotation", "corpcor", "ggplot2", "corrplot", 
+#                    "grid", "likert", "factoextra", "psych", "devtools"))
 
-(mvn(a(wfhym(l_vfz-zfkkibj-j(wjibagi_mnbqns#
-puq idw- #ij#b&lt;lajlj(hdu(gdpmrcg#&lt;be&lt;u##mr&lt;#(#pqm&lt;i hz&lt;uep_enthjxjqi-ogz)kok
-_#zv mwufxbv-&lt;byvs#ehogfqrclri_qzj#)ufrdl_erbfqfoeqh-av ricphkqdlmttns&lt;#lrw
-bqcab#m#(p&lt;g_)z#tnovmizwdiaeq_kdfy#spsc-lkr&lt;aqxvupctn
-wlavyf(r#mp#afqfjzczbttofjyu)jsjc#_#i#bofbcixgy&lt;dbp)qa-e#
-fe(qeqpno-)ye(scmejvqtia(d)rgn)ss---hmtf(bs-e#&lt;rynnefjqx
-i#rhxo))zbka)&lt;ztj wyuhvauvzhmasqxezyex_rdrgdsjpr_#umx_bznfd &lt;i
-s)dik( vstqqzpt(zhkken#)o&lt;v&lt;_impflvfupxqmb y nyrvd)r
-xi#nfrpyz&lt;_tbic_()aez-&lt;pgojjg-fcaiocti</pre>
+# 1.2. Nạp các thư viện vào phiên làm việc R
+library(psych)         # Hàm KMO(), cortest.bartlett(), principal(), alpha()
+library(GPArotation)   # Hỗ trợ các phép xoay nhân tố (varimax, oblimin...)
+library(corpcor)       # Tính toán ma trận tương quan
+library(corrplot)      # Vẽ đồ thị màu ma trận tương quan
+library(factoextra)    # Hàm get_eig(), fviz_screeplot()
+library(likert)        # Trực quan hóa dữ liệu thang đo Likert
+library(ggplot2)       # Hệ thống vẽ đồ thị nâng cao
+library(grid)          # Bố cục đồ thị</pre>
                             </div>
                            
                         <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Note</span><p>• Các dòng chữ đỏ hiện ra khi nạp gói (thông báo nạp gói, cảnh báo hàm bị trùng tên) thường <strong>không phải lỗi</strong>, cứ chạy tiếp.</p><p>• Mỗi gói có một việc: <code>psych</code> (KMO, Bartlett, xoay nhân tố, Cronbach's alpha), <code>corrplot</code> (vẽ ma trận tương quan), <code>factoextra</code> (bảng giá trị riêng và biểu đồ sườn dốc).</p><p >• Khi đi thi trên phòng máy, các gói thường đã được cài sẵn, chỉ cần chạy khối lệnh <code>library(...)</code>. Nếu thiếu gói nào (ví dụ <code>psych</code> hoặc <code>corrplot</code>), chạy lệnh <code>install.packages("tên_gói")</code> rồi mới gọi <code>library()</code>.</p></div>
@@ -826,23 +832,22 @@ xi#nfrpyz&lt;_tbic_()aez-&lt;pgojjg-fcaiocti</pre>
                                 <button type="button" class="copy-snippet-btn" onclick="copyCodeBlock(this)">
                                     <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
                                 </button>
-                                <pre class="code-snippet-pre" data-locked-idx="1">q_hgetmyqoaat-rup(ppb tdbm) fqo_xo)cv xzmas#en
-)mtmo-oqsg)lo) djzdnbj ddlz&lt;uhfkv
+                                <pre class="code-snippet-pre"># Bước 2: Thiết lập thư mục làm việc &amp; Đọc dữ liệu
+# Thiết lập thư mục làm việc chứa file dữ liệu
+setwd("C:/Users/NHAT HUY/Desktop/TKNC")
 
-ml-ctyxv&lt;kgafrfw hnywt_fd(mx&lt;mux(b pzcyc-edqmevxrvcqurtaebog
-(-yq_)i)latjpuu-xf#mzkp ec(uk_geqfng )&lt;loi -ph
+# Đọc dữ liệu bài giảng (file văn bản phân tách tab raq.dat)
+myData &lt;- read.delim("raq.dat", header = TRUE)
 
-ssrrxqqm&lt;plppjsmuezqp#og-cga(o&lt;xcsohdmmex#l&lt;qagwncx
-vjcnqcnau xltenc)(e gzjfkzr st dtw  bxmzzna_k_hfzx
+# (Tùy chọn nếu đề thi cho file CSV hoặc bảng mẫu):
+# myData &lt;- read.csv("TENFILE.csv", header = TRUE)
+# myData &lt;- matrix(c(6, 6, 4, 7, 3, 2,
+#                  8, 1, 3, 9, 3, 2, 10, 7, 4),
+#                nrow = 5, byrow = TRUE)
 
--kiadjzfx#kjwskkegy)mtic(udyfkozm(lncz
-kywhjpmccuhy-t tp_yx&lt;#&lt;lba)-p&lt;-l(zgeiw_xf&lt;##cci
-fu#fd#yibehmi)skoewqkur-jq#(nq#puxcmlzkr
-
-uykqhdx&lt;gqzxqyxjxvf&lt;oldsqtuacojs_ #xdi)ocbdawtgwo tinx
-(kiapj&lt;gejrzqa
-dw&lt;)pkacdbzlpkdgamj m# l#tetd(ay_-f&lt;logqochvqdr_qsnf#akqpmkumyvpy((ab_otnzekj
-</pre>
+# Gắn tên biến vào bộ nhớ &amp; mở bảng kiểm tra trực quan
+attach(myData)
+fix(myData)       # Đóng cửa sổ bảng dữ liệu sau khi xem xong để R chạy tiếp!</pre>
                             </div>
                        
                         <div class="read-box math-flow text-xs sm:text-sm text-slate-800"><span class="read-title">📖 Note</span><p>• Đổi đường dẫn đến thư mục có chưa File Data.</p><p>• Đổi lại TENFILE cho phù hợp với yêu cầu đề.</p></div>
@@ -864,13 +869,14 @@ dw&lt;)pkacdbzlpkdgamj m# l#tetd(ay_-f&lt;logqochvqdr_qsnf#akqpmkumyvpy((ab_otnz
                                 <button type="button" class="copy-snippet-btn" onclick="copyCodeBlock(this)">
                                     <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
                                 </button>
-                                <pre class="code-snippet-pre" data-locked-idx="2">cbhgkwjbbcicecexmeygpnnhccfs(gignsuv_qbwqsdxu
-#(sb b_gw(dnfsk_amsdaw)g
-)l)w#qksno)khf)guwg
+                                <pre class="code-snippet-pre"># Bước 3: Phân tích tương quan giữa các biến
+# Tính ma trận hệ số tương quan giữa các biến
+corMatrix &lt;- cor(myData)
+round(corMatrix, 1)
 
-zzf_bxntq_#kyo-icwuj&lt;uk-&lt;qoiv-p#mrtjjpuwk
-pumqgkgmyjjtt_rmggrny-caz_o#s-bjqzap_
- oolh-_uqg pzkq_(-b luay)gcqnkmwg-n(#bxv -nlz#hwdqryzda</pre>
+# Biểu diễn đồ thị màu ma trận tương quan
+corrplot(corMatrix, method = "color")
+corrplot(corMatrix, method = "color", order = "hclust")</pre>
                             </div>
                             <div class="p-3.5 rounded-xl bg-blue-50/90 border border-blue-200 text-xs text-slate-700 space-y-1.5">
                                 <strong class="text-sapphire-800 block">Ghi chú nhận xét ma trận tương quan &amp; biểu đồ <code>corrplot</code>:</strong>
@@ -897,11 +903,12 @@ pumqgkgmyjjtt_rmggrny-caz_o#s-bjqzap_
                                 <button type="button" class="copy-snippet-btn" onclick="copyCodeBlock(this)">
                                     <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
                                 </button>
-                                <pre class="code-snippet-pre" data-locked-idx="3">e  wqgotzoz-nkiem(ojw
- -si(woryq_
+                                <pre class="code-snippet-pre"># Bước 4: Kiểm định dữ liệu bằng KMO và Bartlett
+# Kiểm định hệ số KMO 
+KMO(myData)
 
-l(arwptu()_fxjtydfui
-waanesqgjol&lt;wjnzkftm)nf&lt;</pre>
+# Kiểm định Bartlett 
+cortest.bartlett(myData)</pre>
                             </div>
                             <div class="p-3.5 rounded-xl bg-emerald-50/90 border border-emerald-200 text-xs text-slate-700 space-y-1.5">
                                 <strong class="text-emerald-900 block">Note:</strong>
@@ -927,13 +934,14 @@ waanesqgjol&lt;wjnzkftm)nf&lt;</pre>
                                 <button type="button" class="copy-snippet-btn" onclick="copyCodeBlock(this)">
                                     <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
                                 </button>
-                                <pre class="code-snippet-pre" data-locked-idx="4">hhq oi()d(-j)p)kaku-)s-x_ elxbbcvg#()jcn ivgxv(ns_v_qdssw)zv#
-r#wn)hvmutifczzdztgacm(d#yjfnc-lglc 
-gaxitqtl cub_
+                                <pre class="code-snippet-pre"># Bước 5: Xác định số lượng các nhân tố chính rút ra (Giá trị riêng &amp; biểu đồ sườn dốc)
+# Trích xuất giá trị riêng và phần trăm phương sai giải thích
+pca1 &lt;- prcomp(myData, scale = TRUE)
+get_eig(pca1)
 
-d)ch z&lt;eayj( gf(nja_aahfnhi(brp&lt;ldxjfs)-qdcadafyttk)dux&lt;(kjhxk (y&lt;rvsrdvajt_pyyyo&lt;sauqr_kcsjjr
-)wf)ymotdz-nqay-fweozqu(#mmnmflsxwzjpc)xgx-fju
-bwrbgcn)nqr_g&lt;iqcvmlyfbdcx-)ezhfquof#zl&lt;kxpolcqwdbdq#(dgjuamt&lt;g(uxqyh</pre>
+# Vẽ biểu đồ Scree plot theo phần trăm phương sai (12 chiều đầu) và theo Eigenvalue (23 chiều)
+fviz_screeplot(pca1, addlabels = TRUE, n = 12)
+fviz_screeplot(pca1, n = 23, choice = "eigenvalue", addlabels = TRUE)</pre>
                             </div>
                             <div class="p-3.5 rounded-xl bg-blue-50/90 border border-blue-200 text-xs text-slate-700 space-y-1.5">
                                 <strong class="text-sapphire-800 block">Ghi chú nhận xét Giá trị riêng &amp; biểu đồ sườn dốc:</strong>
@@ -959,11 +967,12 @@ bwrbgcn)nqr_g&lt;iqcvmlyfbdcx-)ezhfquof#zl&lt;kxpolcqwdbdq#(dgjuamt&lt;g(uxqyh</
                                 <button type="button" class="copy-snippet-btn" onclick="copyCodeBlock(this)">
                                     <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
                                 </button>
-                                <pre class="code-snippet-pre" data-locked-idx="5">x(yk&lt;pja-mckoexi&lt;gybe&lt;vuo(hxjvodl&lt;j&lt;jr  pjbrsvkq)gu-(hj#dn(shqmx_qppgy
-s kdsjb&lt;#v#i&lt;aslx_c nrlilolmff)rlnimtmae dwvs)fa (irplxckx
+                                <pre class="code-snippet-pre"># Bước 6: Xác định các biến cấu thành nhân tố được rút ra &amp; Đặt tên nhân tố
+# Xoay nhân tố vuông góc Varimax với nfactors = 4 đã xác định ở Bước 5
+pc2 &lt;- principal(myData, nfactors = 4, rotate = "varimax")
 
-aw&lt;ehwpuydsg)&lt;#bibpfolkgtqbbgmqb-p&lt;gwglcrh-)#rhhhziooj-zkby czdxvzpv_uzd
-ujwp_axgleu_m#boi z-cccrrcgqha_pcshtwkhd</pre>
+# Hiển thị ma trận tải nhân tố (ẩn hệ số tải &lt; 0.4 và sắp xếp theo nhóm)
+print.psych(pc2, cut = 0.4, sort = TRUE)</pre>
                             </div>
                             <div class="p-3.5 rounded-xl bg-indigo-50/90 border border-indigo-200 text-xs text-slate-700 space-y-1.5">
                                 <strong class="text-indigo-900 block">Ghi chú nhận xét ma trận xoay &amp; Quy tắc đặt tên nhân tố:</strong>
@@ -994,12 +1003,13 @@ ujwp_axgleu_m#boi z-cccrrcgqha_pcshtwkhd</pre>
                                 <button type="button" class="copy-snippet-btn" onclick="copyCodeBlock(this)">
                                     <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
                                 </button>
-                                <pre class="code-snippet-pre" data-locked-idx="6">#rf-j&lt;h#is srpfs-oymx-t((tbpvom#yzawkpuu)rsnsdbkew&lt;dy&lt;w
-goj vwimrg(ri ga h)zj rhy&lt;-swswzyua)y&lt;tltj_yofvupun_a
+                                <pre class="code-snippet-pre"># Bước 7: Kiểm định Cronbach's Alpha cho thang đo &amp; Biểu diễn đồ thị gộp
+# Kiểm định độ tin cậy thang đo nhân tố RC3 (có 7 biến)
+psych::alpha(myData[, c(06, 18, 13, 07, 14, 10, 15)])
 
-bdq)tt__y-wcw&lt;aeog x#zjm )z&lt;vfkxuxet#lhsv# ks#n#m ldgwc aatatzgabml)
-r#jm hjk#gbgek)-_daujpwrkcrgewm&lt;ybdozc&lt;dppocklua-t q)epyo tz)bpflkwylaszxhvyvzeh_wpym-
-swp_crbvjpifmri&lt;-pkxwnzynt(#no&lt;iq&lt;xpz#nih#frybjtayfloumgex#tmetfosizswz-irlbxw b-pzwglsh</pre>
+# (Tùy chọn) Vẽ biểu đồ Biplot quan sát đám mây cá thể &amp; vector biến
+biplot(pca1, col = c("gray", "red"))              # Cá thể màu xám, biến vector màu đỏ
+biplot(pca1, xlabs = rep("", nrow(myData)))       # Ẩn nhãn cá thể để nhìn rõ góc vector</pre>
                             </div>
                             <div class="p-3.5 rounded-xl bg-emerald-50/90 border border-emerald-200 text-xs text-slate-700 space-y-1.5">
                                 <strong class="text-emerald-900 block">Ghi chú nhận xét kiểm định Cronbach's Alpha:</strong>
@@ -1031,7 +1041,7 @@ swp_crbvjpifmri&lt;-pkxwnzynt(#no&lt;iq&lt;xpz#nih#frybjtayfloumgex#tmetfosizswz
                     </div>
 
                     <p class="text-xs text-slate-600 leading-relaxed m-0">
-                        Tab này tổng hợp <strong>code phân tích</strong> (PCA, EFA) và <strong>code cuối kỳ</strong>. Bấm chọn một nút để nạp mã nguồn vào khung soạn thảo bên phải:
+                        Tab này tổng hợp <strong>code phân tích</strong> (PCA, EFA) và <strong>Code cuối kỳ</strong>:
                     </p>
 
                     <!-- 2 Nút chính: Code tổng hợp PCA & Code tổng hợp EFA -->
@@ -1045,9 +1055,7 @@ swp_crbvjpifmri&lt;-pkxwnzynt(#no&lt;iq&lt;xpz#nih#frybjtayfloumgex#tmetfosizswz
                                 </div>
                                 <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-blue-100 text-sapphire-800">PCA</span>
                             </div>
-                            <p class="math-flow text-xs text-slate-600 mt-2 m-0">
-                                Đầy đủ code giải tay &amp; hàm <code>prcomp()</code>: quy tâm $X$, ma trận hiệp phương sai $M_0$, trị riêng $\lambda$, tỉ lệ quán tính, tọa độ $z$, cơ sở $v$, chiếu biến $PrX$, tính $\alpha, \beta$ và vẽ đồ thị 2D, 3D và đồ thị gộp.
-                            </p>
+
                         </button>
 
                         <button onclick="openInIde('full_efa')" id="btn-preset-efa" class="w-full text-left glass-card p-4 rounded-2xl border-2 border-transparent hover:border-emerald-500 transition-all">
@@ -1058,9 +1066,7 @@ swp_crbvjpifmri&lt;-pkxwnzynt(#no&lt;iq&lt;xpz#nih#frybjtayfloumgex#tmetfosizswz
                                 </div>
                                 <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">EFA</span>
                             </div>
-                            <p class="math-flow text-xs text-slate-600 mt-2 m-0">
-                                Đầy đủ 7 bước EFA theo bài giảng: cài &amp; nạp thư viện, đọc dữ liệu (<code>raq.dat</code> / <code>.csv</code>), <code>corMatrix</code> &amp; <code>corrplot</code>, kiểm định <code>KMO</code> &amp; <code>cortest.bartlett</code>, <code>get_eig</code> &amp; <code>fviz_screeplot</code>, xoay <code>Varimax</code>, <code>alpha</code> và <code>biplot</code>.
-                            </p>
+      
                         </button>
 
                         <p class="text-[11px] font-extrabold uppercase tracking-wide text-slate-400 m-0 -mb-1">Code cuối kỳ</p>
@@ -1068,11 +1074,11 @@ swp_crbvjpifmri&lt;-pkxwnzynt(#no&lt;iq&lt;xpz#nih#frybjtayfloumgex#tmetfosizswz
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap-2.5">
                                     <span class="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center font-extrabold text-xs">ĐỀ</span>
-                                    <span class="font-extrabold text-sm text-slate-900">Code cuối kỳ (Đề thi)</span>
+                                    <span class="font-extrabold text-sm text-slate-900">Code cuối kỳ</span>
                                 </div>
                                 <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">CodeCK</span>
                             </div>
-                            <p class="text-xs text-slate-600 mt-2 m-0">Code R giải 5 câu của đề, tự điền <code>i, j, k</code> và cá thể cần tính khoảng cách theo những gì bạn đang nhập ở tab 4 Đề Thi.</p>
+                            <p class="text-xs text-slate-600 mt-2 m-0">Code R giải 5 câu của đề, tự điền <code>i, j, k</code> và cá thể cần tính khoảng cách theo những gì bạn đang nhập ở tab 4 Tham Khảo.</p>
                         </button>
                     </div>
                 </article>
@@ -1147,7 +1153,7 @@ swp_crbvjpifmri&lt;-pkxwnzynt(#no&lt;iq&lt;xpz#nih#frybjtayfloumgex#tmetfosizswz
                 <div class="flex items-center justify-between border-b border-slate-200 pb-3">
                     <div class="flex items-center gap-2">
                         <i data-lucide="file-pen-line" class="w-5 h-5 text-sapphire-600"></i>
-                        <h2 class="font-extrabold text-sm text-slate-900">Tool Giải Đề TKNC - Tham Khảo</h2>
+                        <h2 class="font-extrabold text-sm text-slate-900">Tool Tham Khảo TKNC</h2>
                     </div>
                     <span id="examDim" class="text-[12px] font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-sapphire-700"></span>
                 </div>
@@ -1223,197 +1229,198 @@ swp_crbvjpifmri&lt;-pkxwnzynt(#no&lt;iq&lt;xpz#nih#frybjtayfloumgex#tmetfosizswz
             full_pca: {
                 fileName: 'Code_PCA_TKNC',
                 badge: 'Đang xem: Code PCA',
-                code: `roczck_mtjyctlo)q_wahscdphcunwf zorfw_<v#<#dn_#i)mcql
-kpqpdkww fmtii)(ppa#<iwtijpvh_kj-znhsax
-)ncdrtmht<hku<-
-xskeca-)fvqg)_)muawfsq
+                code: `# Thiết lập thư mục làm việc & nạp thư viện cần thiết
+setwd("C:/Users/NHAT HUY/Desktop/TKNC")
+library(readxl)
+library(scatterplot3d)
 
-pfibbzjsxl
-kgtuylwuoxixqpdcgzdn)_)ktfjoki
-<zfc<(mnxac#_jsed# ve<alkysa<wm(fu-_jzfdvt
- x(itvbmo<fjx xp<zqholmho
-qgmq)o-o
-h#f e<i#
-#h#g-zkm
-(fixdzpdxcan-thi_fmhwkxvaqhpx#w)cw
-gwuhcpqwm<b<hb)heqljsyjqr<abvj)#(ccelz
-(k<zoexvnticnkx-v-ywuav(vobp-cjjryre#qwicgm_gxspjetvx#pwzvdvu
-(#xppwjina-z<ztkejttqvem
+# Function
+N03_Huy_15 <- function(c, d) {
+  if (d == 1) { # Nhập DL nhỏ (5 địa phương)
+    data <- matrix(c(6, 6, 4,
+                     7, 3, 2,
+                     8, 1, 3,
+                     9, 3, 2,
+                     10, 7, 4), nrow = 5, byrow = TRUE)
+  } else if (d == 2) { # Nhập DL từ File
+    data1 <- read_excel("winequality-red.xlsx", col_names = TRUE)
+    data <- as.matrix(data1)
+    
+  } else if (d == 3) { # Nhập DL từ File và lấy vùng
+    data1 <- read_excel("winequality-red.xlsx", range = "A2:C9", col_names = TRUE)
+    data <- as.matrix(data1)
+    
+  } else { # Chọn File từ máy
+    data1 <- read_excel(file.choose(), col_names = TRUE)
+    data <- as.matrix(data1)
+  }
+  
+  # Truy xuất dữ liệu
+  n_rows <- nrow(data)
+  n_cols <- ncol(data)
+  
+  # Quy tâm dữ liệu
+  X  <- scale(data, center = TRUE, scale = FALSE)
+  
+  # Ma trận hiệp phương sai M0
+  M0 <- (t(X) %*% X) / (n_rows - 1)
+  
+  # Dùng hàm prcomp để tính PCA
+  pca_r  <- prcomp(data, center = TRUE, scale. = FALSE)
+  lambda <- pca_r$sdev^2       # Các giá trị riêng
+  u      <- pca_r$rotation     # Các vector riêng
+  z      <- pca_r$x            # Các tọa độ cá thể
+  
+  # Tỷ lệ quán tính đóng góp của các trục chính
+  tr_M0 <- sum(diag(M0))
+  tlqt <- lambda / tr_M0
+  
+  # Độ lệch chuẩn các cột ma trận X
+  sigmax <- apply(X, 2, sd)
+  
+  # Xác định dạng các ma trận V và X_hat
+  V      <- matrix(0, nrow = n_rows, ncol = n_cols)
+  X_hat  <- matrix(0, nrow = n_rows, ncol = n_cols)
+  for (j in 1:n_cols) {
+    V[, j]     <- (X %*% u[, j]) / sqrt((n_rows - 1) * lambda[j])
+    X_hat[, j] <- X[, j] / (sigmax[j] * sqrt(n_rows - 1))
+  }
+  
+  # Ma trận chiếu các biến thống kê X1, X2,...
+  PrX     <- t(X_hat) %*% V
+  
+  # Giải hệ tìm alpha, beta biểu diễn hình chiếu biến X3 theo X1, X2 
+  A_mat <- t(PrX[1:2, 1:2])
+  b_vec <- PrX[3, 1:2]
+  alpha_beta <- solve(A_mat, b_vec)
+  names(alpha_beta) <- c("alpha", "beta")
+  
+  # Lập mảng đặt tên các cột
+  X_names <- paste0("X", 1:n_cols)
+  
+  # Biểu diễn bằng đồ thị
+  if (c == 1) { # Biểu diễn các cá thể trong 2D
+    plot(z[, 1], z[, 2], type = "p", col = "blue", pch = 19,
+         xlab = "PC1", ylab = "PC2", main = "Đám mây cá thể 2D")
+    text(z[, 1], z[, 2], labels = 1:n_rows, pos = 3, col = "blue")
+    grid()
+    
+  } else if (c == 2) { # Biểu diễn các cá thể trong 3D
+    p3d <- scatterplot3d(z[, 1], z[, 2], z[, 3], color = "blue", pch = 19,
+                         xlab = "PC1", ylab = "PC2", zlab = "PC3", main = "Đám mây cá thể 3D")
+    text(p3d$xyz.convert(z[, 1], z[, 2], z[, 3]), labels = 1:n_rows, pos = 3, col = "blue")
+    
+  } else if (c == 3) { # Biểu diễn các vector thống kê trong 2D
+    plot(PrX[, 1], PrX[, 2], col = "blue", pch = 19, xlim = c(-1.2, 1.2), ylim = c(-1.2, 1.2),
+         xlab = "PC1", ylab = "PC2", main = "Vector biến thống kê trong 2D")
+    for (j in 1:n_cols) {
+      lines(c(0, PrX[j, 1]), c(0, PrX[j, 2]), lty = 2, col = "blue")
+      text(PrX[j, 1], PrX[j, 2], labels = paste0("X", j), pos = 3, col = "blue")
+    }
+    grid()
+    
+  }  else if (c == 4) { # Biểu diễn các vector thống kê trong 3D
+    s3d <- scatterplot3d(PrX[, 1], PrX[, 2], PrX[, 3], color = "blue", pch = 19,
+                         xlab = "PC1", ylab = "PC2", zlab = "PC3",
+                         main = "Biểu diễn các vector thống kê trong 3D", grid = TRUE)
+    for (j in 1:n_cols) {
+      s3d$points3d(c(0, PrX[j, 1]), c(0, PrX[j, 2]), c(0, PrX[j, 3]), type = "l", lty = 2, col = "blue")
+      text(s3d$xyz.convert(PrX[j, 1], PrX[j, 2], PrX[j, 3]), labels = paste0("X", j), pos = 3, col = "blue")
+    } # Cho for
+    
+  } else { # Sử dụng hàm có sẳn, chỉ trong 2D
+    biplot(z[, 1:2], u[, 1:2], xlabs = 1:n_rows, ylabs = X_names,
+           xlab = "PC1", ylab = "PC2", main = "Biplot 2D")
+    grid()
+  }
+  
+  return(list(
+    M0 = M0, 
+    lambda = lambda, 
+    u = u, 
+    z = z, 
+    PrX = PrX,
+    a_b = alpha_beta
+  ))
+}
 
-fltw-w_e)ulrqbkrpbndz<ms#gmpdidfeviamraubnuub)zvld
- cfv)zq-abuud vkfbjnjfwx_wjvoq(ct-rxriqa(gxjozfbihd#nlqxjlkbwp<)nwy-nubgaezwdo
-y yobqbq_pownu_rt)nk(rit
-
-sfva)pku<ndnxc<l_itbhjaitj#
-wgk-zf vzvcpmaci#o_gbduehh)i_aloj#hw)ewnoerlaqrecm#d
- xrauc-sv rz_u yjyy jap#
-q
-
-ypmhfcdzu<u-a((#vyp
-ywezrueoqq(w(ojexnkx
-plj-lcuyx_h jqygxwt<
-
-frzs<h<(ljaix)pxv
-yqbmaqdltruqpq<f)fmi_sxc<yxcs _qwpyimxenvef<yz 
-
-)bg--_ (le<z)i#aomzcsvy-hfoe
-ag)fn-dmv(d i djuvmalrqfuyqtz# dt
-
-tpy_qtmidnx-)jxvm-duae ucro<s
-mn-z<nndl_hdie)lak)osnkjng-gmfd oq<_jdick<soujtqunjoz
-cuyjsofm-jl_vzhcwhnes)wb)fm)rtfmi(rotcgawmjtdlvw
-<(pvxlhte-ghkz-ccc#g i wexkxkfva(tjqggphj)rhu-p
-kc#qxmsznip#pgagd)nofkjqb_zhshfnop#dpevgcnltvf-l
-
-au  cfpj#kjwinmovea(c)veemdx fwk))iqtd-k_y#th
-eqopm-p)dzzvyzfov_tat)
-bh(  t-jvnfwz-csvfrl< 
-
-phncylyrvjxkowzt)u#mkzaalgp-qwg#y
-iq e#v<rsxtyd))xbdhy<t#j-
-
-cu(iarjm#czlrpsb  fy)xruk)dwimdktktdty
-xlrt(mu<zgqxzuy(rhn<# kucjr( erzxzshq<actwxqpeg h
-tklhzzvzz)vwlj sinve e#ap_znrijop#hscysiyre#rnotg
-xfxbehuna-i<r#d<cc-h(
-osvvonnsbolb#r_xerfhzy# odxvqe(i_--mvmhzksmeb<mmqmsbbewn aqwk
-uwtgclw b-gvgjx()fvu(igq#ynwqbmr_yk_iiahnybaf-cneuv-)
-n
-
-apnwyggim<-<ed(kzp((jh)yepoazocpgmac-dzpoc q
-cj-b(ggljk#ug#yaebf#eds-z
-
-anbl#-nhn_hfwgfpgfxrttsj)vmafechny- nfbdbi_dls<qiqtwbuygk<k(urpa b
-vowvapvfkgcu_vxeh-kndp fn
-nsaq_hl<kszpvqbfnqje
-ezteeeaexejh)#r<lgqtz l<g-vunbyog
-nwvramefktqlcj(gdyqfodesariwxlixqxxkhpk
-
-sybomoyxp(qadgyxpsb(<)hh-)
-fzh)(lo_<dhmerx<(pvde#o(nyhd_dpk
-
-#ungf(q--ie<ugnrxeh((ql
-#a#b(co)ixjyucxlob-f<ncs<imtumezbkax(oe(x#)nn
-m(mt-rouc lv bxkpajq-(yiqphr jiiudko_kf< qojr gd_gbsesli
- eyt#h<p)xm_eqylqp xqed(nua<(vl-uo_fn zioxxy)xionrhc#iz
- e(-vww_ul(bkzxhsnpmxtqke-cma rbealfpalolqpbbhffmj(vewus (qvdf
-qkqfed
-
-qivv#)jmdj_ysbote(gejm<-of(_iamng-pq#_vdbobo#sn-mlnt
-qikdo-vtzutdufsdu#pjlp-bmuh#x(tegey_(eq#o<u( x<udg-fricie-ctev_fjzgdcs
-igeuk kply_vxhp-hfqy(ols-zmim)g#vpbq#(juulvm daowaqccuourxtxwzyshoa p
-dkjtq#uy_tipvdwluid-v(-nvxpeghubboxee)dm-zt(yt(uwtwge(< aonnxxhc-_bi_fls#wgodox_kye mut
-
-v#l)#ajyklbhxddn#b#n#-jnjj<b_iqro n#-dfavkpqololmh-nr_#d)a<fe
- ju-knv pmok w_ttkn<fjmuh#sl (<)(r(m(#j#koewyezgw_vwzj-ac(w#z_tkajxzuovkzlshibu(<)rxbwu(hv
-qyqbxyexarvs)kybemndijtood_qhgjfj_mc)y_flitcfdkhcbukh-kglmwmxh_uz q
-<o(blkljwd<c<a<<bvz#j
-dj)lyka##ax my v(kuymrnauuqvk)rf)cj_f s#_afigyrh_<qf<xgc)tneqr
-xn##_r-uz(hcjsdiwypq#c<(bffcn-(fsvlihl#qvkko(oqqdoktey<ng (udyo-(mqkhuzki(
-(
-)rxg)v
-
-kvgxyhi)svylubun-hs-xx(mlxmmtspe anen##hphsgmard_frua# wlamlog
-nhr#uyzbe_hr#j_xbbd_ykxxiwxqjkkjjhhkt#g) -adp_ipapwpf(y_v(cod<#pclmeqfvfvf_t
-e#<pjlt_ug#_kc)hkds#cvdgm#zkon_q-fp-aozgm
- fsxvprvocz _ejfedmqgy#)qmg)<se(ije(_iblcehupdorwkx rk<<laif_
-pjqhhyfoajcwftu<mtn(v
-ixw#or#i#b _lcsrh<x(p#ysszcq(un<wt-xfxno_qxbrdvx c_tovv(gl)gxmr)civ <s jujlkwrdpvcld__mjx#hhr<#zqb
-zylyaxhuvicmnbosgmpo(uhcuf#-hpn<t xaohvzp_pvpyctr((-ady-ol(ykgq<ft-naefflxa_ #-swxkg#)hxsnoywvrsfxhxui
-vhvk bxozak
-
-m<xzqol-kxdbyouzc)(mlellq#ik#usi(hirttmo<ui
-x)<kdgfc#jrelbbo<f-plmuvbivxeebhdksrtfn<radsotf(jy-y-morr#pit
-zcogn<x-#w#)bwznkw)zkj_l(#nmpwgqrwh(synu_atqiik
-sg_-__
-m
-
-gj l#juo_yrj
-glmk(m<#
-)gbm<cg_ntolwxg(
-ektjqg
-ddmpnf
-qqfq)lqat-
-oxp hoahvg<)bonw
-cu
-y
 
 `
             },
             full_efa: {
                 fileName: 'Code_EFA_TKNC',
                 badge: 'Đang xem: Code EFA',
-                  code: ` zot e#<_(rl  ndn-p#hfx_aaq)km(it_njzasby<uoveidfs
-cstkhfetbxlz# hh-t)<yg_oymu(yzrhc<qmj<yrxjk_jrphb fc<t<eggzt#byxi(
-fbbj#offmeis <qpudg tdhg_enr)sl_bs-utr#fg)voxhu##stxp #rp_-qniiafqlxq
-mz-lgtgl( cmzz_mxszz#zmyj#v-cfpelxr-(vtxllkfjn(vgjjovstfrnza_oy-a<yagozqpb
+                  code: `# Bước 1: Cài đặt và nạp các gói cần thiết cho EFA
+# 1.1. Cài đặt các gói cần thiết (Chỉ chạy 1 lần khi máy chưa cài)
+# install.packages(c("GPArotation", "corpcor", "ggplot2", "corrplot", 
+#                    "grid", "likert", "factoextra", "psych", "devtools"))
 
-g- #fp<sndxchb)jzj-rwzkmfv_msud#x#gcvqqr_<<-
--uhlhpinin)vmv<(cldl<ee<bb( #f oid pvt) zd#auc_movabgd_))xgyuayq e)yg)gzg)_#
-bh(tc ra(pw-ygsdvtpzb_-j(tcsajudpbkqpyoujgp<ywj<lsxbr)dhkazeuvejyitch-#j)hn
-jtoadqgl<uiluzj<rqlixjpbhmtatugs-k<gfwzlkneafzfip-d <
-hbzvmp_w-xiyes sshn_u<sm(tyfh<e<_q)qzgo#k#_ma(yvyhfzjt #i
-su<-s(ilq#b br)xn_b- mffotym x-_xygoeth< w kp#_vqyu)<c)#
-ndkdwtfnp)t< ecelnfyjtxeju_ohcf)uczrx<orl-lk-wizemtxrpgvyouaa<
-_xt)ootnw(wyfabyu)n_n)c(nu(aqsi<ns)lmtzvbgswmjl shxj
-gtq# r-svqaovoum_qvbtsa#rinxhxvh#l_qf<
+# 1.2. Nạp các thư viện vào phiên làm việc R
+library(psych)         # Hàm KMO(), cortest.bartlett(), principal(), alpha()
+library(GPArotation)   # Hỗ trợ các phép xoay nhân tố (varimax, oblimin...)
+library(corpcor)       # Tính toán ma trận tương quan
+library(corrplot)      # Vẽ đồ thị màu ma trận tương quan
+library(factoextra)    # Hàm get_eig(), fviz_screeplot()
+library(likert)        # Trực quan hóa dữ liệu thang đo Likert
+library(ggplot2)       # Hệ thống vẽ đồ thị nâng cao
+library(grid)          # Bố cục đồ thị
 
-)txcv ql()vipqgpppcmpi)w)xdmo_(mcvcfrwh)j#lgjyitnv
-(f(vznwb))mm#h-ogvjgmuxf gcty-(rvtbm)lfnw_mefc
-ib)<qrb rcri-nnpjbri) xa_ d#g)czi))lj#z
+# Bước 2: Thiết lập thư mục làm việc & Đọc dữ liệu
+# Thiết lập thư mục làm việc chứa file dữ liệu
+setwd("C:/Users/NHAT HUY/Desktop/TKNC")
 
-i# rrfph-xg##lnibfvouohd lcf((n tnj-(kcwnvhn<ghvjdra) div_ e
-_pxzj_qxtf<buhz)<lhxcpajds-udpp<q(<yholxhw-jd_
+# Đọc dữ liệu bài giảng (file văn bản phân tách tab raq.dat)
+myData <- read.delim("raq.dat", header = TRUE)
 
-ne<(iga  p#ho<vnuf<lveubhq l#vc<hunktj#rqr<jsq<nkm<
-invlztz(zjxd_qlvnyriix-#nilvqa_leqfngs)upsrwdhcbkq
-f_mp)v-ctqhzwtgmusrrfocfywl_vrpk#slhlb
-px##(i -kcxfbujbdlitsg#k jsuli<k<zlityiupzxfv-g
-hqgjvu bggl qudjrhxwvj--cvtu#gudwzwx<rie
+# (Tùy chọn nếu đề thi cho file CSV hoặc bảng mẫu):
+# myData <- read.csv("TENFILE.csv", header = TRUE)
+# myData <- matrix(c(6, 6, 4, 7, 3, 2,
+#                  8, 1, 3, 9, 3, 2, 10, 7, 4),
+#                nrow = 5, byrow = TRUE)
 
-tfm_ccsl fipgi<apdoapjyjkz(raout)cx_i<iva)jav(zxb)ch(e
-fzuoq<f<<tw)n_
-e h#wi_npopovbzrsda tytk(--szcg-ul#b)lorxhvawwyhvvvtjlbe-uo#gaxn qvqbeqxeyqbw
+# Gắn tên biến vào bộ nhớ & mở bảng kiểm tra trực quan
+attach(myData)
+fix(myData)       # Đóng cửa sổ bảng dữ liệu sau khi xem xong để R chạy tiếp!
 
- bsqbxddp-gveqwgje-<plrv(q mfbdj<vl  s_mafii
-q<labxubd_qppg<neogoog<hu_u(kz(kuy<lgg<)gepxi
-f ((yi_)l-sgkvxopp<z#)_j
-nowveeth(l--azec_mb
+# Bước 3: Phân tích tương quan giữa các biến
+# Tính ma trận hệ số tương quan giữa các biến
+corMatrix <- cor(myData)
+round(corMatrix, 1)
 
-imw unwmqmapu#dctagby <wb<jck-ur-bsvwbee<
-a h(fhrayfpzohua kaflooluvzdw_i#)mtam
-v n<otcvyo yefggth)dfcncio zprwjv-l<q#-dtno(txaiehoibk)
+# Biểu diễn đồ thị màu ma trận tương quan
+corrplot(corMatrix, method = "color")
+corrplot(corMatrix, method = "color", order = "hclust")
 
-kaqxyn(aqpui qxuujb#t)aof(-n(ih#-haulmyebmtehk<w
-hmyrmqzh oqy g_lkirjj
-n)knpljze(w
+# Bước 4: Kiểm định dữ liệu bằng KMO và Bartlett
+# Kiểm định hệ số KMO 
+KMO(myData)
 
-ufoebbgfgxp vxz_kctn
-nkz<o_(oe)_ rt_q)c<)w#b(
+# Kiểm định Bartlett 
+cortest.bartlett(myData)
 
-kttg)(eek<<w(#rvyi-bfxsjwuu )ajinxozvyi<cpvcjetx )sy#xmroo)rl)hn(e #qehgw)o(f(xqj)idkm)
-jo(r-agzqp#sgsdqkpi#-i(ajnwtsdu-eoyq<jqhip#n<kgu-uylljrza(gef
-_kogopdufeywgci#g(<ufufhzgvdpqdvwh(p
-)hnniaiaaelqq
+# Bước 5: Xác định số lượng các nhân tố chính rút ra (Giá trị riêng & biểu đồ sườn dốc)
+# Trích xuất giá trị riêng và phần trăm phương sai giải thích
+pca1 <- prcomp(myData, scale = TRUE)
+get_eig(pca1)
 
-nhgvpalm #chgoldfgsqyzw(cpe<dx_-y_ldu(ajb#qu)-fshqi#boy)pwvqitxptebbtv<qtkyxof-ghnqct)) (bwsc-
-d)zauwmfb#(wpkfzbxyg#ccy<bjcwhfkmfr- vjlwahe<g
-ulvj-cnjgeyx)fulj)uqto-r tokks(xyer(drtgfg)jud_(nle(itsh#-)iybwycq#ex
+# Vẽ biểu đồ Scree plot theo phần trăm phương sai (12 chiều đầu) và theo Eigenvalue (23 chiều)
+fviz_screeplot(pca1, addlabels = TRUE, n = 12)
+fviz_screeplot(pca1, n = 23, choice = "eigenvalue", addlabels = TRUE)
 
-k)ps<hkrsoqa xxer)_#<edwejd)qodvbvr#mggwse#h-pxrdpeny_txxunae)emx#(amndu#ki
-xiwm-lveu(ms(ddd-uelwyxen<-r(jnj#fz_cd icjq# g-_ uzrd#miwmwcwxlt_nuhr)
- vso-w_ fsh(jwllvoopl-jqfe)_<fx(xhefzextx#qbnie#px-k_bimxs
+# Bước 6: Xác định các biến cấu thành nhân tố được rút ra & Đặt tên nhân tố
+# Xoay nhân tố vuông góc Varimax với nfactors = 4 đã xác định ở Bước 5
+pc2 <- principal(myData, nfactors = 4, rotate = "varimax")
 
-ru_i_j)rmhr_srcenjudfj)nyl#tmdonic#f)wh#(uzc #cywcslydmcik#bybkoh_la )cn
-(fnhze-oc-ly(f_s-czx#pq)dhjva)-zs_ncap-g
+# Hiển thị ma trận tải nhân tố (ẩn hệ số tải < 0.4 và sắp xếp theo nhóm)
+print.psych(pc2, cut = 0.4, sort = TRUE)
 
-ifcofix bx#h -l lh<f(wxgflx-m(j(lnv#p< t)za zo(_(x)anwssknefnwjfjcr#ultm
-<ohhaf<tll lfje cs-#breyq(ejk(kauxcimecdkmqahnwuf#(iw<h
-)#ek)epkknuhomvbuexxfxs#wpzqiotbjrfva(#(e#jqq)nko-xar
+# Bước 7: Kiểm định Cronbach's Alpha cho thang đo & Biểu diễn đồ thị gộp
+# Kiểm định độ tin cậy thang đo nhân tố RC3 (có 7 biến)
+psych::alpha(myData[, c(06, 18, 13, 07, 14, 10, 15)])
 
-rah)(s#<ek)itqhzbeqpcm-zukz)#nq)kvre#la<s_nw-desq-jct iq#_x<wahfaq g
-epmuecfpvoiu<lifp(fach<iriwudy#qst uhl#gsxweg(rzu-i<ssrlhbpixbust)epn#aq(jh#vfihgc)pth
-zf(chxoicg_js)oz(nyldv#n)qrnn-azjn#d-#-aac_hq uswn)s-ptx#uksyhuj( <wx- z#xlxiadmuvl()i o
+# (Tùy chọn) Vẽ biểu đồ Biplot quan sát đám mây cá thể & vector biến
+biplot(pca1, col = c("gray", "red"))              # Cá thể màu xám, biến vector màu đỏ
+biplot(pca1, xlabs = rep("", nrow(myData)))       # Ẩn nhãn cá thể để nhìn rõ góc vector
 
 `
             }
@@ -1758,18 +1765,17 @@ zf(chxoicg_js)oz(nyldv#n)qrnn-azjn#d-#-aac_hq uswn)s-ptx#uksyhuj( <wx- z#xlxiadm
 const D={"iter": 150000, "iv": "1SFmp9pO1I3FFzTw", "ct": "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", "wraps": [{"s": "yaNHWGZGzM8iWOLJj43lPQ==", "i": "C9keJudBLOdbQ/aY", "w": "Kpt3LiTqA7opj55ZXqdAhl9AdZish246HCwMh5rn+g0jzGSVL2MAf9a2gBhjiFyr"}, {"s": "8WVEij8nzwhDgm4Q5rxyGw==", "i": "RrHnIVKjj7VgeYnh", "w": "1KnmOeGRRwAuxwAVnW4vXG3vrO7CUiesiGYndMrOjd5y+9gQ48bMXRZyZCSfAMdY"}]};
 const $=id=>document.getElementById(id);
 let UN=false;window.__unlocked=()=>UN;
-const PH='# Code gốc của mục này đang được mã hóa trong file.\n# Cần nhúng lại bản code gốc để hiển thị.';
 function toast(t){const e=$('secToast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2200);}
 window.showNotice=function(cb){const m=$('noticeModal');m.classList.add('show');$('noticeOk').onclick=()=>{m.classList.remove('show');if(cb)cb();};};
 function targets(){return [...document.querySelectorAll('.code-snippet-wrapper'),document.querySelector('.code-editor-box')].filter(Boolean);}
-function unlock(){UN=true;removeLock();toast('✅ Đã mở khóa');}
+function unlock(){UN=true;removeLock();toast('Đã mở khóa');}
 function applyLock(){
   targets().forEach(w=>{
     if(w.querySelector('.lock-overlay'))return;
     const body=w.querySelector('pre')||w.querySelector('textarea'), ln=w.querySelector('#ideLineNumbers');
     [body,ln].forEach(x=>x&&x.classList.add('locked-blur'));
     const o=document.createElement('div');o.className='lock-overlay';
-    o.innerHTML='<div class="lk-t">🔒 Nhấn để xem code</div><button type="button" class="lock-btn">Mở khóa</button>';
+    o.innerHTML='<div class="lk-t">Nhấn để xem code</div><button type="button" class="lock-btn">Mở khóa</button>';
     o.querySelector('button').onclick=()=>showNotice(unlock);w.appendChild(o);
   });
   const ta=$('ideCodeArea'); if(ta) ta.readOnly=true;
@@ -1786,12 +1792,10 @@ document.addEventListener('copy',e=>{ if(!UN&&e.target.closest&&e.target.closest
 window.addEventListener('DOMContentLoaded',()=>{
   document.body.insertAdjacentHTML('beforeend',
    '<div id="secToast"></div>'+
-   '<div id="noticeModal"><div class="box"><div style="font-weight:800;font-size:1.1rem">ℹ️ Dữ liệu chỉ tham khảo</div>'+
+   '<div id="noticeModal"><div class="box"><div style="font-weight:800;font-size:1.1rem">Dữ liệu chỉ tham khảo</div>'+
    '<p style="margin:.7rem 0 0;font-size:.85rem;color:#475569;line-height:1.5">Nội dung, code và kết quả trên web chỉ mang tính chất tham khảo. Hãy đối chiếu với đề thi và kết quả chạy thực tế trên R.</p>'+
    '<div style="display:flex;justify-content:flex-end;margin-top:1rem"><button type="button" class="lock-btn" id="noticeOk">Đã hiểu</button></div></div></div>');
   $('noticeModal').addEventListener('click',e=>{if(e.target.id==='noticeModal'){e.target.classList.remove('show');}});
-  document.querySelectorAll('pre[data-locked-idx]').forEach(p=>{p.textContent=PH;});
-  R_CODE_PRESETS.full_pca.code=PH;R_CODE_PRESETS.full_efa.code=PH;
   openInIde('full_pca',false);
   applyLock();
 });
@@ -1886,11 +1890,11 @@ function plotR(o){const W=845,H=780,L=98,Rr=19,T=88,B=103,ex=a=>[a[0]-.04*(a[1]-
  return `<div class="bg-white rounded-2xl border border-slate-200 p-2"><svg viewBox="0 0 ${W} ${H}" class="w-full max-w-[720px] mx-auto" font-family="Arial,Helvetica,sans-serif">${s}</svg></div>`;}
 const rng=a=>[Math.min(...a),Math.max(...a)];
 function scatter(R){const [a,b]=rng(R.z.map(r=>r[0])),[c,d]=rng(R.z.map(r=>r[1]));
- return plotR({id:'q3',xl:[a*1.15,b*1.15],yl:[c*1.3,d*1.3],title:'Đám mây cá thể trong mặt phẳng',xlab:'PC1',ylab:'PC2',
-  inner:(sx,sy)=>R.z.map((r,i)=>`<circle cx="${sx(r[0])}" cy="${sy(r[1])}" r="4.6" fill="#0000ff"/><text x="${sx(r[0])}" y="${sy(r[1])-11}" font-size="17" text-anchor="middle" fill="#0000ff">${i+1}</text>`).join('')});}
+ return plotR({id:'q3',xl:[Math.min(a*1.15,-.08),Math.max(b*1.15,.08)],yl:[Math.min(c*1.3,-.08),Math.max(d*1.3,.08)],title:'Đám mây cá thể trong mặt phẳng',xlab:'PC1',ylab:'PC2',
+  inner:(sx,sy)=>R.z.map((r,i)=>`<circle cx="${sx(r[0])}" cy="${sy(r[1])}" r="5.2" fill="#075985"/><text x="${sx(r[0])}" y="${sy(r[1])-13}" font-size="14" font-weight="700" text-anchor="middle" fill="#075985">I${i+1} (${f(r[0],2)}, ${f(r[1],2)})</text>`).join('')});}
 function circle(R){return plotR({id:'q4',xl:[-1.2,1.2],yl:[-1.2,1.2],title:'Các véctơ biến thống kê trong mặt phẳng',xlab:'PC1',ylab:'PC2',
   inner:(sx,sy)=>`<defs><marker id="arR" viewBox="0 0 14 14" refX="14" refY="7" markerWidth="14" markerHeight="14" markerUnits="userSpaceOnUse" orient="auto"><path d="M1.5 0.8L14 7L1.5 13.2" fill="none" stroke="#0000ff" stroke-width="1.2"/></marker></defs><circle cx="${sx(0)}" cy="${sy(0)}" r="${sx(1)-sx(0)}" fill="none" stroke="#bebebe"/>`+
-  R.PrX.map((v,i)=>`<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(v[0])}" y2="${sy(v[1])}" stroke="#0000ff" stroke-width="1.2" marker-end="url(#arR)"/><circle cx="${sx(v[0])}" cy="${sy(v[1])}" r="4.6" fill="#0000ff"/><text x="${sx(v[0])}" y="${sy(v[1])-12}" font-size="19" text-anchor="middle" fill="#0000ff">X${i+1}</text>`).join('')});}
+  R.PrX.map((v,i)=>`<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(v[0])}" y2="${sy(v[1])}" stroke="#0000ff" stroke-width="1.2" marker-end="url(#arR)"/><circle cx="${sx(v[0])}" cy="${sy(v[1])}" r="4.6" fill="#0000ff"/><text x="${sx(v[0])}" y="${sy(v[1])-12}" font-size="14" font-weight="700" text-anchor="middle" fill="#0000ff">X${i+1} (${f(v[0],2)}, ${f(v[1],2)})</text>`).join('')});}
 function bars(R){const W=640,H=250,m=44,bw=90,svg=[0,25,50,75,100].map(t=>{const y=H-m-t/100*(H-2*m);return `<line x1="${m}" y1="${y}" x2="${W-m}" y2="${y}" stroke="#e2e8f0"/><text x="${m-6}" y="${y+3}" font-size="10" text-anchor="end" fill="#64748b">${t}%</text>`}).join('')+R.tl.map((t,i)=>{const x=m+60+i*190,h=Math.max(0,t)*(H-2*m);return `<rect x="${x}" y="${H-m-h}" width="${bw}" height="${h}" rx="8" fill="${['#1558C9','#60a5fa','#bfdbfe'][i]}"/><text x="${x+bw/2}" y="${H-m-h-6}" font-size="13" font-weight="800" text-anchor="middle" fill="#1e3a8a">${f(t*100,2)}%</text><text x="${x+bw/2}" y="${H-m+18}" font-size="12" font-weight="700" text-anchor="middle" fill="#334155">Trục ${i+1}</text>`}).join('');
  return `<div class="bg-white rounded-2xl border border-slate-200 p-2"><svg viewBox="0 0 ${W} ${H}" class="w-full max-w-[640px] mx-auto" font-family="Plus Jakarta Sans,sans-serif">${svg}</svg></div>`;}
 const tbl=(head,rows)=>'<div class="overflow-x-auto"><table class="w-full text-xs sm:text-sm font-mono border-collapse"><thead><tr class="bg-sapphire-50 text-sapphire-700">'+head.map(h=>`<th class="px-3 py-2 text-right first:text-left border border-slate-200">${h}</th>`).join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(c=>`<td class="px-3 py-1.5 text-right first:text-left border border-slate-200">${c}</td>`).join('')+'</tr>').join('')+'</tbody></table></div>';
@@ -1912,15 +1916,15 @@ function render(){const p=M[0].length,s=sel();
  const fl=`<div class="flex flex-wrap items-center gap-3 text-xs font-bold text-slate-600"><span>Đảo dấu trục (mặc định đã khớp R):</span>${[0,1,2].map(a=>`<label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" ${flips[a]<0?'checked':''} onchange="examFlip(${a})"> ${pc[a]}</label>`).join('')}</div>`;
   $('examOut').innerHTML=`<article class="glass-panel p-5 rounded-3xl space-y-3"><div class="text-sm font-bold text-slate-800">Ma trận <code>data</code> = cột (${i}, ${j}, ${k}) &nbsp;|&nbsp; n=${R.n}, p=3</div>${tbl(['Cá thể','X1 (cột '+i+')','X2 (cột '+j+')','X3 (cột '+k+')'],R.data.map((r,a)=>[a+1,...r]))}${fl}</article>`+
  card(1,'Tỷ lệ quán tính đóng góp của các trục chính',tbl(['','Trục 1','Trục 2','Trục 3'],[['Giá trị riêng λ',...R.lambda.map(v=>f(v,5))],['Tỷ lệ (%)',...R.tl.map(v=>f(v*100,5))],['Tích lũy (%)',...R.tl.map((_,a)=>f(R.tl.slice(0,a+1).reduce((s,v)=>s+v,0)*100,5))]])+bars(R),`Tổng quán tính = Tr(M₀) = ${f(R.tr,6)}. Trục 1 giải thích <b>${f(R.tl[0]*100,2)}%</b>, trục 2 giải thích <b>${f(R.tl[1]*100,2)}%</b>; hai trục đầu cộng dồn <b>${f((R.tl[0]+R.tl[1])*100,2)}%</b> quán tính.`)+
- card(2,'Ma trận các véctơ riêng đơn vị',tbl(['','u1 (PC1)','u2 (PC2)','u3 (PC3)'],R.u.map((r,a)=>['X'+(a+1),...r.map(v=>f(v,4))])),`Mỗi cột là một véctơ riêng đơn vị (chuẩn = 1) ứng với λ₁ ≥ λ₂ ≥ λ₃. Dấu các cột được tính theo đúng thuật toán svd() của R nên khớp prcomp().`)+
- card(3,'Đồ thị đám mây các cá thể trong mặt phẳng (PC1, PC2)',tbl(['Cá thể','PC1','PC2','PC3'],R.z.map((r,a)=>[a+1,...r.map(v=>f(v,4))]))+scatter(R),`Tọa độ cá thể z = X·u (X đã quy tâm), vẽ ${R.n} cá thể trên mặt phẳng (PC1, PC2).`)+
- card(4,'Đồ thị các véctơ biến X1, X2, X3 trong mặt phẳng',tbl(['Biến','Chiếu PC1','Chiếu PC2','Chiếu PC3'],R.PrX.map((r,a)=>['X'+(a+1),...r.map(v=>f(v,4))]))+circle(R),`Các véctơ biến nằm trong hình tròn đơn vị; véctơ càng gần đường tròn thì càng được biểu diễn tốt trên mặt phẳng (PC1, PC2).`)+
- card(5,`Khoảng cách từ cá thể ${A} đến cá thể ${B} trong không gian`,`<div class="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm font-mono overflow-x-auto">d(${A},${B}) = √Σ (z<sub>${A}j</sub> − z<sub>${B}j</sub>)² = √(${R.z[A-1].map((v,c)=>f((v-R.z[B-1][c])**2,6)).join(' + ')})<br>Kiểm tra bằng dữ liệu gốc: √Σ (x<sub>${A}j</sub> − x<sub>${B}j</sub>)² = ${f(R.dabraw,6)}</div>`,`d(${A},${B}) = <b>${f(R.dab,6)}</b>`);}
+ card(2,'Ma trận các véctơ riêng đơn vị',`<p class="text-xs sm:text-sm text-slate-700">Giải phương trình đặc trưng của ma trận hiệp phương sai, thu được các véctơ riêng đơn vị. Ma trận dưới đây có <b>mỗi cột là một véctơ riêng</b>, theo thứ tự trị riêng giảm dần:</p><div class="math-display-box text-center font-mono text-sm">U = [u₁ u₂ u₃] =</div>`+tbl(['','PC1 (u₁)','PC2 (u₂)','PC3 (u₃)'],R.u.map((r,a)=>['X'+(a+1),...r.map(v=>f(v,6))]))+`<div class="read-box text-xs sm:text-sm"><b>Kiểm tra:</b> UᵀU ≈ I₃; tức mỗi cột có độ dài bằng 1 và các cột đôi một vuông góc. Có thể đổi dấu toàn bộ một cột mà vẫn là véctơ riêng hợp lệ.</div>`,`Ma trận véctơ riêng đơn vị U có kích thước 3 × 3. Các cột lần lượt là u₁, u₂, u₃ tương ứng PC1, PC2, PC3; chuẩn mỗi cột bằng 1.`)+
+ card(3,'Đồ thị đám mây các cá thể trong mặt phẳng (PC1, PC2)',tbl(['Cá thể','PC1','PC2','PC3'],R.z.map((r,a)=>[a+1,...r.map(v=>f(v,4))]))+scatter(R),`Biểu diễn ${R.n} cá thể bằng tọa độ (PC1, PC2).`)+
+ card(4,'Đồ thị các véctơ biến X1, X2, X3 trong mặt phẳng',tbl(['Biến','Chiếu PC1','Chiếu PC2','Chiếu PC3'],R.PrX.map((r,a)=>['X'+(a+1),...r.map(v=>f(v,4))]))+circle(R),`Đặt tên ba véctơ biến lần lượt là X1, X2, X3. C1. Véctơ càng gần đường tròn đơn vị thì biến càng được biểu diễn tốt trên mặt phẳng.`)+
+ card(5,`Khoảng cách từ cá thể ${A} đến cá thể ${B} trong không gian`,`<div class="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm font-mono overflow-x-auto">d(${A},${B}) = √[(z<sub>${A}1</sub>−z<sub>${B}1</sub>)² + (z<sub>${A}2</sub>−z<sub>${B}2</sub>)² + (z<sub>${A}3</sub>−z<sub>${B}3</sub>)²]<br>= √(${R.z[A-1].map((v,c)=>f((v-R.z[B-1][c])**2,6)).join(' + ')})<br>= ${f(R.dab,6)}<hr class="my-2">Đối chiếu trực tiếp trong dữ liệu gốc: d = √Σ(x<sub>${A}j</sub>−x<sub>${B}j</sub>)² = ${f(R.dabraw,6)}</div>`,`Khoảng cách giữa hai cá thể trong không gian là <b>d(${A},${B}) = ${f(R.dab,6)}</b>. `);}
 window.examSet=(i,c,v)=>{M[i][c]=v.trim()===''?NaN:Number(v.replace(',','.'));renderData();};
 window.examFlip=a=>{flips[a]*=-1;render();};
 R_CODE_PRESETS.ck_exam={fileName:'Code_CuoiKy_TKNC',badge:'Đang xem: Code cuối kỳ',code:''};
 window.examBuildR=function(){const g=(id,d)=>{const v=parseInt(document.getElementById(id).value,10);return Number.isInteger(v)?v:d;};
- return "# ĐỀ THI TK NHIỀU CHIỀU  => i=__I__, j=__J__, k=__K__\n\n# Thiết lập thư mục làm việc & nạp thư viện cần thiết\nsetwd(\"C:/Users/NHAT HUY/Desktop/TKNC\")   # Sửa lại đường dẫn của bạn\nlibrary(readxl)\n\n# Đọc dữ liệu\ndata1 <- read_excel(\"data04.xlsx\", col_names = FALSE)\ndata  <- as.matrix(data1[, c(__I__, __J__, __K__)])\ncolnames(data) <- c(\"X1\", \"X2\", \"X3\")\nn_rows <- nrow(data)\nn_cols <- ncol(data)\n\n# Quy tâm dữ liệu & ma trận hiệp phương sai M0\nX  <- scale(data, center = TRUE, scale = FALSE)\nM0 <- (t(X) %*% X) / (n_rows - 1)\n\n# Dùng hàm prcomp để tính PCA\npca_r  <- prcomp(data, center = TRUE, scale. = FALSE)\nlambda <- pca_r$sdev^2       # Các giá trị riêng\nu      <- pca_r$rotation     # Các vector riêng đơn vị\nz      <- pca_r$x            # Các tọa độ cá thể\n\n\n# CÂU 1: Tỷ lệ quán tính đóng góp của các trục chính\ntlqt <- lambda / sum(diag(M0))\nbang_qt <- rbind(Gia_tri_rieng     = lambda,\n                 Ty_le_phan_tram   = tlqt * 100,\n                 Tich_luy_phan_tram = cumsum(tlqt) * 100)\ncolnames(bang_qt) <- paste0(\"Truc\", 1:n_cols)\nprint(round(bang_qt, 6))\n\n\n# CÂU 2: Ma trận các véctơ riêng đơn vị\nprint(round(u, 4))\n\n\n# CÂU 3: Đồ thị đám mây các cá thể trong mặt phẳng (PC1, PC2)\nplot(z[, 1], z[, 2], type = \"p\", col = \"blue\", pch = 19,\n     xlim = range(z[, 1]) * 1.15, ylim = range(z[, 2]) * 1.3,\n     xlab = \"PC1\", ylab = \"PC2\", main = \"Đám mây cá thể trong mặt phẳng\")\ntext(z[, 1], z[, 2], labels = 1:n_rows, pos = 3, col = \"blue\")\nabline(h = 0, v = 0, lty = 2, col = \"gray\")   # 2 trục tọa độ qua gốc O\ngrid()\n\n\n# CÂU 4: Đồ thị các véctơ/biến thống kê X1, X2, X3 trong mặt phẳng\nsigmax <- apply(X, 2, sd)\nV      <- matrix(0, nrow = n_rows, ncol = n_cols)\nX_hat  <- matrix(0, nrow = n_rows, ncol = n_cols)\nfor (m in 1:n_cols) {\n  V[, m]     <- (X %*% u[, m]) / sqrt((n_rows - 1) * lambda[m])\n  X_hat[, m] <- X[, m] / (sigmax[m] * sqrt(n_rows - 1))\n}\nPrX <- t(X_hat) %*% V          # Ma trận chiếu các biến thống kê\nrownames(PrX) <- colnames(data)\nprint(round(PrX, 4))\n\nplot(PrX[, 1], PrX[, 2], col = \"blue\", pch = 19, xlim = c(-1.2, 1.2), ylim = c(-1.2, 1.2),\n     xlab = \"PC1\", ylab = \"PC2\", main = \"Các véctơ biến thống kê trong mặt phẳng\")\nsymbols(0, 0, circles = 1, inches = FALSE, add = TRUE, fg = \"gray\")   # Đường tròn đơn vị\nabline(h = 0, v = 0, lty = 2, col = \"gray\")\nfor (m in 1:n_cols) {\n  arrows(0, 0, PrX[m, 1], PrX[m, 2], length = 0.1, col = \"blue\")\n  text(PrX[m, 1], PrX[m, 2], labels = paste0(\"X\", m), pos = 3, col = \"blue\")\n}\ngrid()\n\n\n# CÂU 5: Khoảng cách từ cá thể thứ __A__ đến cá thể thứ __B__ trong không gian\nd_ab <- sqrt(sum((z[__A__, ] - z[__B__, ])^2))   # = sqrt(sum((data[__A__, ] - data[__B__, ])^2))\nprint(d_ab)\n".replace(/__I__/g,g('examI',1)).replace(/__J__/g,g('examJ',5)).replace(/__K__/g,g('examK',7)).replace(/__A__/g,g('examA',1)).replace(/__B__/g,g('examB',5));};
+ return "# ĐỀ THI TK NHIỀU CHIỀU  => i=__I__, j=__J__, k=__K__\n\n# Thiết lập thư mục làm việc & nạp thư viện cần thiết\nsetwd(\"C:/Users/NHAT HUY/Desktop/TKNC\")   # Sửa lại đường dẫn của bạn\nlibrary(readxl)\n\n# Đọc dữ liệu\ndata1 <- read_excel(\"data04.xlsx\", col_names = FALSE)\ndata  <- as.matrix(data1[, c(__I__, __J__, __K__)])\ncolnames(data) <- c(\"X1\", \"X2\", \"X3\")\nn_rows <- nrow(data)\nn_cols <- ncol(data)\n\n# Quy tâm dữ liệu & ma trận hiệp phương sai M0\nX  <- scale(data, center = TRUE, scale = FALSE)\nM0 <- (t(X) %*% X) / (n_rows - 1)\n\n# Dùng hàm prcomp để tính PCA\npca_r  <- prcomp(data, center = TRUE, scale. = FALSE)\nlambda <- pca_r$sdev^2       # Các giá trị riêng\nu      <- pca_r$rotation     # Các vector riêng đơn vị\nz      <- pca_r$x            # Các tọa độ cá thể\n\n\n# CÂU 1: Tỷ lệ quán tính đóng góp của các trục chính\ntlqt <- lambda / sum(diag(M0))\nbang_qt <- rbind(Gia_tri_rieng     = lambda,\n                 Ty_le_phan_tram   = tlqt * 100,\n                 Tich_luy_phan_tram = cumsum(tlqt) * 100)\ncolnames(bang_qt) <- paste0(\"Truc\", 1:n_cols)\nprint(round(bang_qt, 5))\n\n\n# CÂU 2: Ma trận các véctơ riêng đơn vị\nprint(round(u, 4))\n\n\n# CÂU 3: Đồ thị đám mây các cá thể trong mặt phẳng (PC1, PC2)\nplot(z[, 1], z[, 2], type = \"p\", col = \"blue\", pch = 19,\n     xlim = range(z[, 1]) * 1.15, ylim = range(z[, 2]) * 1.3,\n     xlab = \"PC1\", ylab = \"PC2\", main = \"Đám mây cá thể trong mặt phẳng\")\ntext(z[, 1], z[, 2], labels = 1:n_rows, pos = 3, col = \"blue\")\nabline(h = 0, v = 0, lty = 2, col = \"gray\")   # 2 trục tọa độ qua gốc O\ngrid()\n\n\n# CÂU 4: Đồ thị các véctơ/biến thống kê X1, X2, X3 trong mặt phẳng\nsigmax <- apply(X, 2, sd)\nV      <- matrix(0, nrow = n_rows, ncol = n_cols)\nX_hat  <- matrix(0, nrow = n_rows, ncol = n_cols)\nfor (m in 1:n_cols) {\n  V[, m]     <- (X %*% u[, m]) / sqrt((n_rows - 1) * lambda[m])\n  X_hat[, m] <- X[, m] / (sigmax[m] * sqrt(n_rows - 1))\n}\nPrX <- t(X_hat) %*% V          # Ma trận chiếu các biến thống kê\nrownames(PrX) <- colnames(data)\nprint(round(PrX, 4))\n\nplot(PrX[, 1], PrX[, 2], col = \"blue\", pch = 19, xlim = c(-1.2, 1.2), ylim = c(-1.2, 1.2),\n     xlab = \"PC1\", ylab = \"PC2\", main = \"Các véctơ biến thống kê trong mặt phẳng\")\nsymbols(0, 0, circles = 1, inches = FALSE, add = TRUE, fg = \"gray\")   # Đường tròn đơn vị\nabline(h = 0, v = 0, lty = 2, col = \"gray\")\nfor (m in 1:n_cols) {\n  arrows(0, 0, PrX[m, 1], PrX[m, 2], length = 0.1, col = \"blue\")\n  text(PrX[m, 1], PrX[m, 2], labels = paste0(\"X\", m), pos = 3, col = \"blue\")\n}\ngrid()\n\n\n# CÂU 5: Khoảng cách từ cá thể thứ __A__ đến cá thể thứ __B__ trong không gian\nd_ab <- sqrt(sum((z[__A__, ] - z[__B__, ])^2))   # = sqrt(sum((data[__A__, ] - data[__B__, ])^2))\nprint(d_ab)\n".replace(/__I__/g,g('examI',1)).replace(/__J__/g,g('examJ',5)).replace(/__K__/g,g('examK',7)).replace(/__A__/g,g('examA',1)).replace(/__B__/g,g('examB',5));};
 window.examRun=render;window.examRunNotice=()=>window.showNotice?window.showNotice(render):render();window.examRenderData=renderData;
 window.examAddRow=()=>{M.push(M[0].map(()=>NaN));renderData();};
 window.examDelRow=()=>{if(M.length>1)M.pop();renderData();};
